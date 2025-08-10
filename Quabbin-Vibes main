@@ -1,0 +1,1447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quabbin Vibes - Regional Events Platform</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Navigation */
+        nav {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            padding: 1rem 0;
+        }
+
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: #667eea;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: color 0.3s;
+            cursor: pointer;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            color: #667eea;
+        }
+
+        .admin-btn {
+            background: #667eea;
+            color: white;
+            padding: 0.7rem 1.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .admin-btn:hover {
+            background: #5a6fd8;
+            transform: translateY(-1px);
+        }
+
+        /* Hero Section with Seasonal Backgrounds */
+        .hero {
+            background: linear-gradient(rgba(102, 126, 234, 0.7), rgba(118, 75, 162, 0.7)), 
+                        var(--hero-bg);
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 6rem 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            transition: background-image 1s ease-in-out;
+        }
+
+        /* Seasonal Background Variables */
+        :root {
+            --hero-bg: url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1400&h=700&fit=crop&q=80'); /* Summer - Lake/Nature */
+        }
+
+        .hero.fall {
+            --hero-bg: url('https://images.unsplash.com/photo-1508739773434-c26b3d09e071?w=1400&h=700&fit=crop&q=80'); /* Fall foliage */
+        }
+
+        .hero.winter {
+            --hero-bg: url('https://images.unsplash.com/photo-1551582045-6ec9c11d8697?w=1400&h=700&fit=crop&q=80'); /* Winter landscape */
+        }
+
+        .hero.spring {
+            --hero-bg: url('https://images.unsplash.com/photo-1490750967868-88aa4486c946?w=1400&h=700&fit=crop&q=80'); /* Spring blooms */
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 120px;
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.4));
+            pointer-events: none;
+        }
+
+        .photo-credit-hero {
+            position: absolute;
+            bottom: 1rem;
+            right: 1rem;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            opacity: 0.9;
+            backdrop-filter: blur(5px);
+        }
+
+        /* Seasonal Background Selector (Admin) */
+        .season-selector {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            display: flex;
+            gap: 0.5rem;
+            opacity: 0.8;
+        }
+
+        .season-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: all 0.3s;
+            backdrop-filter: blur(5px);
+        }
+
+        .season-btn:hover, .season-btn.active {
+            background: rgba(255, 255, 255, 0.3);
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            font-weight: 800;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .coverage-area {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1rem;
+            border-radius: 10px;
+            margin: 2rem auto;
+            max-width: 600px;
+            font-size: 1.1rem;
+        }
+
+        /* Search and Filters */
+        .search-section {
+            background: white;
+            padding: 2rem 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .search-bar {
+            display: grid;
+            grid-template-columns: 1fr auto auto auto;
+            gap: 1rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .search-bar input, .search-bar select {
+            padding: 1rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1rem;
+        }
+
+        .search-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .search-btn:hover {
+            background: #5a6fd8;
+            transform: translateY(-1px);
+        }
+
+        /* Content Sections */
+        .section {
+            display: none;
+            padding: 2rem 0;
+            min-height: 60vh;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        .section h2 {
+            text-align: center;
+            margin-bottom: 2rem;
+            font-size: 2.5rem;
+            color: #333;
+        }
+
+        /* Events Grid */
+        .events-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .event-card {
+            background: white;
+            border-radius: 1rem;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: all 0.3s;
+            border: 1px solid #f0f0f0;
+        }
+
+        .event-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .event-image {
+            height: 200px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .event-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .featured-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: #ff6b6b;
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .event-date {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 0.5rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-align: center;
+        }
+
+        .event-content {
+            padding: 1.5rem;
+        }
+
+        .event-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #333;
+        }
+
+        .event-location, .event-time {
+            color: #666;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .event-description {
+            color: #777;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            margin-bottom: 1rem;
+        }
+
+        .event-tags {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-bottom: 1rem;
+        }
+
+        .tag {
+            background: #f0f0f0;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            color: #666;
+        }
+
+        .event-price {
+            font-weight: 600;
+            color: #667eea;
+            font-size: 1.1rem;
+        }
+
+        /* Blog Section */
+        .blog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .blog-card {
+            background: white;
+            border-radius: 1rem;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+
+        .blog-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .blog-image {
+            height: 200px;
+            background: linear-gradient(45deg, #764ba2, #667eea);
+        }
+
+        .blog-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .blog-content {
+            padding: 1.5rem;
+        }
+
+        .blog-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .blog-meta {
+            color: #666;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .blog-excerpt {
+            color: #777;
+            line-height: 1.6;
+        }
+
+        /* Admin Panel */
+        .admin-panel {
+            background: #f8f9fa;
+            border-radius: 1rem;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .admin-tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        .admin-tab {
+            padding: 1rem 2rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            color: #666;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .admin-tab.active {
+            color: #667eea;
+            border-bottom-color: #667eea;
+        }
+
+        .admin-content {
+            display: none;
+        }
+
+        .admin-content.active {
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .form-group input, .form-group textarea, .form-group select {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+
+        .form-group textarea {
+            height: 120px;
+            resize: vertical;
+        }
+
+        .btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .btn:hover {
+            background: #5a6fd8;
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+        }
+
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+
+        .btn-success {
+            background: #28a745;
+        }
+
+        .btn-success:hover {
+            background: #218838;
+        }
+
+        .btn-danger {
+            background: #dc3545;
+        }
+
+        .btn-danger:hover {
+            background: #c82333;
+        }
+
+        /* Event Submission Queue */
+        .submission-queue {
+            background: white;
+            border-radius: 1rem;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .submission-header {
+            display: flex;
+            justify-content: between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .submission-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 1rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #667eea;
+        }
+
+        .stat-label {
+            color: #666;
+            font-weight: 500;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .search-bar {
+                grid-template-columns: 1fr;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .events-grid, .blog-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="container">
+            <div class="nav-content">
+                <a href="#" class="logo">Quabbin Vibes</a>
+                <ul class="nav-links">
+                    <li><a href="#" onclick="showSection('events')" class="active">Events</a></li>
+                    <li><a href="#" onclick="showSection('blog')">Blog</a></li>
+                    <li><a href="#" onclick="showSection('submit')">Submit Event</a></li>
+                    <li><a href="#" onclick="showSection('about')">About</a></li>
+                </ul>
+                <a href="#" onclick="showSection('admin')" class="admin-btn">Admin Panel</a>
+            </div>
+        </div>
+    </nav>
+
+    <section class="hero" id="heroSection">
+        <!-- Seasonal Background Selector (visible when logged in as admin) -->
+        <div class="season-selector" id="seasonSelector" style="display: none;">
+            <button class="season-btn active" onclick="changeSeason('summer')">Summer</button>
+            <button class="season-btn" onclick="changeSeason('fall')">Fall</button>
+            <button class="season-btn" onclick="changeSeason('winter')">Winter</button>
+            <button class="season-btn" onclick="changeSeason('spring')">Spring</button>
+        </div>
+        
+        <div class="container">
+            <h1>Quabbin Vibes</h1>
+            <p>Your complete regional events platform covering Western & Central New England</p>
+            <div class="coverage-area">
+                <strong>Coverage Area:</strong> Worcester to Pittsfield • Brattleboro to Hartford<br>
+                <em>Massachusetts • Vermont • New Hampshire • Connecticut</em>
+            </div>
+        </div>
+        
+        <div class="photo-credit-hero" id="heroCredit">📷 Seasonal Background</div>
+    </section>
+
+    <section class="search-section">
+        <div class="container">
+            <div class="search-bar">
+                <input type="text" id="searchInput" placeholder="Search events, venues, keywords...">
+                <select id="locationFilter">
+                    <option value="">All Locations</option>
+                    <option value="worcester">Worcester Area</option>
+                    <option value="springfield">Springfield Area</option>
+                    <option value="amherst">Amherst Area</option>
+                    <option value="pittsfield">Pittsfield Area</option>
+                    <option value="brattleboro">Brattleboro Area</option>
+                    <option value="hartford">Hartford Area</option>
+                </select>
+                <select id="categoryFilter">
+                    <option value="">All Categories</option>
+                    <option value="music">Music</option>
+                    <option value="arts">Arts & Culture</option>
+                    <option value="food">Food & Drink</option>
+                    <option value="outdoors">Outdoors</option>
+                    <option value="community">Community</option>
+                    <option value="featured">Featured Events</option>
+                </select>
+                <button class="search-btn" onclick="searchEvents()">Search</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Events Section -->
+    <section id="events" class="section active">
+        <div class="container">
+            <h2>Upcoming Events</h2>
+            <div class="events-grid" id="eventsGrid">
+                <!-- Events will be loaded here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Blog Section -->
+    <section id="blog" class="section">
+        <div class="container">
+            <h2>Local Stories & Highlights</h2>
+            <div class="blog-grid" id="blogGrid">
+                <!-- Blog posts will be loaded here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Submit Event Section -->
+    <section id="submit" class="section">
+        <div class="container">
+            <h2>Submit Your Event</h2>
+            <div class="admin-panel">
+                <form id="eventSubmissionForm">
+                    <div class="form-group">
+                        <label>Event Title *</label>
+                        <input type="text" name="title" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Date *</label>
+                        <input type="date" name="date" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Time *</label>
+                        <input type="time" name="time" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Location *</label>
+                        <input type="text" name="location" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Category *</label>
+                        <select name="category" required>
+                            <option value="">Select Category</option>
+                            <option value="music">Music</option>
+                            <option value="arts">Arts & Culture</option>
+                            <option value="food">Food & Drink</option>
+                            <option value="outdoors">Outdoors</option>
+                            <option value="community">Community</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Description *</label>
+                        <textarea name="description" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Ticket Price</label>
+                        <input type="text" name="price" placeholder="e.g., Free, $15, $20-30">
+                    </div>
+                    <div class="form-group">
+                        <label>Image URL</label>
+                        <input type="url" name="image" placeholder="https://example.com/image.jpg">
+                    </div>
+                    <div class="form-group">
+                        <label>Your Name *</label>
+                        <input type="text" name="submitterName" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Your Email *</label>
+                        <input type="email" name="submitterEmail" required>
+                    </div>
+                    <button type="submit" class="btn">Submit Event for Review</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="section">
+        <div class="container">
+            <h2>About Quabbin Vibes</h2>
+            <div class="admin-panel">
+                <p style="font-size: 1.2rem; line-height: 1.8;">
+                    Quabbin Vibes is your comprehensive events platform for Western and Central New England. 
+                    We automatically discover and curate events from Worcester to Pittsfield and Brattleboro to Hartford, 
+                    covering the best of Massachusetts, Vermont, New Hampshire, and Connecticut.
+                </p>
+                <br>
+                <p style="font-size: 1.1rem; line-height: 1.7;">
+                    Our platform combines automated event discovery with community submissions and expert curation 
+                    to bring you events that don't suck. From intimate acoustic sets to major festivals, 
+                    local art shows to outdoor adventures - we've got the pulse on what's happening in your region.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Admin Panel -->
+    <section id="admin" class="section">
+        <div class="container">
+            <h2>Admin Dashboard</h2>
+            
+            <!-- Stats Overview -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number" id="totalEvents">0</div>
+                    <div class="stat-label">Total Events</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="pendingSubmissions">0</div>
+                    <div class="stat-label">Pending Submissions</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="totalBlogPosts">0</div>
+                    <div class="stat-label">Blog Posts</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="featuredEvents">0</div>
+                    <div class="stat-label">Featured Events</div>
+                </div>
+            </div>
+
+            <div class="admin-panel">
+                <div class="admin-tabs">
+                    <button class="admin-tab active" onclick="showAdminTab('manage-events')">Manage Events</button>
+                    <button class="admin-tab" onclick="showAdminTab('submissions')">Review Submissions</button>
+                    <button class="admin-tab" onclick="showAdminTab('blog-posts')">Blog Posts</button>
+                    <button class="admin-tab" onclick="showAdminTab('featured')">Featured Events</button>
+                </div>
+
+                <!-- Manage Events Tab -->
+                <div id="manage-events" class="admin-content active">
+                    <h3>Add New Event</h3>
+                    <form id="adminEventForm">
+                        <div class="form-group">
+                            <label>Event Title</label>
+                            <input type="text" name="title">
+                        </div>
+                        <div class="form-group">
+                            <label>Date</label>
+                            <input type="date" name="date">
+                        </div>
+                        <div class="form-group">
+                            <label>Time</label>
+                            <input type="time" name="time">
+                        </div>
+                        <div class="form-group">
+                            <label>Location</label>
+                            <input type="text" name="location">
+                        </div>
+                        <div class="form-group">
+                            <label>Category</label>
+                            <select name="category">
+                                <option value="music">Music</option>
+                                <option value="arts">Arts & Culture</option>
+                                <option value="food">Food & Drink</option>
+                                <option value="outdoors">Outdoors</option>
+                                <option value="community">Community</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Description</label>
+                            <textarea name="description"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Price</label>
+                            <input type="text" name="price">
+                        </div>
+                        <div class="form-group">
+                            <label>Image URL</label>
+                            <input type="url" name="image">
+                        </div>
+                        <div class="form-group">
+                            <label>
+                                <input type="checkbox" name="featured"> Featured Event (+$50 fee)
+                            </label>
+                        </div>
+                        <button type="submit" class="btn">Add Event</button>
+                    </form>
+                </div>
+
+                <!-- Review Submissions Tab -->
+                <div id="submissions" class="admin-content">
+                    <h3>Pending Event Submissions</h3>
+                    <div id="submissionQueue">
+                        <!-- Submissions will appear here -->
+                    </div>
+                </div>
+
+                <!-- Blog Posts Tab -->
+                <div id="blog-posts" class="admin-content">
+                    <h3>Create Photography & Review Blog Post</h3>
+                    <form id="blogPostForm">
+                        <div class="form-group">
+                            <label>Post Type</label>
+                            <select name="postType">
+                                <option value="event-review">Event Review & Photos</option>
+                                <option value="venue-spotlight">Venue Spotlight</option>
+                                <option value="restaurant-review">Restaurant Review</option>
+                                <option value="photography-tips">Photography Tips</option>
+                                <option value="local-story">Local Story</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Post Title</label>
+                            <input type="text" name="title" placeholder="e.g., 'Captured: Magic at Tanglewood's Summer Concert'">
+                        </div>
+                        <div class="form-group">
+                            <label>Featured Photo URL (Your Photography)</label>
+                            <input type="url" name="image" placeholder="Link to your photo from event/venue">
+                        </div>
+                        <div class="form-group">
+                            <label>Photo Gallery URLs (Optional - separate with commas)</label>
+                            <input type="text" name="gallery" placeholder="https://photo1.jpg, https://photo2.jpg, https://photo3.jpg">
+                        </div>
+                        <div class="form-group">
+                            <label>Event/Venue Name</label>
+                            <input type="text" name="venueName" placeholder="e.g., Tanglewood, The Hangar Theatre, etc.">
+                        </div>
+                        <div class="form-group">
+                            <label>Excerpt (SEO Description)</label>
+                            <textarea name="excerpt" placeholder="Brief summary for preview and search engines"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Content (Your Review & Photography Story)</label>
+                            <textarea name="content" style="height: 200px;" placeholder="Share your experience, photo highlights, technical details, recommendations..."></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Photography Credit</label>
+                            <input type="text" name="photoCredit" value="Your Name" placeholder="Your photography credit">
+                        </div>
+                        <button type="submit" class="btn">Publish Blog Post</button>
+                    </form>
+                </div>
+
+                <!-- Featured Events Tab -->
+                <div id="featured" class="admin-content">
+                    <h3>Manage Featured Events</h3>
+                    <p>Featured events appear at the top of search results and get highlighted styling. Revenue: $50/month per featured event.</p>
+                    <div id="featuredEventsList">
+                        <!-- Featured events management will appear here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Data Storage (in real app, this would be a database)
+        let eventsData = [
+            {
+                id: 1,
+                title: "Tanglewood Summer Concert",
+                date: "2025-08-15",
+                time: "19:00",
+                location: "Tanglewood, Lenox, MA",
+                category: "music",
+                description: "Boston Symphony Orchestra performs under the stars in the beautiful Berkshires.",
+                price: "$35-85",
+                image: "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=400&h=200&fit=crop&q=80",
+                featured: true,
+                status: "approved"
+            },
+            {
+                id: 2,
+                title: "Vermont Maple Festival",
+                date: "2025-08-12",
+                time: "10:00",
+                location: "Brattleboro, VT",
+                category: "food",
+                description: "Celebrate Vermont's maple syrup heritage with tastings, demos, and local crafts.",
+                price: "Free",
+                image: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=200&fit=crop&q=80",
+                featured: false,
+                status: "approved"
+            },
+            {
+                id: 3,
+                title: "Worcester Art Museum Gala",
+                date: "2025-08-14",
+                time: "18:00",
+                location: "Worcester Art Museum, MA",
+                category: "arts",
+                description: "Annual fundraising gala featuring local artists and live entertainment.",
+                price: "$75",
+                image: "https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0?w=400&h=200&fit=crop&q=80",
+                featured: true,
+                status: "approved"
+            }
+        ];
+
+        let blogPosts = [
+            {
+                id: 1,
+                title: "Captured: The Magic of Tanglewood's Summer Season",
+                image: "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=400&h=200&fit=crop&q=80",
+                date: "2025-08-05",
+                postType: "event-review",
+                venueName: "Tanglewood",
+                excerpt: "An intimate look behind the lens at one of New England's most prestigious concert venues.",
+                content: "Full blog post content with photography insights...",
+                photoCredit: "Your Name",
+                gallery: ["https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=800&h=600&fit=crop&q=80"]
+            },
+            {
+                id: 2,
+                title: "Hidden Gems: 5 Photogenic Venues in Pioneer Valley",
+                image: "https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=400&h=200&fit=crop&q=80",
+                date: "2025-07-28",
+                postType: "venue-spotlight",
+                venueName: "Multiple Venues",
+                excerpt: "Discover amazing venues that provide incredible backdrops for events and photography.",
+                content: "Detailed venue reviews with photo tips...",
+                photoCredit: "Your Name",
+                gallery: []
+            }
+        ];
+
+        let pendingSubmissions = [];
+        let currentFilter = { category: '', location: '', search: '' };
+
+        // Navigation
+        function showSection(sectionId) {
+            // Hide all sections
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Show selected section
+            document.getElementById(sectionId).classList.add('active');
+            
+            // Update nav active state
+            document.querySelectorAll('.nav-links a').forEach(link => {
+                link.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // Load section-specific data
+            if (sectionId === 'events') loadEvents();
+            if (sectionId === 'blog') loadBlogPosts();
+            if (sectionId === 'admin') updateAdminStats();
+        }
+
+        function showAdminTab(tabId) {
+            // Hide all admin content
+            document.querySelectorAll('.admin-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // Show selected tab
+            document.getElementById(tabId).classList.add('active');
+            
+            // Update tab active state
+            document.querySelectorAll('.admin-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            event.target.classList.add('active');
+
+            // Load tab-specific data
+            if (tabId === 'submissions') loadPendingSubmissions();
+            if (tabId === 'featured') loadFeaturedEvents();
+        }
+
+        // Events Management
+        function loadEvents() {
+            const eventsGrid = document.getElementById('eventsGrid');
+            const approvedEvents = eventsData.filter(event => event.status === 'approved');
+            
+            eventsGrid.innerHTML = approvedEvents.map(event => `
+                <div class="event-card">
+                    <div class="event-image">
+                        <img src="${event.image}" alt="${event.title}" onerror="this.style.display='none';">
+                        ${event.featured ? '<div class="featured-badge">Featured</div>' : ''}
+                        <div class="event-date">${formatDate(event.date)}</div>
+                    </div>
+                    <div class="event-content">
+                        <h3 class="event-title">${event.title}</h3>
+                        <div class="event-location">📍 ${event.location}</div>
+                        <div class="event-time">🕐 ${formatTime(event.time)}</div>
+                        <p class="event-description">${event.description}</p>
+                        <div class="event-tags">
+                            <span class="tag">${event.category}</span>
+                            ${event.featured ? '<span class="tag" style="background: #ff6b6b; color: white;">Featured</span>' : ''}
+                        </div>
+                        <div class="event-price">${event.price}</div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function addEvent(eventData) {
+            const newEvent = {
+                ...eventData,
+                id: Date.now(),
+                status: 'approved'
+            };
+            eventsData.push(newEvent);
+            loadEvents();
+            updateAdminStats();
+        }
+
+        // Blog Management
+        function loadBlogPosts() {
+            const blogGrid = document.getElementById('blogGrid');
+            
+            blogGrid.innerHTML = blogPosts.map(post => `
+                <div class="blog-card">
+                    <div class="blog-image">
+                        <img src="${post.image}" alt="${post.title}" onerror="this.style.display='none';">
+                    </div>
+                    <div class="blog-content">
+                        <h3 class="blog-title">${post.title}</h3>
+                        <div class="blog-meta">
+                            ${formatDate(post.date)} • ${getPostTypeLabel(post.postType)} • Photos by ${post.photoCredit}
+                        </div>
+                        <p class="blog-excerpt">${post.excerpt}</p>
+                        ${post.venueName ? `<div class="tag" style="margin-top: 0.5rem;">${post.venueName}</div>` : ''}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function getPostTypeLabel(postType) {
+            const labels = {
+                'event-review': 'Event Review',
+                'venue-spotlight': 'Venue Spotlight', 
+                'restaurant-review': 'Restaurant Review',
+                'photography-tips': 'Photography Tips',
+                'local-story': 'Local Story'
+            };
+            return labels[postType] || 'Blog Post';
+        }
+
+        function addBlogPost(postData) {
+            const newPost = {
+                ...postData,
+                id: Date.now(),
+                date: new Date().toISOString().split('T')[0]
+            };
+            blogPosts.push(newPost);
+            loadBlogPosts();
+            updateAdminStats();
+        }
+
+        // Submissions Management
+        function addSubmission(submissionData) {
+            const submission = {
+                ...submissionData,
+                id: Date.now(),
+                status: 'pending',
+                submittedAt: new Date().toISOString()
+            };
+            pendingSubmissions.push(submission);
+            updateAdminStats();
+            showNotification('Event submitted for review! We\'ll get back to you within 24 hours.');
+        }
+
+        function loadPendingSubmissions() {
+            const submissionQueue = document.getElementById('submissionQueue');
+            
+            if (pendingSubmissions.length === 0) {
+                submissionQueue.innerHTML = '<p>No pending submissions.</p>';
+                return;
+            }
+
+            submissionQueue.innerHTML = pendingSubmissions.map(submission => `
+                <div class="submission-queue">
+                    <div class="submission-header">
+                        <div>
+                            <h4>${submission.title}</h4>
+                            <p>Submitted by: ${submission.submitterName} (${submission.submitterEmail})</p>
+                            <p>Date: ${formatDate(submission.date)} at ${formatTime(submission.time)}</p>
+                            <p>Location: ${submission.location}</p>
+                        </div>
+                        <div class="submission-actions">
+                            <button class="btn btn-success" onclick="approveSubmission(${submission.id})">Approve</button>
+                            <button class="btn btn-danger" onclick="rejectSubmission(${submission.id})">Reject</button>
+                        </div>
+                    </div>
+                    <p><strong>Description:</strong> ${submission.description}</p>
+                    <p><strong>Price:</strong> ${submission.price || 'Not specified'}</p>
+                </div>
+            `).join('');
+        }
+
+        function approveSubmission(submissionId) {
+            const submission = pendingSubmissions.find(s => s.id === submissionId);
+            if (submission) {
+                eventsData.push({
+                    ...submission,
+                    status: 'approved',
+                    featured: false
+                });
+                pendingSubmissions = pendingSubmissions.filter(s => s.id !== submissionId);
+                loadPendingSubmissions();
+                loadEvents();
+                updateAdminStats();
+                showNotification('Event approved and published!');
+            }
+        }
+
+        function rejectSubmission(submissionId) {
+            pendingSubmissions = pendingSubmissions.filter(s => s.id !== submissionId);
+            loadPendingSubmissions();
+            updateAdminStats();
+            showNotification('Event submission rejected.');
+        }
+
+        // Featured Events Management
+        function loadFeaturedEvents() {
+            const featuredList = document.getElementById('featuredEventsList');
+            const featuredEvents = eventsData.filter(event => event.featured);
+            
+            featuredList.innerHTML = `
+                <div class="stats-grid" style="margin-bottom: 2rem;">
+                    <div class="stat-card">
+                        <div class="stat-number">$${featuredEvents.length * 50}</div>
+                        <div class="stat-label">Monthly Revenue</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">${featuredEvents.length}</div>
+                        <div class="stat-label">Featured Events</div>
+                    </div>
+                </div>
+                ${featuredEvents.map(event => `
+                    <div class="submission-queue">
+                        <div class="submission-header">
+                            <div>
+                                <h4>${event.title}</h4>
+                                <p>${formatDate(event.date)} • ${event.location}</p>
+                            </div>
+                            <div class="submission-actions">
+                                <button class="btn btn-secondary" onclick="removeFeatured(${event.id})">Remove Featured</button>
+                            </div>
+                        </div>
+                    </div>
+                `).join('')}
+            `;
+        }
+
+        function removeFeatured(eventId) {
+            const event = eventsData.find(e => e.id === eventId);
+            if (event) {
+                event.featured = false;
+                loadFeaturedEvents();
+                loadEvents();
+                updateAdminStats();
+                showNotification('Event removed from featured list.');
+            }
+        }
+
+        // Search and Filter
+        function searchEvents() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const locationFilter = document.getElementById('locationFilter').value;
+            const categoryFilter = document.getElementById('categoryFilter').value;
+            
+            let filteredEvents = eventsData.filter(event => event.status === 'approved');
+            
+            if (searchTerm) {
+                filteredEvents = filteredEvents.filter(event => 
+                    event.title.toLowerCase().includes(searchTerm) ||
+                    event.description.toLowerCase().includes(searchTerm) ||
+                    event.location.toLowerCase().includes(searchTerm)
+                );
+            }
+            
+            if (locationFilter) {
+                filteredEvents = filteredEvents.filter(event => 
+                    event.location.toLowerCase().includes(locationFilter)
+                );
+            }
+            
+            if (categoryFilter) {
+                if (categoryFilter === 'featured') {
+                    filteredEvents = filteredEvents.filter(event => event.featured);
+                } else {
+                    filteredEvents = filteredEvents.filter(event => event.category === categoryFilter);
+                }
+            }
+            
+            displayFilteredEvents(filteredEvents);
+        }
+
+        function displayFilteredEvents(events) {
+            const eventsGrid = document.getElementById('eventsGrid');
+            
+            if (events.length === 0) {
+                eventsGrid.innerHTML = '<p style="text-align: center; color: #666; grid-column: 1/-1;">No events found matching your criteria.</p>';
+                return;
+            }
+            
+            eventsGrid.innerHTML = events.map(event => `
+                <div class="event-card">
+                    <div class="event-image">
+                        <img src="${event.image}" alt="${event.title}" onerror="this.style.display='none';">
+                        ${event.featured ? '<div class="featured-badge">Featured</div>' : ''}
+                        <div class="event-date">${formatDate(event.date)}</div>
+                    </div>
+                    <div class="event-content">
+                        <h3 class="event-title">${event.title}</h3>
+                        <div class="event-location">📍 ${event.location}</div>
+                        <div class="event-time">🕐 ${formatTime(event.time)}</div>
+                        <p class="event-description">${event.description}</p>
+                        <div class="event-tags">
+                            <span class="tag">${event.category}</span>
+                            ${event.featured ? '<span class="tag" style="background: #ff6b6b; color: white;">Featured</span>' : ''}
+                        </div>
+                        <div class="event-price">${event.price}</div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Form Handlers
+        document.addEventListener('DOMContentLoaded', function() {
+            // Event submission form
+            document.getElementById('eventSubmissionForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                const formData = new FormData(this);
+                const submissionData = Object.fromEntries(formData.entries());
+                addSubmission(submissionData);
+                this.reset();
+            });
+
+            // Admin event form
+            document.getElementById('adminEventForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                const formData = new FormData(this);
+                const eventData = Object.fromEntries(formData.entries());
+                eventData.featured = formData.has('featured');
+                addEvent(eventData);
+                this.reset();
+                showNotification('Event added successfully!');
+            });
+
+            // Blog post form
+            document.getElementById('blogPostForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                const formData = new FormData(this);
+                const postData = Object.fromEntries(formData.entries());
+                addBlogPost(postData);
+                this.reset();
+                showNotification('Blog post published!');
+            });
+
+            // Search functionality
+            document.getElementById('searchInput').addEventListener('input', debounce(searchEvents, 300));
+            document.getElementById('locationFilter').addEventListener('change', searchEvents);
+            document.getElementById('categoryFilter').addEventListener('change', searchEvents);
+
+            // Initialize
+            loadEvents();
+            loadBlogPosts();
+            updateAdminStats();
+            setSeasonalBackground();
+            
+            // Show season selector when in admin section
+            const adminLink = document.querySelector('a[onclick="showSection(\'admin\')"]');
+            if (adminLink) {
+                adminLink.addEventListener('click', () => {
+                    document.getElementById('seasonSelector').style.display = 'flex';
+                });
+            }
+        });
+
+        // Seasonal Background Management
+        let currentSeason = 'summer';
+        const seasonCredits = {
+            summer: '📷 Quabbin Reservoir Summer',
+            fall: '📷 New England Fall Foliage', 
+            winter: '📷 Berkshire Winter Landscape',
+            spring: '📷 Western Mass Spring Blooms'
+        };
+
+        function changeSeason(season) {
+            const heroSection = document.getElementById('heroSection');
+            const heroCredit = document.getElementById('heroCredit');
+            
+            // Remove all season classes
+            heroSection.classList.remove('summer', 'fall', 'winter', 'spring');
+            
+            // Add new season class
+            if (season !== 'summer') {
+                heroSection.classList.add(season);
+            }
+            
+            // Update credit
+            heroCredit.textContent = seasonCredits[season];
+            
+            // Update button states
+            document.querySelectorAll('.season-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            currentSeason = season;
+            
+            // Save preference (in real app, would save to database)
+            try {
+                localStorage.setItem('heroSeason', season);
+            } catch (e) {
+                // localStorage not available, continue without saving
+            }
+        }
+
+        // Auto-set seasonal background based on current date
+        function setSeasonalBackground() {
+            const now = new Date();
+            const month = now.getMonth(); // 0-11
+            
+            let season;
+            if (month >= 2 && month <= 4) season = 'spring';      // Mar-May
+            else if (month >= 5 && month <= 7) season = 'summer'; // Jun-Aug  
+            else if (month >= 8 && month <= 10) season = 'fall';  // Sep-Nov
+            else season = 'winter';                               // Dec-Feb
+            
+            // Check if admin has set a preference (with error handling)
+            let savedSeason = null;
+            try {
+                savedSeason = localStorage.getItem('heroSeason');
+            } catch (e) {
+                // localStorage not available, use default season
+            }
+            if (savedSeason) {
+                season = savedSeason;
+            }
+            
+            const heroSection = document.getElementById('heroSection');
+            const heroCredit = document.getElementById('heroCredit');
+            
+            if (season !== 'summer') {
+                heroSection.classList.add(season);
+            }
+            heroCredit.textContent = seasonCredits[season];
+            currentSeason = season;
+            
+            // Update active button
+            document.querySelectorAll('.season-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.textContent.toLowerCase() === season) {
+                    btn.classList.add('active');
+                }
+            });
+        }
+        function formatDate(dateString) {
+            const options = { weekday: 'short', month: 'short', day: 'numeric' };
+            return new Date(dateString).toLocaleDateString('en-US', options);
+        }
+
+        function formatTime(timeString) {
+            const [hours, minutes] = timeString.split(':');
+            const hour12 = hours % 12 || 12;
+            const ampm = hours < 12 ? 'AM' : 'PM';
+            return `${hour12}:${minutes} ${ampm}`;
+        }
+
+        function updateAdminStats() {
+            document.getElementById('totalEvents').textContent = eventsData.filter(e => e.status === 'approved').length;
+            document.getElementById('pendingSubmissions').textContent = pendingSubmissions.length;
+            document.getElementById('totalBlogPosts').textContent = blogPosts.length;
+            document.getElementById('featuredEvents').textContent = eventsData.filter(e => e.featured).length;
+        }
+
+        function showNotification(message) {
+            // Create notification element
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: #28a745;
+                color: white;
+                padding: 1rem 1.5rem;
+                border-radius: 8px;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+                z-index: 10000;
+                font-weight: 500;
+            `;
+            notification.textContent = message;
+            
+            document.body.appendChild(notification);
+            
+            // Remove notification after 3 seconds
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
+        }
+
+        function debounce(func, wait) {
+            let timeout;
+            return function executedFunction(...args) {
+                const later = () => {
+                    clearTimeout(timeout);
+                    func(...args);
+                };
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+            };
+        }
+
+        // Utility Functions
+        function setupAutoSearch() {
+            const searchInput = document.getElementById('searchInput');
+            const locationFilter = document.getElementById('locationFilter');
+            const categoryFilter = document.getElementById('categoryFilter');
+            
+            [searchInput, locationFilter, categoryFilter].forEach(element => {
+                element.addEventListener('input', debounce(searchEvents, 300));
+                element.addEventListener('change', searchEvents);
+            });
+        }
+    </script>
+</body>
+</html>
