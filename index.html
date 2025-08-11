@@ -1,2178 +1,380 @@
-<!DOCTYPE html>
+!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quabbin Vibes - Your Complete Regional Events Platform</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Arial', sans-serif;
-            line-height: 1.6;
-            color: #333;
-            background-color: #f8f9fa;
-        }
-
-        /* Header and Navigation */
-        header {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            position: fixed;
-            top: 0;
-            width: 100%;
-            z-index: 1000;
-            border-bottom: 1px solid rgba(0,0,0,0.1);
-        }
-
-        .header-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            height: 70px;
-        }
-
-        .logo {
-            font-size: 1.8em;
-            font-weight: bold;
-            color: #5865f2;
-            text-decoration: none;
-        }
-
-        .nav-desktop {
-            display: flex;
-            list-style: none;
-            gap: 30px;
-        }
-
-        .nav-desktop a {
-            text-decoration: none;
-            color: #333;
-            font-weight: 500;
-            transition: color 0.3s;
-        }
-
-        .nav-desktop a:hover {
-            color: #5865f2;
-        }
-
-        .hamburger {
-            display: none;
-            flex-direction: column;
-            cursor: pointer;
-            padding: 5px;
-        }
-
-        .hamburger span {
-            width: 25px;
-            height: 3px;
-            background: #333;
-            margin: 3px 0;
-            transition: 0.3s;
-        }
-
-        .nav-mobile {
-            display: none;
-            position: absolute;
-            top: 70px;
-            left: 0;
-            width: 100%;
-            background: white;
-            border-bottom: 1px solid rgba(0,0,0,0.1);
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-
-        .nav-mobile ul {
-            list-style: none;
-            padding: 20px;
-        }
-
-        .nav-mobile li {
-            margin: 15px 0;
-        }
-
-        .nav-mobile a {
-            text-decoration: none;
-            color: #333;
-            font-weight: 500;
-            font-size: 1.1em;
-        }
-
-        /* Hero Section */
-        .hero {
-            height: 100vh;
-            background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            color: white;
-            position: relative;
-            margin-top: 70px;
-        }
-
-        .hero-content {
-            max-width: 800px;
-            padding: 0 20px;
-            z-index: 2;
-        }
-
-        .hero h1 {
-            font-size: 4em;
-            margin-bottom: 25px;
-            font-weight: bold;
-            text-shadow: 2px 2px 8px rgba(0,0,0,0.8);
-            line-height: 1.1;
-        }
-
-        .hero-subtitle {
-            font-size: 1.4em;
-            margin-bottom: 40px;
-            opacity: 0.95;
-            text-shadow: 1px 1px 4px rgba(0,0,0,0.8);
-            font-weight: 300;
-            line-height: 1.3;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .coverage-area {
-            background: rgba(0,0,0,0.6);
-            backdrop-filter: blur(15px);
-            padding: 30px;
-            border-radius: 15px;
-            margin-top: 40px;
-            border: 1px solid rgba(255,255,255,0.2);
-            box-shadow: 0 8px 32px rgba(0,0,0,0.4);
-            max-width: 550px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .coverage-area h3 {
-            font-size: 1.4em;
-            margin-bottom: 15px;
-            text-shadow: 1px 1px 3px rgba(0,0,0,0.7);
-            color: #fff;
-        }
-
-        .location-text {
-            font-size: 1.1em;
-            line-height: 1.5;
-            text-shadow: 1px 1px 3px rgba(0,0,0,0.7);
-            color: rgba(255,255,255,0.9);
-        }
-
-        .photo-credit {
-            position: absolute;
-            bottom: 25px;
-            right: 25px;
-            background: rgba(0,0,0,0.7);
-            color: white;
-            padding: 10px 18px;
-            border-radius: 25px;
-            font-size: 0.9em;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255,255,255,0.2);
-        }
-
-        .hero-content {
-            max-width: 800px;
-            padding: 0 20px;
-        }
-
-        .hero h1 {
-            font-size: 3.5em;
-            margin-bottom: 20px;
-            font-weight: bold;
-        }
-
-        .hero-subtitle {
-            font-size: 1.4em;
-            margin-bottom: 30px;
-            opacity: 0.9;
-        }
-
-        .coverage-area {
-            background: rgba(255,255,255,0.1);
-            backdrop-filter: blur(10px);
-            padding: 30px;
-            border-radius: 15px;
-            margin-top: 40px;
-            border: 1px solid rgba(255,255,255,0.2);
-        }
-
-        .coverage-area h3 {
-            font-size: 1.5em;
-            margin-bottom: 15px;
-        }
-
-        .location-text {
-            font-size: 1.2em;
-            line-height: 1.8;
-        }
-
-        /* Search Section */
-        .search-section {
-            background: white;
-            padding: 40px 20px;
-            margin-top: -50px;
-            position: relative;
-            z-index: 100;
-        }
-
-        .search-container {
-            max-width: 800px;
-            margin: 0 auto;
-            background: white;
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            display: flex;
-            gap: 15px;
-            flex-wrap: wrap;
-        }
-
-        .search-input {
-            flex: 1;
-            min-width: 250px;
-            padding: 15px;
-            border: 2px solid #e5e7eb;
-            border-radius: 8px;
-            font-size: 1em;
-        }
-
-        .search-select {
-            padding: 15px;
-            border: 2px solid #e5e7eb;
-            border-radius: 8px;
-            font-size: 1em;
-            min-width: 150px;
-        }
-
-        .search-btn {
-            background: #5865f2;
-            color: white;
-            border: none;
-            padding: 15px 30px;
-            border-radius: 8px;
-            font-size: 1em;
-            font-weight: bold;
-            cursor: pointer;
-            transition: background 0.3s;
-        }
-
-        .search-btn:hover {
-            background: #4752c4;
-        }
-
-        /* Main Content */
-        .main-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 60px 20px;
-        }
-
-        .section-title {
-            font-size: 2.5em;
-            text-align: center;
-            margin-bottom: 50px;
-            color: #333;
-        }
-
-        /* Events Grid */
-        .events-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 30px;
-            margin-bottom: 60px;
-        }
-
-        .event-card {
-            background: white;
-            border-radius: 15px;
-            overflow: hidden;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-            transition: transform 0.3s, box-shadow 0.3s;
-            position: relative;
-        }
-
-        .event-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-        }
-
-        .event-image {
-            height: 200px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 1.2em;
-        }
-
-        .featured-badge {
-            position: absolute;
-            top: 15px;
-            left: 15px;
-            background: #ff4757;
-            color: white;
-            padding: 8px 15px;
-            border-radius: 20px;
-            font-size: 0.9em;
-            font-weight: bold;
-        }
-
-        .event-date {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            background: rgba(255,255,255,0.9);
-            color: #333;
-            padding: 10px;
-            border-radius: 10px;
-            text-align: center;
-            font-weight: bold;
-        }
-
-        .event-info {
-            padding: 25px;
-        }
-
-        .event-title {
-            font-size: 1.4em;
-            font-weight: bold;
-            margin-bottom: 10px;
-            color: #333;
-        }
-
-        .event-location {
-            color: #666;
-            margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        .event-time {
-            color: #666;
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        .event-description {
-            color: #777;
-            line-height: 1.6;
-        }
-
-        /* Page Content (Hidden by default) */
-        .page-content {
-            display: none;
-            max-width: 1000px;
-            margin: 0 auto;
-            padding: 100px 20px 60px;
-        }
-
-        .page-content.active {
-            display: block;
-        }
-
-        .page-header {
-            text-align: center;
-            margin-bottom: 50px;
-        }
-
-        .page-title {
-            font-size: 3em;
-            color: #333;
-            margin-bottom: 20px;
-        }
-
-        .page-subtitle {
-            font-size: 1.2em;
-            color: #666;
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
-        /* Forms */
-        .form-container {
-            background: white;
-            padding: 40px;
-            border-radius: 15px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
-        .form-group {
-            margin-bottom: 25px;
-        }
-
-        .form-label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: bold;
-            color: #333;
-        }
-
-        .form-input, .form-textarea, .form-select {
-            width: 100%;
-            padding: 15px;
-            border: 2px solid #e5e7eb;
-            border-radius: 8px;
-            font-size: 1em;
-        }
-
-        .form-textarea {
-            resize: vertical;
-            min-height: 120px;
-        }
-
-        .form-submit {
-            background: #5865f2;
-            color: white;
-            border: none;
-            padding: 15px 40px;
-            border-radius: 8px;
-            font-size: 1.1em;
-            font-weight: bold;
-            cursor: pointer;
-            width: 100%;
-            transition: background 0.3s;
-        }
-
-        .form-submit:hover {
-            background: #4752c4;
-        }
-
-        /* Admin Panel */
-        .admin-panel {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.9);
-            z-index: 2000;
-        }
-
-        .admin-content {
-            background: white;
-            width: 90%;
-            max-width: 1000px;
-            height: 80%;
-            margin: 5% auto;
-            border-radius: 15px;
-            padding: 30px;
-            overflow-y: auto;
-        }
-
-        .admin-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 30px;
-            border-bottom: 2px solid #e5e7eb;
-            padding-bottom: 20px;
-        }
-
-        .admin-close {
-            background: #ff4757;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: bold;
-        }
-
-        .admin-tabs {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 30px;
-            flex-wrap: wrap;
-        }
-
-        .admin-tab {
-            background: #e5e7eb;
-            border: none;
-            padding: 12px 20px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: background 0.3s;
-        }
-
-        .admin-tab.active {
-            background: #5865f2;
-            color: white;
-        }
-
-        /* Footer */
-        footer {
-            background: #2c3e50;
-            color: white;
-            padding: 50px 20px 20px;
-            margin-top: 80px;
-        }
-
-        .footer-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 40px;
-            margin-bottom: 30px;
-        }
-
-        .footer-section h3 {
-            margin-bottom: 20px;
-            color: #5865f2;
-        }
-
-        .footer-section p, .footer-section li {
-            margin-bottom: 10px;
-            opacity: 0.9;
-        }
-
-        .footer-section ul {
-            list-style: none;
-        }
-
-        .footer-section a {
-            color: white;
-            text-decoration: none;
-            transition: color 0.3s;
-        }
-
-        .footer-section a:hover {
-            color: #5865f2;
-        }
-
-        .footer-bottom {
-            border-top: 1px solid rgba(255,255,255,0.1);
-            padding-top: 20px;
-            text-align: center;
-            opacity: 0.7;
-        }
-
-        .admin-access {
-            color: rgba(255,255,255,0.2);
-            font-size: 1.2em;
-            cursor: pointer;
-            transition: color 0.3s;
-            user-select: none;
-        }
-
-        .admin-access:hover {
-            color: rgba(255,255,255,0.6);
-        }
-
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .nav-desktop {
-                display: none;
-            }
-
-            .hamburger {
-                display: flex;
-            }
-
-            .hero h1 {
-                font-size: 2.8em;
-            }
-
-            .hero-subtitle {
-                font-size: 1.2em;
-                margin-bottom: 30px;
-            }
-
-            .coverage-area {
-                padding: 20px;
-                margin-top: 30px;
-                max-width: 90%;
-            }
-
-            .coverage-area h3 {
-                font-size: 1.2em;
-                margin-bottom: 12px;
-            }
-
-            .location-text {
-                font-size: 1em;
-                line-height: 1.4;
-            }
-
-            .search-container {
-                padding: 20px;
-            }
-
-            .search-input {
-                min-width: 100%;
-            }
-
-            .events-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .page-title {
-                font-size: 2.2em;
-            }
-
-            .admin-content {
-                width: 95%;
-                height: 90%;
-                margin: 2.5% auto;
-                padding: 20px;
-            }
-
-            .photo-credit {
-                bottom: 15px;
-                right: 15px;
-                padding: 8px 12px;
-                font-size: 0.8em;
-            }
-        }
-
-        /* Hidden class for JavaScript */
-        .hidden {
-            display: none !important;
-        }
-    </style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Quabbin Vibes — Events, Food, Music & Family Fun</title>
+  <meta name="description" content="Discover the best events across Western & Central MA — concerts, markets, family fun, outdoors, and more. Submit your event and get featured." />
+  <meta property="og:title" content="Quabbin Vibes — Regional Events" />
+  <meta property="og:description" content="Your complete regional events platform for Western & Central Massachusetts." />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="https://dummyimage.com/1200x630/111827/ffffff&text=Quabbin+Vibes" />
+  <meta name="theme-color" content="#0ea5e9" />
+
+  <!-- Tailwind CDN (works on GitHub Pages without a build step) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    // Tailwind config for fonts & container
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            display: ["Inter", "ui-sans-serif", "system-ui", "Segoe UI", "Roboto", "Helvetica Neue", "Arial", "Noto Sans", "sans-serif"],
+          },
+          container: { center: true, padding: "1rem" },
+          boxShadow: { glow: "0 10px 30px rgba(2, 132, 199, 0.25)" },
+        },
+      },
+    };
+  </script>
+  <style>
+    /* Smooth scroll, nicer focus */
+    html { scroll-behavior: smooth; }
+    :focus-visible { outline: 3px solid #38bdf8; outline-offset: 2px; border-radius: 8px; }
+
+    /* Subtle noise texture */
+    .noise { position: relative; }
+    .noise:before { content: ""; pointer-events: none; position: absolute; inset: 0; opacity: .05; background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="140" height="140" viewBox="0 0 140 140"><filter id="n"><feTurbulence baseFrequency="0.8" numOctaves="4" stitchTiles="stitch"/></filter><rect width="100%" height="100%" filter="url(%23n)" opacity=".5"/></svg>'); }
+  </style>
 </head>
-<body>
-    <!-- Header -->
-    <header>
-        <div class="header-container">
-            <a href="#" class="logo" onclick="showPage('home')">Quabbin Vibes</a>
-            
-            <!-- Desktop Navigation -->
-            <nav class="nav-desktop">
-                <a href="#" onclick="showPage('events')">Events</a>
-                <a href="#" onclick="showPage('photography')">Photography & Reviews</a>
-                <a href="#" onclick="showPage('venues')">Venues</a>
-                <a href="#" onclick="showPage('about')">About</a>
-                <a href="#" onclick="showPage('contact')">Contact</a>
-                <a href="#" onclick="showPage('submit')">Submit Event</a>
-            </nav>
-
-            <!-- Mobile Hamburger -->
-            <div class="hamburger" onclick="toggleMobileMenu()">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
-
-            <!-- Mobile Navigation -->
-            <div class="nav-mobile" id="mobileNav">
-                <ul>
-                    <li><a href="#" onclick="showPage('events'); toggleMobileMenu();">Events</a></li>
-                    <li><a href="#" onclick="showPage('photography'); toggleMobileMenu();">Photography & Reviews</a></li>
-                    <li><a href="#" onclick="showPage('venues'); toggleMobileMenu();">Venues</a></li>
-                    <li><a href="#" onclick="showPage('about'); toggleMobileMenu();">About</a></li>
-                    <li><a href="#" onclick="showPage('contact'); toggleMobileMenu();">Contact</a></li>
-                    <li><a href="#" onclick="showPage('submit'); toggleMobileMenu();">Submit Event</a></li>
-                </ul>
-            </div>
-        </div>
-    </header>
-
-    <!-- Home Page -->
-    <div id="homePage" class="page-content active">
-        <!-- Hero Section -->
-        <section class="hero" id="heroSection">
-            <div class="hero-content">
-                <h1>Quabbin Vibes</h1>
-                <p class="hero-subtitle">Discover authentic events and hidden gems across Western & Central New England</p>
-                
-                <div class="coverage-area">
-                    <h3>Coverage Area:</h3>
-                    <div class="location-text">
-                        Worcester to Pittsfield • Brattleboro to Hartford<br>
-                        <em>Massachusetts • Vermont • New Hampshire • Connecticut</em>
-                    </div>
-                </div>
-            </div>
-            <div class="photo-credit">📸 Your Event Photography</div>
-        </section>
-
-        <!-- Search Section -->
-        <section class="search-section">
-            <div class="search-container">
-                <input type="text" class="search-input" placeholder="Search events, venues, keywords...">
-                <select class="search-select">
-                    <option value="">All Locations</option>
-                    <option value="worcester">Worcester, MA</option>
-                    <option value="springfield">Springfield, MA</option>
-                    <option value="pittsfield">Pittsfield, MA</option>
-                    <option value="brattleboro">Brattleboro, VT</option>
-                    <option value="hartford">Hartford, CT</option>
-                </select>
-                <select class="search-select">
-                    <option value="">All Categories</option>
-                    <option value="music">Music</option>
-                    <option value="festival">Festival</option>
-                    <option value="arts">Arts & Culture</option>
-                    <option value="sports">Sports</option>
-                    <option value="food">Food & Drink</option>
-                </select>
-                <button class="search-btn" onclick="searchEvents()">Search</button>
-            </div>
-        </section>
-
-        <!-- Upcoming Events -->
-        <section class="main-content">
-            <h2 class="section-title">Upcoming Events</h2>
-            <div class="events-grid" id="eventsGrid">
-                <!-- Sample Events -->
-                <div class="event-card">
-                    <div class="event-image">
-                        <div class="featured-badge">Featured</div>
-                        <div class="event-date">
-                            <div>Thu</div>
-                            <div>Aug 14</div>
-                        </div>
-                        Concert Photography
-                    </div>
-                    <div class="event-info">
-                        <h3 class="event-title">Tanglewood Summer Concert</h3>
-                        <div class="event-location">📍 Tanglewood, Lenox, MA</div>
-                        <div class="event-time">🕰️ 7:00 PM</div>
-                        <p class="event-description">Boston Symphony Orchestra performs classic summer repertoire under the stars at Tanglewood Music Center.</p>
-                    </div>
-                </div>
-
-                <div class="event-card">
-                    <div class="event-image">
-                        <div class="event-date">
-                            <div>Mon</div>
-                            <div>Aug 11</div>
-                        </div>
-                        Festival Photography
-                    </div>
-                    <div class="event-info">
-                        <h3 class="event-title">Vermont Maple Festival</h3>
-                        <div class="event-location">📍 Brattleboro, VT</div>
-                        <div class="event-time">🕰️ 10:00 AM</div>
-                        <p class="event-description">Celebrate Vermont's maple syrup heritage with tastings, local crafts, and family-friendly activities.</p>
-                    </div>
-                </div>
-
-                <div class="event-card">
-                    <div class="event-image">
-                        <div class="featured-badge">Featured</div>
-                        <div class="event-date">
-                            <div>Fri</div>
-                            <div>Aug 15</div>
-                        </div>
-                        Arts Photography
-                    </div>
-                    <div class="event-info">
-                        <h3 class="event-title">Hartford Arts Festival</h3>
-                        <div class="event-location">📍 Bushnell Park, Hartford, CT</div>
-                        <div class="event-time">🕰️ 12:00 PM</div>
-                        <p class="event-description">Regional artists showcase their work in Connecticut's premier outdoor arts festival.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
+<body class="bg-slate-50 text-slate-900 antialiased">
+  <!-- Sticky Nav -->
+  <header class="sticky top-0 z-40 bg-white/80 backdrop-blur border-b border-slate-200">
+    <nav class="container flex items-center justify-between py-3">
+      <a href="#" class="flex items-center gap-2 font-semibold tracking-tight">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-7 h-7 text-sky-500"><path fill="currentColor" d="M12 2l2.39 4.84 5.34.78-3.86 3.77.91 5.31L12 14.9 6.22 16.7l.91-5.31L3.27 7.62l5.34-.78L12 2z"/></svg>
+        <span>Quabbin Vibes</span>
+      </a>
+      <div class="hidden md:flex items-center gap-6 text-sm">
+        <a href="#events" class="hover:text-sky-600">Events</a>
+        <a href="#categories" class="hover:text-sky-600">Categories</a>
+        <a href="#submit" class="hover:text-sky-600">Submit</a>
+        <a href="#newsletter" class="hover:text-sky-600">Newsletter</a>
+        <a href="#about" class="hover:text-sky-600">About</a>
+      </div>
+      <div class="flex items-center gap-2">
+        <button id="themeToggle" class="inline-flex items-center gap-2 text-sm px-3 py-1.5 rounded-xl border border-slate-200 hover:bg-slate-100">
+          <svg id="sun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-4 h-4"><path fill="currentColor" d="M6.76 4.84l-1.8-1.79L3.17 4.84l1.79 1.8zm10.48 0l1.79-1.79l1.79 1.79l-1.79 1.8zM12 4V1h0v3zm0 19v-3h0v3zM4 12H1v0h3zm22 0h-3v0h3zM6.76 19.16l-1.8 1.79l-1.79-1.79l1.8-1.8zm10.48 0l1.79 1.79l1.79-1.79l-1.79-1.8zM12 8a4 4 0 100 8a4 4 0 000-8z"/></svg>
+          <span class="hidden sm:inline">Theme</span>
+        </button>
+        <a href="#submit" class="hidden sm:inline-flex items-center text-sm font-medium px-3 py-1.5 rounded-xl bg-sky-500 text-white hover:bg-sky-600 shadow-glow">Submit Event</a>
+        <button id="menuBtn" class="md:hidden inline-flex items-center p-2 rounded-lg hover:bg-slate-100" aria-label="Open menu">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-6 h-6"><path fill="currentColor" d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+        </button>
+      </div>
+    </nav>
+    <div id="mobileMenu" class="md:hidden hidden border-t border-slate-200">
+      <div class="container py-3 grid gap-3 text-sm">
+        <a href="#events" class="hover:text-sky-600">Events</a>
+        <a href="#categories" class="hover:text-sky-600">Categories</a>
+        <a href="#submit" class="hover:text-sky-600">Submit</a>
+        <a href="#newsletter" class="hover:text-sky-600">Newsletter</a>
+        <a href="#about" class="hover:text-sky-600">About</a>
+      </div>
     </div>
+  </header>
 
-    <!-- Events Page -->
-    <div id="eventsPage" class="page-content">
-        <div class="page-header">
-            <h1 class="page-title">Events</h1>
-            <p class="page-subtitle">Discover the best events across Western & Central New England</p>
+  <!-- Hero -->
+  <section class="relative noise overflow-hidden">
+    <div class="absolute inset-0 bg-gradient-to-br from-sky-50 via-white to-cyan-50"></div>
+    <div class="absolute -top-32 -right-32 w-[40rem] h-[40rem] rounded-full bg-sky-200/30 blur-3xl"></div>
+    <div class="container relative py-16 md:py-24 grid md:grid-cols-2 gap-10 items-center">
+      <div>
+        <h1 class="font-display text-4xl md:text-5xl font-extrabold tracking-tight leading-tight">
+          The complete regional events platform for <span class="text-sky-600">Western & Central MA</span>
+        </h1>
+        <p class="mt-4 text-slate-600 text-lg">
+          Concerts, markets, hikes, family fun, food trucks — all in one place. Submit your event, get approved fast, and reach the right crowd.
+        </p>
+        <div class="mt-6 flex flex-wrap gap-3">
+          <a href="#events" class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-900 text-white hover:bg-slate-800">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-4 h-4"><path fill="currentColor" d="M19 4h-1V2h-2v2H8V2H6v2H5a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2m0 15H5V10h14z"/></svg>
+            Browse Events
+          </a>
+          <a href="#submit" class="inline-flex items-center gap-2 px-4 py-2 rounded-xl border border-slate-200 hover:bg-slate-100">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-4 h-4"><path fill="currentColor" d="M12 3a9 9 0 1 0 9 9a9.01 9.01 0 0 0-9-9m1 13h-2v-4H7v-2h4V6h2v4h4v2h-4z"/></svg>
+            Submit Your Event
+          </a>
         </div>
-
-        <!-- Search filters would go here -->
-        <div class="search-container">
-            <input type="text" class="search-input" placeholder="Search events...">
-            <select class="search-select">
-                <option value="">All Locations</option>
-                <option value="ma">Massachusetts</option>
-                <option value="vt">Vermont</option>
-                <option value="nh">New Hampshire</option>
-                <option value="ct">Connecticut</option>
-            </select>
-            <select class="search-select">
-                <option value="">All Categories</option>
-                <option value="music">Music</option>
-                <option value="festival">Festival</option>
-                <option value="arts">Arts & Culture</option>
-                <option value="sports">Sports</option>
-            </select>
-            <button class="search-btn">Filter Events</button>
+        <div class="mt-6 flex items-center gap-4 text-sm text-slate-500">
+          <div class="flex items-center gap-2">
+            <span class="inline-block w-2 h-2 rounded-full bg-emerald-500"></span>
+            Fast approvals
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="inline-block w-2 h-2 rounded-full bg-sky-500"></span>
+            Free to list basics
+          </div>
         </div>
-
-        <div class="events-grid">
-            <!-- Events would be populated here -->
-            <div class="event-card">
-                <div class="event-image">Event Photography</div>
-                <div class="event-info">
-                    <h3 class="event-title">Sample Event</h3>
-                    <div class="event-location">📍 Location</div>
-                    <div class="event-time">🕰️ Time</div>
-                    <p class="event-description">Event description...</p>
-                </div>
-            </div>
+      </div>
+      <div class="md:pl-10">
+        <div class="relative rounded-2xl overflow-hidden shadow-2xl ring-1 ring-slate-200">
+          <img src="https://images.unsplash.com/photo-1483412033650-1015ddeb83d1?q=80&w=1400&auto=format&fit=crop" alt="Outdoor concert crowd" class="w-full h-72 md:h-[28rem] object-cover" />
+          <div class="absolute inset-x-0 bottom-0 p-4 bg-gradient-to-t from-black/60 to-transparent text-white">
+            <p class="text-sm uppercase tracking-widest">This Weekend</p>
+            <p class="font-semibold text-lg">Live on the Green • Amherst</p>
+          </div>
         </div>
+      </div>
     </div>
+  </section>
 
-    <!-- Photography & Reviews Page -->
-    <div id="photographyPage" class="page-content">
-        <div class="page-header">
-            <h1 class="page-title">Photography & Reviews</h1>
-            <p class="page-subtitle">Professional event coverage and venue reviews across the region</p>
+  <!-- Quick Filters / Categories -->
+  <section id="categories" class="container py-12 md:py-16">
+    <h2 class="text-2xl md:text-3xl font-bold">Popular categories</h2>
+    <div class="mt-6 grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <button class="group w-full rounded-2xl border border-slate-200 p-5 text-left hover:border-sky-300 hover:shadow-glow">
+        <div class="flex items-center justify-between">
+          <span class="font-semibold">Music & Nightlife</span>
+          <span class="text-xs px-2 py-1 rounded-full bg-sky-100 text-sky-700 group-hover:bg-sky-200">128</span>
         </div>
-
-        <div style="background: white; padding: 40px; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.1);">
-            <h3 style="margin-bottom: 20px; color: #5865f2;">Latest Coverage</h3>
-            <p style="margin-bottom: 20px; color: #666;">Our team provides comprehensive photography and professional reviews of events and venues throughout Western & Central New England.</p>
-            
-            <div style="display: grid; gap: 30px; margin-top: 30px;">
-                <div style="border-left: 4px solid #5865f2; padding-left: 20px;">
-                    <h4 style="color: #333; margin-bottom: 10px;">Tanglewood Summer Series Review</h4>
-                    <p style="color: #666; margin-bottom: 10px;"><small>Published: August 10, 2025</small></p>
-                    <p style="color: #777;">Complete photo gallery and review of the Boston Symphony Orchestra's summer concert series...</p>
-                </div>
-                
-                <div style="border-left: 4px solid #5865f2; padding-left: 20px;">
-                    <h4 style="color: #333; margin-bottom: 10px;">Vermont Arts & Crafts Festival</h4>
-                    <p style="color: #666; margin-bottom: 10px;"><small>Published: August 8, 2025</small></p>
-                    <p style="color: #777;">Exclusive photography coverage of Vermont's premier artisan showcase...</p>
-                </div>
-            </div>
+        <p class="mt-2 text-sm text-slate-600">Concerts, open mics, brewery sets.</p>
+      </button>
+      <button class="group w-full rounded-2xl border border-slate-200 p-5 text-left hover:border-sky-300 hover:shadow-glow">
+        <div class="flex items-center justify-between">
+          <span class="font-semibold">Family & Kids</span>
+          <span class="text-xs px-2 py-1 rounded-full bg-sky-100 text-sky-700 group-hover:bg-sky-2 00">96</span>
         </div>
+        <p class="mt-2 text-sm text-slate-600">Festivals, libraries, farms.</p>
+      </button>
+      <button class="group w-full rounded-2xl border border-slate-200 p-5 text-left hover:border-sky-300 hover:shadow-glow">
+        <div class="flex items-center justify-between">
+          <span class="font-semibold">Outdoors</span>
+          <span class="text-xs px-2 py-1 rounded-full bg-sky-100 text-sky-700 group-hover:bg-sky-200">54</span>
+        </div>
+        <p class="mt-2 text-sm text-slate-600">Hikes, paddles, stargazing.</p>
+      </button>
+      <button class="group w-full rounded-2xl border border-slate-200 p-5 text-left hover:border-sky-300 hover:shadow-glow">
+        <div class="flex items-center justify-between">
+          <span class="font-semibold">Markets & Food</span>
+          <span class="text-xs px-2 py-1 rounded-full bg-sky-100 text-sky-700 group-hover:bg-sky-200">73</span>
+        </div>
+        <p class="mt-2 text-sm text-slate-600">Farmers, food trucks, pop-ups.</p>
+      </button>
     </div>
+  </section>
 
-    <!-- Venues Page -->
-    <div id="venuesPage" class="page-content">
-        <div class="page-header">
-            <h1 class="page-title">Featured Venues</h1>
-            <p class="page-subtitle">Premium venues and partnerships across our coverage area</p>
+  <!-- Events Grid -->
+  <section id="events" class="bg-white border-y border-slate-200">
+    <div class="container py-12 md:py-16">
+      <div class="flex items-end justify-between gap-4 flex-wrap">
+        <div>
+          <h2 class="text-2xl md:text-3xl font-bold">Upcoming events</h2>
+          <p class="text-slate-600 mt-1">Hand‑picked highlights across the region.</p>
         </div>
+        <div class="flex items-center gap-2">
+          <label class="text-sm text-slate-600" for="when">When</label>
+          <select id="when" class="text-sm rounded-xl border-slate-200 focus:ring-sky-300">
+            <option>Anytime</option>
+            <option>Today</option>
+            <option>This weekend</option>
+            <option>Next 7 days</option>
+          </select>
+          <label class="text-sm text-slate-600 ml-3" for="where">Where</label>
+          <select id="where" class="text-sm rounded-xl border-slate-200 focus:ring-sky-300">
+            <option>All areas</option>
+            <option>Worcester</option>
+            <option>Pioneer Valley</option>
+            <option>Berkshires</option>
+          </select>
+        </div>
+      </div>
 
-        <div style="background: white; padding: 40px; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.1);">
-            <h3 style="margin-bottom: 20px; color: #5865f2;">Venue Partnerships</h3>
-            <p style="margin-bottom: 30px; color: #666;">Partner with Quabbin Vibes to feature your venue and reach thousands of regional event-goers.</p>
-            
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px;">
-                <div style="border: 1px solid #e5e7eb; border-radius: 10px; padding: 20px;">
-                    <h4 style="color: #333; margin-bottom: 10px;">Tanglewood Music Center</h4>
-                    <p style="color: #666; margin-bottom: 10px;">📍 Lenox, MA</p>
-                    <p style="color: #777;">Premier outdoor concert venue in the Berkshires</p>
-                </div>
-                
-                <div style="border: 1px solid #e5e7eb; border-radius: 10px; padding: 20px;">
-                    <h4 style="color: #333; margin-bottom: 10px;">Mass MoCA</h4>
-                    <p style="color: #666; margin-bottom: 10px;">📍 North Adams, MA</p>
-                    <p style="color: #777;">Contemporary arts center and event space</p>
-                </div>
+      <div id="eventsGrid" class="mt-6 grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Event Card Template repeated -->
+        <article class="group rounded-2xl overflow-hidden border border-slate-200 hover:shadow-xl hover:border-sky-200 transition">
+          <div class="relative">
+            <img src="https://images.unsplash.com/photo-1470225620780-dba8ba36b745?q=80&w=1400&auto=format&fit=crop" alt="Farmers market" class="h-44 w-full object-cover" />
+            <div class="absolute top-3 left-3 text-xs px-2 py-1 rounded-lg bg-white/90 border border-slate-200">Sat • Northampton</div>
+          </div>
+          <div class="p-4">
+            <h3 class="font-semibold leading-tight">Downtown Farmers Market</h3>
+            <p class="mt-1 text-sm text-slate-600 line-clamp-2">Fresh produce, live music, and local makers on Main Street. Family‑friendly.</p>
+            <div class="mt-4 flex items-center justify-between">
+              <span class="text-sm text-slate-500">9:00a – 1:00p</span>
+              <a href="#" class="text-sm font-medium text-sky-700 hover:underline">Details</a>
             </div>
-            
-            <div style="margin-top: 40px; padding: 30px; background: #f8f9fa; border-radius: 10px; text-align: center;">
-                <h4 style="color: #333; margin-bottom: 15px;">Become a Featured Venue</h4>
-                <p style="color: #666; margin-bottom: 20px;">Increase your visibility and attract more events to your venue</p>
-                <button class="search-btn" style="width: auto; padding: 15px 30px;" onclick="showPage('contact')">Contact Us</button>
+          </div>
+        </article>
+
+        <article class="group rounded-2xl overflow-hidden border border-slate-200 hover:shadow-xl hover:border-sky-200 transition">
+          <div class="relative">
+            <img src="https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=1400&auto=format&fit=crop" alt="Outdoor concert" class="h-44 w-full object-cover" />
+            <div class="absolute top-3 left-3 text-xs px-2 py-1 rounded-lg bg-white/90 border border-slate-200">Fri • Worcester</div>
+          </div>
+          <div class="p-4">
+            <h3 class="font-semibold leading-tight">Summer Nights on the Common</h3>
+            <p class="mt-1 text-sm text-slate-600 line-clamp-2">Free show featuring regional bands, food trucks, and local vendors.</p>
+            <div class="mt-4 flex items-center justify-between">
+              <span class="text-sm text-slate-500">6:30p – 9:30p</span>
+              <a href="#" class="text-sm font-medium text-sky-700 hover:underline">Details</a>
             </div>
-        </div>
+          </div>
+        </article>
+
+        <article class="group rounded-2xl overflow-hidden border border-slate-200 hover:shadow-xl hover:border-sky-200 transition">
+          <div class="relative">
+            <img src="https://images.unsplash.com/photo-1519681393784-d120267933ba?q=80&w=1400&auto=format&fit=crop" alt="Art fair" class="h-44 w-full object-cover" />
+            <div class="absolute top-3 left-3 text-xs px-2 py-1 rounded-lg bg-white/90 border border-slate-200">Sun • Pittsfield</div>
+          </div>
+          <div class="p-4">
+            <h3 class="font-semibold leading-tight">Berkshire Arts & Makers Fair</h3>
+            <p class="mt-1 text-sm text-slate-600 line-clamp-2">Juried artists, craft demos, and kids’ activities in the park.</p>
+            <div class="mt-4 flex items-center justify-between">
+              <span class="text-sm text-slate-500">10:00a – 4:00p</span>
+              <a href="#" class="text-sm font-medium text-sky-700 hover:underline">Details</a>
+            </div>
+          </div>
+        </article>
+      </div>
+
+      <div class="mt-8 text-center">
+        <a href="#" class="inline-flex items-center gap-2 px-4 py-2 rounded-xl border border-slate-200 hover:bg-slate-100">View full calendar</a>
+      </div>
     </div>
+  </section>
 
-    <!-- About Page -->
-    <div id="aboutPage" class="page-content">
-        <div class="page-header">
-            <h1 class="page-title">About Quabbin Vibes</h1>
-            <p class="page-subtitle">Professional media coverage of Western & Central New England events</p>
+  <!-- Submit Event CTA -->
+  <section id="submit" class="container py-12 md:py-16">
+    <div class="grid lg:grid-cols-2 gap-8 items-center">
+      <div>
+        <h2 class="text-2xl md:text-3xl font-bold">Submit your event — get discovered</h2>
+        <p class="mt-3 text-slate-600">Creators, venues, libraries, farms, breweries — listing the basics is free. We review quickly and approve what fits the vibe.</p>
+        <ul class="mt-4 space-y-2 text-slate-700">
+          <li class="flex items-start gap-3"><span class="mt-1 inline-block w-2 h-2 rounded-full bg-emerald-500"></span> Fast manual approval to keep quality high</li>
+          <li class="flex items-start gap-3"><span class="mt-1 inline-block w-2 h-2 rounded-full bg-sky-500"></span> Optional upgrades: featured placement, newsletter shoutout</li>
+          <li class="flex items-start gap-3"><span class="mt-1 inline-block w-2 h-2 rounded-full bg-fuchsia-500"></span> Bring your own images or we’ll style it</li>
+        </ul>
+        <div class="mt-6 flex flex-wrap gap-3">
+          <!-- Replace the mailto with your intake form URL when ready -->
+          <a href="mailto:hello@quabbinvibes.com?subject=Event%20Submission" class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-sky-500 text-white hover:bg-sky-600 shadow-glow">Email Submission</a>
+          <a href="#form" class="inline-flex items-center gap-2 px-4 py-2 rounded-xl border border-slate-200 hover:bg-slate-100">Open Form</a>
         </div>
-
-        <div style="background: white; padding: 40px; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.1);">
-            <div style="display: grid; gap: 40px;">
-                <section>
-                    <h3 style="color: #5865f2; margin-bottom: 20px;">Our Mission</h3>
-                    <p style="color: #666; line-height: 1.8; margin-bottom: 20px;">Quabbin Vibes is a professional media platform dedicated to comprehensive coverage of events and venues across Western and Central New England. We provide high-quality photography, detailed event reviews, and serve as the premier resource for regional event discovery.</p>
-                    <p style="color: #666; line-height: 1.8;">Our coverage area spans from Worcester to Pittsfield and Brattleboro to Hartford, encompassing the cultural heart of Massachusetts, Vermont, New Hampshire, and Connecticut.</p>
-                </section>
-
-                <section>
-                    <h3 style="color: #5865f2; margin-bottom: 20px;">Professional Services</h3>
-                    <ul style="color: #666; line-height: 1.8;">
-                        <li style="margin-bottom: 10px;">📸 Professional event photography and documentation</li>
-                        <li style="margin-bottom: 10px;">📝 Comprehensive event and venue reviews</li>
-                        <li style="margin-bottom: 10px;">📰 Regional media coverage and press services</li>
-                        <li style="margin-bottom: 10px;">🎯 Event promotion and marketing partnerships</li>
-                        <li style="margin-bottom: 10px;">📊 Audience analytics and event insights</li>
-                    </ul>
-                </section>
-
-                <section>
-                    <h3 style="color: #5865f2; margin-bottom: 20px;">Press Credentials</h3>
-                    <p style="color: #666; line-height: 1.8; margin-bottom: 20px;">Quabbin Vibes operates as an accredited regional media outlet, providing professional coverage of events throughout our coverage area. We maintain press credentials for major venues and events, ensuring comprehensive documentation and review of the regional cultural landscape.</p>
-                    <p style="color: #666; line-height: 1.8;">For press inquiries or credential verification, please contact our editorial team through our dedicated press contact form.</p>
-                </section>
-
-                <section>
-                    <h3 style="color: #5865f2; margin-bottom: 20px;">Coverage Area Details</h3>
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-top: 20px;">
-                        <div style="padding: 20px; background: #f8f9fa; border-radius: 10px;">
-                            <h4 style="color: #333; margin-bottom: 10px;">Massachusetts</h4>
-                            <p style="color: #666; font-size: 0.9em;">Worcester, Springfield, Pittsfield, Northampton, Amherst, Lenox, North Adams</p>
-                        </div>
-                        <div style="padding: 20px; background: #f8f9fa; border-radius: 10px;">
-                            <h4 style="color: #333; margin-bottom: 10px;">Vermont</h4>
-                            <p style="color: #666; font-size: 0.9em;">Brattleboro, Bennington, Manchester, Wilmington</p>
-                        </div>
-                        <div style="padding: 20px; background: #f8f9fa; border-radius: 10px;">
-                            <h4 style="color: #333; margin-bottom: 10px;">New Hampshire</h4>
-                            <p style="color: #666; font-size: 0.9em;">Keene, Peterborough, Jaffrey</p>
-                        </div>
-                        <div style="padding: 20px; background: #f8f9fa; border-radius: 10px;">
-                            <h4 style="color: #333; margin-bottom: 10px;">Connecticut</h4>
-                            <p style="color: #666; font-size: 0.9em;">Hartford, Simsbury, Enfield, Windsor</p>
-                        </div>
-                    </div>
-                </section>
-            </div>
-        </div>
+      </div>
+      <div id="form" class="rounded-2xl border border-slate-200 p-6 bg-white shadow-sm">
+        <h3 class="font-semibold text-lg">Quick submission form</h3>
+        <p class="text-sm text-slate-600">This is a simple static form that emails you. Replace with Airtable/Jotform/Typeform when ready.</p>
+        <form class="mt-4 grid gap-3" action="https://formsubmit.co/your@email.com" method="POST">
+          <input type="hidden" name="_subject" value="New Quabbin Vibes Event" />
+          <label class="grid gap-1 text-sm">
+            <span>Event name</span>
+            <input required name="Event" class="rounded-xl border-slate-200" placeholder="Sunset Picnic Concert" />
+          </label>
+          <label class="grid gap-1 text-sm">
+            <span>Date & time</span>
+            <input required name="When" class="rounded-xl border-slate-200" placeholder="Aug 24, 6:30–9:00 PM" />
+          </label>
+          <label class="grid gap-1 text-sm">
+            <span>Location</span>
+            <input required name="Where" class="rounded-xl border-slate-200" placeholder="Greenfield Town Common" />
+          </label>
+          <label class="grid gap-1 text-sm">
+            <span>Short description</span>
+            <textarea name="Description" rows="3" class="rounded-xl border-slate-200" placeholder="A relaxed evening with folk duos and food vendors."></textarea>
+          </label>
+          <label class="grid gap-1 text-sm">
+            <span>Link (tickets/details)</span>
+            <input name="Link" class="rounded-xl border-slate-200" placeholder="https://example.com/event" />
+          </label>
+          <button class="mt-2 inline-flex justify-center items-center gap-2 px-4 py-2 rounded-xl bg-slate-900 text-white hover:bg-slate-800">Submit</button>
+        </form>
+      </div>
     </div>
+  </section>
 
-    <!-- Contact Page -->
-    <div id="contactPage" class="page-content">
-        <div class="page-header">
-            <h1 class="page-title">Contact</h1>
-            <p class="page-subtitle">Get in touch for press inquiries, partnerships, or event submissions</p>
+  <!-- Newsletter -->
+  <section id="newsletter" class="bg-slate-900 text-white">
+    <div class="container py-12 md:py-16">
+      <div class="grid lg:grid-cols-2 gap-8 items-center">
+        <div>
+          <h2 class="text-2xl md:text-3xl font-bold">The weekend, sorted — in your inbox</h2>
+          <p class="mt-3 text-slate-300">Hand‑picked events and last‑minute finds, every Thursday morning.</p>
+          <ul class="mt-4 space-y-2 text-slate-300 text-sm">
+            <li>Focus on Western & Central MA: Worcester • Pioneer Valley • Berkshires</li>
+            <li>No spam. Unsubscribe anytime.</li>
+          </ul>
         </div>
-
-        <div class="form-container">
-            <form onsubmit="submitContact(event)">
-                <div class="form-group">
-                    <label class="form-label">Inquiry Type</label>
-                    <select class="form-select" required>
-                        <option value="">Select inquiry type...</option>
-                        <option value="press">Press/Media Inquiry</option>
-                        <option value="partnership">Venue Partnership</option>
-                        <option value="event">Event Submission</option>
-                        <option value="photography">Photography Services</option>
-                        <option value="general">General Inquiry</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label">Name</label>
-                    <input type="text" class="form-input" required>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label">Organization/Venue</label>
-                    <input type="text" class="form-input">
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label">Email</label>
-                    <input type="email" class="form-input" required>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label">Phone</label>
-                    <input type="tel" class="form-input">
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label">Message</label>
-                    <textarea class="form-textarea" required placeholder="Please provide details about your inquiry..."></textarea>
-                </div>
-
-                <button type="submit" class="form-submit">Send Message</button>
-            </form>
+        <div class="rounded-2xl bg-white/5 p-6 ring-1 ring-white/10">
+          <!-- Replace with your Beehiiv embed when ready -->
+          <form class="grid sm:grid-cols-[1fr_auto] gap-3">
+            <input type="email" required placeholder="you@email.com" class="rounded-xl border-0 px-4 py-3 text-slate-900" />
+            <button class="rounded-xl px-4 py-3 bg-sky-500 hover:bg-sky-400 text-white font-medium">Subscribe</button>
+          </form>
+          <p class="text-xs text-slate-300 mt-2">Have Beehiiv? Paste their embed here — we’ll restyle it.</p>
         </div>
+      </div>
     </div>
+  </section>
 
-    <!-- Submit Event Page -->
-    <div id="submitPage" class="page-content">
-        <div class="page-header">
-            <h1 class="page-title">Submit Event</h1>
-            <p class="page-subtitle">Submit your event for inclusion on Quabbin Vibes</p>
+  <!-- About / Footer -->
+  <section id="about" class="container py-12 md:py-16">
+    <div class="grid lg:grid-cols-2 gap-8 items-start">
+      <div>
+        <h2 class="text-2xl md:text-3xl font-bold">About Quabbin Vibes</h2>
+        <p class="mt-3 text-slate-600">We’re building the cleanest way to discover what’s good across Worcester County, the Pioneer Valley, and the Berkshires. Curated by locals. No junk.</p>
+        <div class="mt-6 grid sm:grid-cols-2 gap-4">
+          <div class="rounded-2xl border border-slate-200 p-5">
+            <p class="text-sm text-slate-500">Coverage</p>
+            <p class="mt-1 font-semibold">Worcester • 413 • Berkshires</p>
+          </div>
+          <div class="rounded-2xl border border-slate-200 p-5">
+            <p class="text-sm text-slate-500">Listing policy</p>
+            <p class="mt-1 font-semibold">Manual review, fast approvals</p>
+          </div>
         </div>
-
-        <div class="form-container">
-            <form onsubmit="submitEvent(event)">
-                <div class="form-group">
-                    <label class="form-label">Event Name</label>
-                    <input type="text" class="form-input" required>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label">Event Category</label>
-                    <select class="form-select" required>
-                        <option value="">Select category...</option>
-                        <option value="music">Music</option>
-                        <option value="festival">Festival</option>
-                        <option value="arts">Arts & Culture</option>
-                        <option value="sports">Sports</option>
-                        <option value="food">Food & Drink</option>
-                        <option value="family">Family</option>
-                        <option value="business">Business</option>
-                        <option value="other">Other</option>
-                    </select>
-                </div>
-
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
-                    <div class="form-group">
-                        <label class="form-label">Event Date</label>
-                        <input type="date" class="form-input" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="form-label">Event Time</label>
-                        <input type="time" class="form-input" required>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label">Venue Name</label>
-                    <input type="text" class="form-input" required>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label">Full Address</label>
-                    <input type="text" class="form-input" required placeholder="Street Address, City, State, ZIP">
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label">Event Description</label>
-                    <textarea class="form-textarea" required placeholder="Provide a detailed description of your event..."></textarea>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label">Ticket Information</label>
-                    <textarea class="form-textarea" placeholder="Pricing, where to buy tickets, free admission, etc."></textarea>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label">Contact Email</label>
-                    <input type="email" class="form-input" required>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label">Website/Social Media</label>
-                    <input type="url" class="form-input" placeholder="https://...">
-                </div>
-
-                <div style="background: #f8f9fa; padding: 20px; border-radius: 10px; margin: 20px 0;">
-                    <h4 style="color: #333; margin-bottom: 15px;">Featured Event Placement</h4>
-                    <p style="color: #666; margin-bottom: 15px;">Increase your event's visibility with featured placement on our homepage and social media.</p>
-                    <label style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
-                        <input type="checkbox" style="transform: scale(1.2);">
-                        <span>Interested in Featured Placement ($50/month) - We'll contact you with details</span>
-                    </label>
-                </div>
-
-                <button type="submit" class="form-submit">Submit Event</button>
-            </form>
+      </div>
+      <div class="rounded-2xl border border-slate-200 p-6 bg-white shadow-sm">
+        <h3 class="font-semibold text-lg">Blog highlights</h3>
+        <div class="mt-4 space-y-4">
+          <a href="#" class="block p-4 rounded-xl border border-slate-200 hover:bg-slate-50">
+            <p class="text-sm text-slate-500">Guide</p>
+            <p class="font-medium">Best family-friendly hikes within 45 minutes of Amherst</p>
+          </a>
+          <a href="#" class="block p-4 rounded-xl border border-slate-200 hover:bg-slate-50">
+            <p class="text-sm text-slate-500">Spotlight</p>
+            <p class="font-medium">Brewery patios with live music every week</p>
+          </a>
+          <a href="#" class="block p-4 rounded-xl border border-slate-200 hover:bg-slate-50">
+            <p class="text-sm text-slate-500">Roundup</p>
+            <p class="font-medium">Farmers markets by day and town</p>
+          </a>
         </div>
+      </div>
     </div>
+  </section>
 
-    <!-- Admin Panel -->
-    <div id="adminPanel" class="admin-panel">
-        <div class="admin-content">
-            <div class="admin-header">
-                <h2>Quabbin Vibes Admin Panel</h2>
-                <button class="admin-close" onclick="closeAdmin()">Close</button>
-            </div>
-
-            <div class="admin-tabs">
-                <button class="admin-tab active" onclick="showAdminTab('dashboard')">Dashboard</button>
-                <button class="admin-tab" onclick="showAdminTab('hero')">Hero Image</button>
-                <button class="admin-tab" onclick="showAdminTab('events')">Events</button>
-                <button class="admin-tab" onclick="showAdminTab('blog')">Blog Posts</button>
-                <button class="admin-tab" onclick="showAdminTab('copy')">Edit Copy</button>
-                <button class="admin-tab" onclick="showAdminTab('stats')">Statistics</button>
-            </div>
-
-            <div id="adminContent">
-                <div id="adminDashboard" class="admin-section">
-                    <h3>Admin Dashboard</h3>
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-bottom: 30px;">
-                        <div style="background: #5865f2; color: white; padding: 25px; border-radius: 15px; text-align: center;">
-                            <h4>Total Events</h4>
-                            <div style="font-size: 2.5em; font-weight: bold; margin: 10px 0;">47</div>
-                            <small>Active this month</small>
-                        </div>
-                        <div style="background: #2ed573; color: white; padding: 25px; border-radius: 15px; text-align: center;">
-                            <h4>Blog Posts</h4>
-                            <div style="font-size: 2.5em; font-weight: bold; margin: 10px 0;">12</div>
-                            <small>Published</small>
-                        </div>
-                        <div style="background: #ff6b81; color: white; padding: 25px; border-radius: 15px; text-align: center;">
-                            <h4>Monthly Revenue</h4>
-                            <div style="font-size: 2.5em; font-weight: bold; margin: 10px 0;">$200</div>
-                            <small>Featured events</small>
-                        </div>
-                        <div style="background: #ffa502; color: white; padding: 25px; border-radius: 15px; text-align: center;">
-                            <h4>Page Views</h4>
-                            <div style="font-size: 2.5em; font-weight: bold; margin: 10px 0;">3.2K</div>
-                            <small>This month</small>
-                        </div>
-                    </div>
-                    
-                    <div style="background: #f8f9fa; padding: 25px; border-radius: 15px;">
-                        <h4>Quick Actions</h4>
-                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top: 20px;">
-                            <button onclick="showAdminTab('hero')" style="background: #5865f2; color: white; border: none; padding: 15px 20px; border-radius: 10px; font-weight: bold; cursor: pointer;">Change Hero Image</button>
-                            <button onclick="showAdminTab('events')" style="background: #2ed573; color: white; border: none; padding: 15px 20px; border-radius: 10px; font-weight: bold; cursor: pointer;">Add New Event</button>
-                            <button onclick="showAdminTab('blog')" style="background: #ff6b81; color: white; border: none; padding: 15px 20px; border-radius: 10px; font-weight: bold; cursor: pointer;">Write Blog Post</button>
-                            <button onclick="showAdminTab('copy')" style="background: #ffa502; color: white; border: none; padding: 15px 20px; border-radius: 10px; font-weight: bold; cursor: pointer;">Edit Page Copy</button>
-                        </div>
-                    </div>
-                </div>
-
-                <div id="adminHero" class="admin-section hidden">
-                    <h3>Hero Image Management</h3>
-                    
-                    <div style="background: white; padding: 30px; border-radius: 15px; margin-bottom: 20px;">
-                        <h4>Current Hero Image</h4>
-                        <div style="display: flex; align-items: center; gap: 20px; margin: 20px 0;">
-                            <div style="width: 300px; height: 180px; background: url('https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80'); background-size: cover; background-position: center; border-radius: 10px; border: 2px solid #5865f2;"></div>
-                            <div>
-                                <strong>Concert Stage Photography</strong><br>
-                                <small style="color: #666;">Currently active</small><br>
-                                <button onclick="changeHeroImageAdmin()" style="background: #5865f2; color: white; border: none; padding: 12px 20px; border-radius: 8px; margin-top: 15px; cursor: pointer; font-weight: bold;">Change Image Now</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div style="background: white; padding: 30px; border-radius: 15px;">
-                        <h4>Upload New Hero Image</h4>
-                        <form onsubmit="uploadHeroImage(event)">
-                            <div style="margin-bottom: 20px;">
-                                <label style="display: block; margin-bottom: 8px; font-weight: bold;">Image URL</label>
-                                <input type="url" required placeholder="https://..." style="width: 100%; padding: 12px; border: 2px solid #e5e7eb; border-radius: 8px;">
-                            </div>
-                            <div style="margin-bottom: 20px;">
-                                <label style="display: block; margin-bottom: 8px; font-weight: bold;">Photo Credit</label>
-                                <input type="text" placeholder="Your Event Photography" style="width: 100%; padding: 12px; border: 2px solid #e5e7eb; border-radius: 8px;">
-                            </div>
-                            <div style="margin-bottom: 20px;">
-                                <label style="display: block; margin-bottom: 8px; font-weight: bold;">Description</label>
-                                <input type="text" placeholder="e.g., Summer Festival Coverage" style="width: 100%; padding: 12px; border: 2px solid #e5e7eb; border-radius: 8px;">
-                            </div>
-                            <button type="submit" style="background: #2ed573; color: white; border: none; padding: 15px 30px; border-radius: 8px; font-weight: bold; cursor: pointer;">Update Hero Image</button>
-                        </form>
-                    </div>
-                </div>
-                <div id="adminEvents" class="admin-section hidden">
-                    <h3>Event Management</h3>
-                    
-                    <div style="background: white; padding: 30px; border-radius: 15px; margin-bottom: 20px;">
-                        <h4>Add New Event</h4>
-                        <form onsubmit="addNewEvent(event)">
-                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px;">
-                                <div>
-                                    <label style="display: block; margin-bottom: 8px; font-weight: bold;">Event Name</label>
-                                    <input type="text" required style="width: 100%; padding: 12px; border: 2px solid #e5e7eb; border-radius: 8px;">
-                                </div>
-                                <div>
-                                    <label style="display: block; margin-bottom: 8px; font-weight: bold;">Category</label>
-                                    <select required style="width: 100%; padding: 12px; border: 2px solid #e5e7eb; border-radius: 8px;">
-                                        <option value="">Select category...</option>
-                                        <option value="music">Music</option>
-                                        <option value="festival">Festival</option>
-                                        <option value="arts">Arts & Culture</option>
-                                        <option value="sports">Sports</option>
-                                        <option value="food">Food & Drink</option>
-                                    </select>
-                                </div>
-                            </div>
-                            
-                            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; margin-bottom: 20px;">
-                                <div>
-                                    <label style="display: block; margin-bottom: 8px; font-weight: bold;">Date</label>
-                                    <input type="date" required style="width: 100%; padding: 12px; border: 2px solid #e5e7eb; border-radius: 8px;">
-                                </div>
-                                <div>
-                                    <label style="display: block; margin-bottom: 8px; font-weight: bold;">Time</label>
-                                    <input type="time" required style="width: 100%; padding: 12px; border: 2px solid #e5e7eb; border-radius: 8px;">
-                                </div>
-                                <div>
-                                    <label style="display: block; margin-bottom: 8px; font-weight: bold;">Price</label>
-                                    <input type="text" placeholder="Free, $25, etc." style="width: 100%; padding: 12px; border: 2px solid #e5e7eb; border-radius: 8px;">
-                                </div>
-                            </div>
-                            
-                            <div style="margin-bottom: 20px;">
-                                <label style="display: block; margin-bottom: 8px; font-weight: bold;">Venue & Location</label>
-                                <input type="text" required placeholder="Venue Name, City, State" style="width: 100%; padding: 12px; border: 2px solid #e5e7eb; border-radius: 8px;">
-                            </div>
-                            
-                            <div style="margin-bottom: 20px;">
-                                <label style="display: block; margin-bottom: 8px; font-weight: bold;">Event Photo URL</label>
-                                <input type="url" placeholder="https://..." style="width: 100%; padding: 12px; border: 2px solid #e5e7eb; border-radius: 8px;">
-                            </div>
-                            
-                            <div style="margin-bottom: 20px;">
-                                <label style="display: block; margin-bottom: 8px; font-weight: bold;">Description</label>
-                                <textarea required style="width: 100%; padding: 12px; border: 2px solid #e5e7eb; border-radius: 8px; min-height: 100px; resize: vertical;"></textarea>
-                            </div>
-                            
-                            <div style="margin-bottom: 20px;">
-                                <label style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
-                                    <input type="checkbox" style="transform: scale(1.2);">
-                                    <span>Featured Event (+$50/month)</span>
-                                </label>
-                            </div>
-                            
-                            <button type="submit" style="background: #2ed573; color: white; border: none; padding: 15px 30px; border-radius: 8px; font-weight: bold; cursor: pointer;">Add Event</button>
-                        </form>
-                    </div>
-                    
-                    <div style="background: #f8f9fa; padding: 25px; border-radius: 15px;">
-                        <h4>Recent Events</h4>
-                        <div id="eventsList">
-                            <div style="display: flex; justify-content: space-between; align-items: center; padding: 15px; background: white; border-radius: 8px; margin-bottom: 10px;">
-                                <div>
-                                    <strong>Tanglewood Summer Concert</strong><br>
-                                    <small>August 14, 2025 • Lenox, MA • Featured</small>
-                                </div>
-                                <div>
-                                    <button style="background: #5865f2; color: white; border: none; padding: 8px 15px; border-radius: 5px; margin-right: 5px; cursor: pointer;">Edit</button>
-                                    <button style="background: #ff4757; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer;">Delete</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div id="adminBlog" class="admin-section hidden">
-                    <h3>Blog Post Management</h3>
-                    
-                    <div style="background: white; padding: 30px; border-radius: 15px; margin-bottom: 20px;">
-                        <h4>Create New Blog Post</h4>
-                        <form onsubmit="createBlogPost(event)">
-                            <div style="margin-bottom: 20px;">
-                                <label style="display: block; margin-bottom: 8px; font-weight: bold;">Post Title</label>
-                                <input type="text" required style="width: 100%; padding: 12px; border: 2px solid #e5e7eb; border-radius: 8px;">
-                            </div>
-                            
-                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px;">
-                                <div>
-                                    <label style="display: block; margin-bottom: 8px; font-weight: bold;">Category</label>
-                                    <select required style="width: 100%; padding: 12px; border: 2px solid #e5e7eb; border-radius: 8px;">
-                                        <option value="">Select category...</option>
-                                        <option value="event-review">Event Review</option>
-                                        <option value="venue-review">Venue Review</option>
-                                        <option value="photography">Photography</option>
-                                        <option value="news">News</option>
-                                    </select>
-                                </div>
-                                <div>
-                                    <label style="display: block; margin-bottom: 8px; font-weight: bold;">Featured Image URL</label>
-                                    <input type="url" placeholder="https://..." style="width: 100%; padding: 12px; border: 2px solid #e5e7eb; border-radius: 8px;">
-                                </div>
-                            </div>
-                            
-                            <div style="margin-bottom: 20px;">
-                                <label style="display: block; margin-bottom: 8px; font-weight: bold;">Excerpt/Summary</label>
-                                <textarea placeholder="Brief summary for previews..." style="width: 100%; padding: 12px; border: 2px solid #e5e7eb; border-radius: 8px; min-height: 80px; resize: vertical;"></textarea>
-                            </div>
-                            
-                            <div style="margin-bottom: 20px;">
-                                <label style="display: block; margin-bottom: 8px; font-weight: bold;">Content</label>
-                                <textarea required placeholder="Write your blog post content here..." style="width: 100%; padding: 12px; border: 2px solid #e5e7eb; border-radius: 8px; min-height: 300px; resize: vertical;"></textarea>
-                            </div>
-                            
-                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
-                                <button type="submit" style="background: #2ed573; color: white; border: none; padding: 15px 30px; border-radius: 8px; font-weight: bold; cursor: pointer;">Publish Post</button>
-                                <button type="button" style="background: #ffa502; color: white; border: none; padding: 15px 30px; border-radius: 8px; font-weight: bold; cursor: pointer;">Save Draft</button>
-                            </div>
-                        </form>
-                    </div>
-                    
-                    <div style="background: #f8f9fa; padding: 25px; border-radius: 15px;">
-                        <h4>Recent Posts</h4>
-                        <div id="blogPostsList">
-                            <div style="display: flex; justify-content: space-between; align-items: center; padding: 15px; background: white; border-radius: 8px; margin-bottom: 10px;">
-                                <div>
-                                    <strong>Tanglewood Summer Series Review</strong><br>
-                                    <small>Published: August 10, 2025 • Event Review</small>
-                                </div>
-                                <div>
-                                    <button style="background: #5865f2; color: white; border: none; padding: 8px 15px; border-radius: 5px; margin-right: 5px; cursor: pointer;">Edit</button>
-                                    <button style="background: #ff4757; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer;">Delete</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div id="adminCopy" class="admin-section hidden">
-                    <h3>Edit Page Copy</h3>
-                    
-                    <div style="background: white; padding: 30px; border-radius: 15px; margin-bottom: 20px;">
-                        <h4>Hero Section</h4>
-                        <div style="margin-bottom: 20px;">
-                            <label style="display: block; margin-bottom: 8px; font-weight: bold;">Main Title</label>
-                            <input type="text" value="Quabbin Vibes" style="width: 100%; padding: 12px; border: 2px solid #e5e7eb; border-radius: 8px;">
-                        </div>
-                        <div style="margin-bottom: 20px;">
-                            <label style="display: block; margin-bottom: 8px; font-weight: bold;">Subtitle</label>
-                            <textarea style="width: 100%; padding: 12px; border: 2px solid #e5e7eb; border-radius: 8px; min-height: 80px; resize: vertical;">Discover authentic events and hidden gems across Western & Central New England</textarea>
-                        </div>
-                        <button onclick="updateHeroCopy()" style="background: #5865f2; color: white; border: none; padding: 12px 25px; border-radius: 8px; font-weight: bold; cursor: pointer;">Update Hero Copy</button>
-                    </div>
-                    
-                    <div style="background: white; padding: 30px; border-radius: 15px; margin-bottom: 20px;">
-                        <h4>About Page</h4>
-                        <div style="margin-bottom: 20px;">
-                            <label style="display: block; margin-bottom: 8px; font-weight: bold;">Page Title</label>
-                            <input type="text" value="About Quabbin Vibes" style="width: 100%; padding: 12px; border: 2px solid #e5e7eb; border-radius: 8px;">
-                        </div>
-                        <div style="margin-bottom: 20px;">
-                            <label style="display: block; margin-bottom: 8px; font-weight: bold;">Mission Statement</label>
-                            <textarea style="width: 100%; padding: 12px; border: 2px solid #e5e7eb; border-radius: 8px; min-height: 120px; resize: vertical;">Quabbin Vibes is a professional media platform dedicated to comprehensive coverage of events and venues across Western and Central New England.</textarea>
-                        </div>
-                        <button onclick="updateAboutCopy()" style="background: #5865f2; color: white; border: none; padding: 12px 25px; border-radius: 8px; font-weight: bold; cursor: pointer;">Update About Copy</button>
-                    </div>
-                    
-                    <div style="background: white; padding: 30px; border-radius: 15px;">
-                        <h4>Photography & Reviews Page</h4>
-                        <div style="margin-bottom: 20px;">
-                            <label style="display: block; margin-bottom: 8px; font-weight: bold;">Page Description</label>
-                            <textarea style="width: 100%; padding: 12px; border: 2px solid #e5e7eb; border-radius: 8px; min-height: 100px; resize: vertical;">Professional event coverage and venue reviews across the region</textarea>
-                        </div>
-                        <button onclick="updatePhotographyCopy()" style="background: #5865f2; color: white; border: none; padding: 12px 25px; border-radius: 8px; font-weight: bold; cursor: pointer;">Update Photography Copy</button>
-                    </div>
-                </div>
-
-                <div id="adminSubmissions" class="admin-section hidden">
-                    <h3>Event Submissions</h3>
-                    
-                    <div style="background: #f8f9fa; padding: 20px; border-radius: 10px;">
-                        <h4>Pending Submissions (2)</h4>
-                        <div style="margin-top: 15px;">
-                            <div style="display: flex; justify-content: space-between; align-items: center; padding: 15px; background: white; border-radius: 8px; margin-bottom: 10px;">
-                                <div>
-                                    <strong>Local Band Concert</strong><br>
-                                    <small>Submitted: August 9, 2025 • Springfield, MA</small>
-                                </div>
-                                <div>
-                                    <button style="background: #2ed573; color: white; border: none; padding: 8px 15px; border-radius: 5px; margin-right: 5px; cursor: pointer;">Approve</button>
-                                    <button style="background: #ff4757; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer;">Reject</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div id="adminFeatured" class="admin-section hidden">
-                    <h3>Featured Events Revenue</h3>
-                    
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 30px;">
-                        <div style="background: #2ed573; color: white; padding: 20px; border-radius: 10px; text-align: center;">
-                            <h4>Monthly Revenue</h4>
-                            <div style="font-size: 2em; font-weight: bold;">$150</div>
-                        </div>
-                        <div style="background: #5865f2; color: white; padding: 20px; border-radius: 10px; text-align: center;">
-                            <h4>Featured Events</h4>
-                            <div style="font-size: 2em; font-weight: bold;">3</div>
-                        </div>
-                    </div>
-
-                    <div style="background: #f8f9fa; padding: 20px; border-radius: 10px;">
-                        <h4>Current Featured Events</h4>
-                        <div style="margin-top: 15px;">
-                            <div style="display: flex; justify-content: space-between; align-items: center; padding: 15px; background: white; border-radius: 8px; margin-bottom: 10px;">
-                                <div>
-                                    <strong>Tanglewood Summer Concert</strong><br>
-                                    <small>$50/month • Expires: September 14, 2025</small>
-                                </div>
-                                <div>
-                                    <button style="background: #ff4757; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer;">Remove Featured</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div id="adminStats" class="admin-section hidden">
-                    <h3>Website Statistics</h3>
-                    
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px;">
-                        <div style="background: #5865f2; color: white; padding: 20px; border-radius: 10px; text-align: center;">
-                            <h4>Monthly Visitors</h4>
-                            <div style="font-size: 2em; font-weight: bold;">2,847</div>
-                        </div>
-                        <div style="background: #2ed573; color: white; padding: 20px; border-radius: 10px; text-align: center;">
-                            <h4>Events Listed</h4>
-                            <div style="font-size: 2em; font-weight: bold;">142</div>
-                        </div>
-                        <div style="background: #ff6b81; color: white; padding: 20px; border-radius: 10px; text-align: center;">
-                            <h4>Blog Posts</h4>
-                            <div style="font-size: 2em; font-weight: bold;">18</div>
-                        </div>
-                        <div style="background: #ffa502; color: white; padding: 20px; border-radius: 10px; text-align: center;">
-                            <h4>Featured Revenue</h4>
-                            <div style="font-size: 2em; font-weight: bold;">$150</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div id="adminPhotos" class="admin-section hidden">
-                    <h3>Hero Photo Scheduler</h3>
-                    
-                    <div style="background: #f8f9fa; padding: 20px; border-radius: 10px; margin-bottom: 30px;">
-                        <h4>Current Hero Background</h4>
-                        <div style="display: flex; align-items: center; gap: 20px; margin-top: 15px;">
-                            <div style="width: 200px; height: 120px; background: url('https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80'); background-size: cover; background-position: center; border-radius: 8px; border: 2px solid #5865f2;"></div>
-                            <div>
-                                <strong>Concert Stage Photography</strong><br>
-                                <small style="color: #666;">Active Now • Professional Event Coverage</small><br>
-                                <button style="background: #5865f2; color: white; border: none; padding: 8px 15px; border-radius: 5px; margin-top: 10px; cursor: pointer;" onclick="changeHeroImage()">Change Image</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div style="background: white; padding: 30px; border-radius: 10px; margin-bottom: 20px;">
-                        <h4>Add New Scheduled Photo</h4>
-                        <form onsubmit="addScheduledPhoto(event)" style="display: grid; gap: 20px;">
-                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
-                                <div>
-                                    <label style="display: block; margin-bottom: 8px; font-weight: bold;">Start Date</label>
-                                    <input type="date" required style="width: 100%; padding: 12px; border: 2px solid #e5e7eb; border-radius: 8px;">
-                                </div>
-                                <div>
-                                    <label style="display: block; margin-bottom: 8px; font-weight: bold;">End Date</label>
-                                    <input type="date" required style="width: 100%; padding: 12px; border: 2px solid #e5e7eb; border-radius: 8px;">
-                                </div>
-                            </div>
-                            <div>
-                                <label style="display: block; margin-bottom: 8px; font-weight: bold;">Photo Title/Description</label>
-                                <input type="text" required placeholder="e.g., Summer Festival Photography Series" style="width: 100%; padding: 12px; border: 2px solid #e5e7eb; border-radius: 8px;">
-                            </div>
-                            <div>
-                                <label style="display: block; margin-bottom: 8px; font-weight: bold;">Image URL</label>
-                                <input type="url" required placeholder="https://..." style="width: 100%; padding: 12px; border: 2px solid #e5e7eb; border-radius: 8px;">
-                            </div>
-                            <div>
-                                <label style="display: block; margin-bottom: 8px; font-weight: bold;">Photo Credit</label>
-                                <input type="text" placeholder="e.g., Your Event Photography" style="width: 100%; padding: 12px; border: 2px solid #e5e7eb; border-radius: 8px;">
-                            </div>
-                            <button type="submit" style="background: #5865f2; color: white; border: none; padding: 15px 30px; border-radius: 8px; font-weight: bold; cursor: pointer; justify-self: start;">Schedule Photo</button>
-                        </form>
-                    </div>
-                    
-                    <div style="background: #f8f9fa; padding: 20px; border-radius: 10px;">
-                        <h4>Scheduled Photography Backgrounds</h4>
-                        <p style="color: #666; margin-bottom: 20px;">Manage your scheduled hero background images.</p>
-                        
-                        <div id="scheduledPhotos">
-                            <div style="display: flex; justify-content: space-between; align-items: center; padding: 15px; background: white; border-radius: 8px; margin-bottom: 10px; border-left: 4px solid #2ed573;">
-                                <div style="display: flex; align-items: center; gap: 15px;">
-                                    <div style="width: 80px; height: 50px; background: url('https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80'); background-size: cover; background-position: center; border-radius: 4px;"></div>
-                                    <div>
-                                        <strong>Concert Stage Photography</strong><br>
-                                        <small style="color: #2ed573;">● Active: Aug 10-20, 2025</small>
-                                    </div>
-                                </div>
-                                <div>
-                                    <button style="background: #5865f2; color: white; border: none; padding: 8px 15px; border-radius: 5px; margin-right: 5px; cursor: pointer;">Edit</button>
-                                    <button style="background: #ff4757; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer;">Remove</button>
-                                </div>
-                            </div>
-
-                            <div style="display: flex; justify-content: space-between; align-items: center; padding: 15px; background: white; border-radius: 8px; margin-bottom: 10px; border-left: 4px solid #5865f2;">
-                                <div style="display: flex; align-items: center; gap: 15px;">
-                                    <div style="width: 80px; height: 50px; background: url('https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80'); background-size: cover; background-position: center; border-radius: 4px;"></div>
-                                    <div>
-                                        <strong>Festival Photography Series</strong><br>
-                                        <small style="color: #5865f2;">● Scheduled: Aug 21-30, 2025</small>
-                                    </div>
-                                </div>
-                                <div>
-                                    <button style="background: #5865f2; color: white; border: none; padding: 8px 15px; border-radius: 5px; margin-right: 5px; cursor: pointer;">Edit</button>
-                                    <button style="background: #ff4757; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer;">Remove</button>
-                                </div>
-                            </div>
-
-                            <div style="display: flex; justify-content: space-between; align-items: center; padding: 15px; background: white; border-radius: 8px; margin-bottom: 10px; border-left: 4px solid #ffa502;">
-                                <div style="display: flex; align-items: center; gap: 15px;">
-                                    <div style="width: 80px; height: 50px; background: url('https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80'); background-size: cover; background-position: center; border-radius: 4px;"></div>
-                                    <div>
-                                        <strong>Fall Arts Coverage</strong><br>
-                                        <small style="color: #ffa502;">● Scheduled: Sep 1-15, 2025</small>
-                                    </div>
-                                </div>
-                                <div>
-                                    <button style="background: #5865f2; color: white; border: none; padding: 8px 15px; border-radius: 5px; margin-right: 5px; cursor: pointer;">Edit</button>
-                                    <button style="background: #ff4757; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer;">Remove</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+  <footer class="border-t border-slate-200 bg-white">
+    <div class="container py-8 flex flex-col md:flex-row items-center justify-between gap-4">
+      <p class="text-sm text-slate-500">© <span id="y"></span> Quabbin Vibes. All rights reserved.</p>
+      <div class="flex items-center gap-3 text-sm">
+        <a href="#" class="hover:text-sky-600">Privacy</a>
+        <span class="text-slate-300">•</span>
+        <a href="#" class="hover:text-sky-600">Terms</a>
+        <span class="text-slate-300">•</span>
+        <a href="mailto:hello@quabbinvibes.com" class="hover:text-sky-600">Contact</a>
+      </div>
     </div>
+  </footer>
 
-    <!-- Admin Page -->
-    <div id="adminPage" class="page-content">
-        <div style="background: #f8f9fa; min-height: 100vh; padding: 20px;">
-            <div style="max-width: 1200px; margin: 0 auto;">
-                <div style="background: white; padding: 30px; border-radius: 15px; margin-bottom: 30px; box-shadow: 0 5px 20px rgba(0,0,0,0.1);">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
-                        <h1 style="color: #333; margin: 0;">Quabbin Vibes Admin</h1>
-                        <button onclick="showPage('home')" style="background: #ff4757; color: white; border: none; padding: 12px 20px; border-radius: 8px; cursor: pointer; font-weight: bold;">Back to Site</button>
-                    </div>
+  <script>
+    // basic JS: year, menu, theme toggle (prefers-color-scheme aware)
+    document.getElementById('y').textContent = new Date().getFullYear();
 
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-bottom: 40px;">
-                        <div style="background: #5865f2; color: white; padding: 25px; border-radius: 15px; text-align: center;">
-                            <h3>Total Events</h3>
-                            <div style="font-size: 2.5em; font-weight: bold; margin: 10px 0;" id="totalEvents">3</div>
-                            <small>Currently listed</small>
-                        </div>
-                        <div style="background: #2ed573; color: white; padding: 25px; border-radius: 15px; text-align: center;">
-                            <h3>Blog Posts</h3>
-                            <div style="font-size: 2.5em; font-weight: bold; margin: 10px 0;" id="totalPosts">0</div>
-                            <small>Published</small>
-                        </div>
-                        <div style="background: #ff6b81; color: white; padding: 25px; border-radius: 15px; text-align: center;">
-                            <h3>Revenue</h3>
-                            <div style="font-size: 2.5em; font-weight: bold; margin: 10px 0;" id="totalRevenue">$50</div>
-                            <small>From featured events</small>
-                        </div>
-                        <div style="background: #ffa502; color: white; padding: 25px; border-radius: 15px; text-align: center;">
-                            <h3>Page Views</h3>
-                            <div style="font-size: 2.5em; font-weight: bold; margin: 10px 0;" id="pageViews">-</div>
-                            <small>Analytics not setup</small>
-                        </div>
-                    </div>
-                </div>
+    const menuBtn = document.getElementById('menuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    menuBtn?.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
 
-                <!-- Hero Image Management -->
-                <div style="background: white; padding: 30px; border-radius: 15px; margin-bottom: 30px; box-shadow: 0 5px 20px rgba(0,0,0,0.1);">
-                    <h2 style="color: #333; margin-bottom: 25px;">🖼️ Hero Image Management</h2>
-                    
-                    <div style="display: grid; grid-template-columns: 300px 1fr; gap: 30px; align-items: start;">
-                        <div>
-                            <h4>Current Image</h4>
-                            <div style="width: 280px; height: 160px; background: url('https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80'); background-size: cover; background-position: center; border-radius: 10px; border: 3px solid #5865f2; margin: 15px 0;"></div>
-                            <small style="color: #666;">Concert Photography</small>
-                        </div>
-                        
-                        <div>
-                            <h4 style="margin-bottom: 20px;">Change Hero Image</h4>
-                            <div style="margin-bottom: 20px;">
-                                <label style="display: block; margin-bottom: 8px; font-weight: bold;">New Image URL</label>
-                                <input type="url" id="heroImageUrl" placeholder="https://images.unsplash.com/..." style="width: 100%; padding: 12px; border: 2px solid #e5e7eb; border-radius: 8px;">
-                            </div>
-                            <div style="margin-bottom: 20px;">
-                                <label style="display: block; margin-bottom: 8px; font-weight: bold;">Photo Credit</label>
-                                <input type="text" id="heroCredit" placeholder="Your Event Photography" style="width: 100%; padding: 12px; border: 2px solid #e5e7eb; border-radius: 8px;">
-                            </div>
-                            <button onclick="updateHeroImage()" style="background: #5865f2; color: white; border: none; padding: 15px 30px; border-radius: 8px; font-weight: bold; cursor: pointer;">Update Hero Image</button>
-                        </div>
-                    </div>
-                </div>
+    const themeToggle = document.getElementById('themeToggle');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
+    const root = document.documentElement;
 
-                <!-- Add New Event -->
-                <div style="background: white; padding: 30px; border-radius: 15px; margin-bottom: 30px; box-shadow: 0 5px 20px rgba(0,0,0,0.1);">
-                    <h2 style="color: #333; margin-bottom: 25px;">📅 Add New Event</h2>
-                    
-                    <form onsubmit="addEvent(event)" style="display: grid; gap: 20px;">
-                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
-                            <div>
-                                <label style="display: block; margin-bottom: 8px; font-weight: bold;">Event Name</label>
-                                <input type="text" required style="width: 100%; padding: 12px; border: 2px solid #e5e7eb; border-radius: 8px;">
-                            </div>
-                            <div>
-                                <label style="display: block; margin-bottom: 8px; font-weight: bold;">Category</label>
-                                <select required style="width: 100%; padding: 12px; border: 2px solid #e5e7eb; border-radius: 8px;">
-                                    <option value="">Select category...</option>
-                                    <option value="music">Music</option>
-                                    <option value="festival">Festival</option>
-                                    <option value="arts">Arts & Culture</option>
-                                    <option value="sports">Sports</option>
-                                    <option value="food">Food & Drink</option>
-                                </select>
-                            </div>
-                        </div>
-                        
-                        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px;">
-                            <div>
-                                <label style="display: block; margin-bottom: 8px; font-weight: bold;">Date</label>
-                                <input type="date" required style="width: 100%; padding: 12px; border: 2px solid #e5e7eb; border-radius: 8px;">
-                            </div>
-                            <div>
-                                <label style="display: block; margin-bottom: 8px; font-weight: bold;">Time</label>
-                                <input type="time" required style="width: 100%; padding: 12px; border: 2px solid #e5e7eb; border-radius: 8px;">
-                            </div>
-                            <div>
-                                <label style="display: block; margin-bottom: 8px; font-weight: bold;">Price</label>
-                                <input type="text" placeholder="Free, $25, etc." style="width: 100%; padding: 12px; border: 2px solid #e5e7eb; border-radius: 8px;">
-                            </div>
-                        </div>
-                        
-                        <div>
-                            <label style="display: block; margin-bottom: 8px; font-weight: bold;">Venue & Location</label>
-                            <input type="text" required placeholder="Venue Name, City, State" style="width: 100%; padding: 12px; border: 2px solid #e5e7eb; border-radius: 8px;">
-                        </div>
-                        
-                        <div>
-                            <label style="display: block; margin-bottom: 8px; font-weight: bold;">Event Photo URL</label>
-                            <input type="url" placeholder="https://..." style="width: 100%; padding: 12px; border: 2px solid #e5e7eb; border-radius: 8px;">
-                        </div>
-                        
-                        <div>
-                            <label style="display: block; margin-bottom: 8px; font-weight: bold;">Description</label>
-                            <textarea required style="width: 100%; padding: 12px; border: 2px solid #e5e7eb; border-radius: 8px; min-height: 100px; resize: vertical;"></textarea>
-                        </div>
-                        
-                        <div style="display: flex; gap: 20px; align-items: center;">
-                            <label style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
-                                <input type="checkbox" style="transform: scale(1.2);">
-                                <span>Featured Event (+$50/month)</span>
-                            </label>
-                            <button type="submit" style="background: #2ed573; color: white; border: none; padding: 15px 30px; border-radius: 8px; font-weight: bold; cursor: pointer; margin-left: auto;">Add Event</button>
-                        </div>
-                    </form>
-                </div>
-
-                <!-- Add Blog Post -->
-                <div style="background: white; padding: 30px; border-radius: 15px; margin-bottom: 30px; box-shadow: 0 5px 20px rgba(0,0,0,0.1);">
-                    <h2 style="color: #333; margin-bottom: 25px;">✍️ Create Blog Post</h2>
-                    
-                    <form onsubmit="addBlogPost(event)" style="display: grid; gap: 20px;">
-                        <div>
-                            <label style="display: block; margin-bottom: 8px; font-weight: bold;">Post Title</label>
-                            <input type="text" required style="width: 100%; padding: 12px; border: 2px solid #e5e7eb; border-radius: 8px;">
-                        </div>
-                        
-                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
-                            <div>
-                                <label style="display: block; margin-bottom: 8px; font-weight: bold;">Category</label>
-                                <select required style="width: 100%; padding: 12px; border: 2px solid #e5e7eb; border-radius: 8px;">
-                                    <option value="">Select category...</option>
-                                    <option value="event-review">Event Review</option>
-                                    <option value="venue-review">Venue Review</option>
-                                    <option value="photography">Photography</option>
-                                    <option value="news">News</option>
-                                </select>
-                            </div>
-                            <div>
-                                <label style="display: block; margin-bottom: 8px; font-weight: bold;">Featured Image URL</label>
-                                <input type="url" placeholder="https://..." style="width: 100%; padding: 12px; border: 2px solid #e5e7eb; border-radius: 8px;">
-                            </div>
-                        </div>
-                        
-                        <div>
-                            <label style="display: block; margin-bottom: 8px; font-weight: bold;">Excerpt/Summary</label>
-                            <textarea placeholder="Brief summary for previews..." style="width: 100%; padding: 12px; border: 2px solid #e5e7eb; border-radius: 8px; min-height: 80px; resize: vertical;"></textarea>
-                        </div>
-                        
-                        <div>
-                            <label style="display: block; margin-bottom: 8px; font-weight: bold;">Content</label>
-                            <textarea required placeholder="Write your blog post content here..." style="width: 100%; padding: 12px; border: 2px solid #e5e7eb; border-radius: 8px; min-height: 300px; resize: vertical;"></textarea>
-                        </div>
-                        
-                        <div style="display: flex; gap: 15px;">
-                            <button type="submit" style="background: #2ed573; color: white; border: none; padding: 15px 30px; border-radius: 8px; font-weight: bold; cursor: pointer;">Publish Post</button>
-                            <button type="button" style="background: #ffa502; color: white; border: none; padding: 15px 30px; border-radius: 8px; font-weight: bold; cursor: pointer;">Save Draft</button>
-                        </div>
-                    </form>
-                </div>
-
-                <!-- Edit Navigation & Site Settings -->
-                <div style="background: white; padding: 30px; border-radius: 15px; margin-bottom: 30px; box-shadow: 0 5px 20px rgba(0,0,0,0.1);">
-                    <h2 style="color: #333; margin-bottom: 25px;">⚙️ Site Settings & Navigation</h2>
-                    
-                    <div style="display: grid; gap: 30px;">
-                        <div>
-                            <h4>Navigation Menu Items</h4>
-                            <div style="display: grid; gap: 15px;">
-                                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
-                                    <div>
-                                        <label style="display: block; margin-bottom: 8px; font-weight: bold;">Events Page Title</label>
-                                        <input type="text" id="navEvents" value="Events" style="width: 100%; padding: 12px; border: 2px solid #e5e7eb; border-radius: 8px;">
-                                    </div>
-                                    <div>
-                                        <label style="display: block; margin-bottom: 8px; font-weight: bold;">Photography Page Title</label>
-                                        <input type="text" id="navPhotography" value="Photography & Reviews" style="width: 100%; padding: 12px; border: 2px solid #e5e7eb; border-radius: 8px;">
-                                    </div>
-                                </div>
-                                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px;">
-                                    <div>
-                                        <label style="display: block; margin-bottom: 8px; font-weight: bold;">Venues Page Title</label>
-                                        <input type="text" id="navVenues" value="Venues" style="width: 100%; padding: 12px; border: 2px solid #e5e7eb; border-radius: 8px;">
-                                    </div>
-                                    <div>
-                                        <label style="display: block; margin-bottom: 8px; font-weight: bold;">About Page Title</label>
-                                        <input type="text" id="navAbout" value="About" style="width: 100%; padding: 12px; border: 2px solid #e5e7eb; border-radius: 8px;">
-                                    </div>
-                                    <div>
-                                        <label style="display: block; margin-bottom: 8px; font-weight: bold;">Contact Page Title</label>
-                                        <input type="text" id="navContact" value="Contact" style="width: 100%; padding: 12px; border: 2px solid #e5e7eb; border-radius: 8px;">
-                                    </div>
-                                </div>
-                            </div>
-                            <button onclick="updateNavigation()" style="background: #5865f2; color: white; border: none; padding: 12px 25px; border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 15px;">Update Navigation</button>
-                        </div>
-                        
-                        <div>
-                            <h4>Site Logo & Branding</h4>
-                            <div style="margin-bottom: 15px;">
-                                <label style="display: block; margin-bottom: 8px; font-weight: bold;">Site Logo Text</label>
-                                <input type="text" id="siteLogo" value="Quabbin Vibes" style="width: 100%; padding: 12px; border: 2px solid #e5e7eb; border-radius: 8px;">
-                            </div>
-                            <button onclick="updateBranding()" style="background: #5865f2; color: white; border: none; padding: 12px 25px; border-radius: 8px; font-weight: bold; cursor: pointer;">Update Branding</button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Event Scraper & Auto-Import -->
-                <div style="background: white; padding: 30px; border-radius: 15px; margin-bottom: 30px; box-shadow: 0 5px 20px rgba(0,0,0,0.1);">
-                    <h2 style="color: #333; margin-bottom: 25px;">🤖 Event Scraper & Auto-Import</h2>
-                    
-                    <div style="background: #f8f9fa; padding: 20px; border-radius: 10px; margin-bottom: 20px;">
-                        <h4 style="color: #333; margin-bottom: 15px;">Regional Event Sources</h4>
-                        <p style="color: #666; margin-bottom: 20px;">Set up automatic event importing from major venues and event platforms in your coverage area.</p>
-                        
-                        <div style="display: grid; gap: 15px;">
-                            <div style="display: flex; justify-content: space-between; align-items: center; padding: 15px; background: white; border-radius: 8px;">
-                                <div>
-                                    <strong>Tanglewood Music Center</strong><br>
-                                    <small style="color: #666;">Lenox, MA - Official venue calendar</small>
-                                </div>
-                                <button style="background: #2ed573; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; font-weight: bold;">Connect</button>
-                            </div>
-                            
-                            <div style="display: flex; justify-content: space-between; align-items: center; padding: 15px; background: white; border-radius: 8px;">
-                                <div>
-                                    <strong>Mass MoCA</strong><br>
-                                    <small style="color: #666;">North Adams, MA - Arts events</small>
-                                </div>
-                                <button style="background: #2ed573; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; font-weight: bold;">Connect</button>
-                            </div>
-                            
-                            <div style="display: flex; justify-content: space-between; align-items: center; padding: 15px; background: white; border-radius: 8px;">
-                                <div>
-                                    <strong>Eventbrite</strong><br>
-                                    <small style="color: #666;">Regional events in Western MA/VT/NH/CT</small>
-                                </div>
-                                <button style="background: #ffa502; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; font-weight: bold;">Setup API</button>
-                            </div>
-                            
-                            <div style="display: flex; justify-content: space-between; align-items: center; padding: 15px; background: white; border-radius: 8px;">
-                                <div>
-                                    <strong>Facebook Events</strong><br>
-                                    <small style="color: #666;">Local event pages and groups</small>
-                                </div>
-                                <button style="background: #ffa502; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; font-weight: bold;">Setup API</button>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div style="background: white; padding: 20px; border: 1px solid #e5e7eb; border-radius: 10px;">
-                        <h4>Manual Event Import</h4>
-                        <div style="margin-bottom: 15px;">
-                            <label style="display: block; margin-bottom: 8px; font-weight: bold;">Event Source URL</label>
-                            <input type="url" placeholder="https://venue-website.com/events" style="width: 100%; padding: 12px; border: 2px solid #e5e7eb; border-radius: 8px;">
-                        </div>
-                        <div style="margin-bottom: 15px;">
-                            <label style="display: block; margin-bottom: 8px; font-weight: bold;">Import Type</label>
-                            <select style="width: 100%; padding: 12px; border: 2px solid #e5e7eb; border-radius: 8px;">
-                                <option value="">Select import method...</option>
-                                <option value="rss">RSS Feed</option>
-                                <option value="ical">iCal/Calendar Feed</option>
-                                <option value="json">JSON API</option>
-                                <option value="scrape">Web Scraping</option>
-                            </select>
-                        </div>
-                        <button onclick="testEventImport()" style="background: #5865f2; color: white; border: none; padding: 12px 25px; border-radius: 8px; font-weight: bold; cursor: pointer; margin-right: 10px;">Test Import</button>
-                        <button onclick="scheduleImport()" style="background: #2ed573; color: white; border: none; padding: 12px 25px; border-radius: 8px; font-weight: bold; cursor: pointer;">Schedule Daily Import</button>
-                    </div>
-                </div>
-                <div style="background: white; padding: 30px; border-radius: 15px; margin-bottom: 30px; box-shadow: 0 5px 20px rgba(0,0,0,0.1);">
-                    <h2 style="color: #333; margin-bottom: 25px;">📝 Edit Page Copy</h2>
-                    
-                    <div style="display: grid; gap: 30px;">
-                        <div>
-                            <h4>Hero Section</h4>
-                            <div style="margin-bottom: 15px;">
-                                <label style="display: block; margin-bottom: 8px; font-weight: bold;">Main Title</label>
-                                <input type="text" id="heroTitle" value="Quabbin Vibes" style="width: 100%; padding: 12px; border: 2px solid #e5e7eb; border-radius: 8px;">
-                            </div>
-                            <div style="margin-bottom: 15px;">
-                                <label style="display: block; margin-bottom: 8px; font-weight: bold;">Subtitle</label>
-                                <textarea id="heroSubtitle" style="width: 100%; padding: 12px; border: 2px solid #e5e7eb; border-radius: 8px; min-height: 80px; resize: vertical;">Discover authentic events and hidden gems across Western & Central New England</textarea>
-                            </div>
-                            <button onclick="updateHeroCopy()" style="background: #5865f2; color: white; border: none; padding: 12px 25px; border-radius: 8px; font-weight: bold; cursor: pointer;">Update Hero Copy</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Footer -->
-    <footer>
-        <div class="footer-content">
-            <div class="footer-section">
-                <h3>Quabbin Vibes</h3>
-                <p>Your complete regional events platform covering Western & Central New England.</p>
-                <p><strong>Coverage Area:</strong><br>
-                Worcester to Pittsfield<br>
-                Brattleboro to Hartford</p>
-            </div>
-
-            <div class="footer-section">
-                <h3>Quick Links</h3>
-                <ul>
-                    <li><a href="#" onclick="showPage('events')">Events</a></li>
-                    <li><a href="#" onclick="showPage('photography')">Photography & Reviews</a></li>
-                    <li><a href="#" onclick="showPage('venues')">Featured Venues</a></li>
-                    <li><a href="#" onclick="showPage('submit')">Submit Event</a></li>
-                </ul>
-            </div>
-
-            <div class="footer-section">
-                <h3>Media Services</h3>
-                <ul>
-                    <li>Professional Event Photography</li>
-                    <li>Venue Reviews & Coverage</li>
-                    <li>Press Credentials Available</li>
-                    <li>Regional Media Coverage</li>
-                </ul>
-            </div>
-
-            <div class="footer-section">
-                <h3>Contact Information</h3>
-                <p>📧 press@quabbinvibes.com</p>
-                <p>📸 photography@quabbinvibes.com</p>
-                <p>🤝 partnerships@quabbinvibes.com</p>
-                <p><a href="#" onclick="showPage('contact')">Contact Form</a></p>
-            </div>
-        </div>
-
-        <div class="footer-bottom">
-            <p>&copy; 2025 Quabbin Vibes. All rights reserved. | Professional Regional Media Coverage</p>
-            <p class="admin-access" onclick="adminLogin()">•</p>
-        </div>
-    </footer>
-
-    <script>
-        // Ensure all functions are defined before use
-        
-        // Global variables
-        let currentPage = 'home';
-        let isAdminLoggedIn = false;
-
-        // Define all functions first
-        function showAdminLogin() {
-            const password = prompt('Enter admin password:');
-            if (password === 'QuabbinVibes2025!') {
-                isAdminLoggedIn = true;
-                const adminPanel = document.getElementById('adminPanel');
-                if (adminPanel) {
-                    adminPanel.style.display = 'block';
-                    showAdminTab('dashboard');
-                }
-            } else if (password !== null && password !== '') {
-                alert('Incorrect password.');
-            }
-        }
-
-        function closeAdmin() {
-            const adminPanel = document.getElementById('adminPanel');
-            if (adminPanel) {
-                adminPanel.style.display = 'none';
-            }
-            isAdminLoggedIn = false;
-        }
-
-        // Navigation functions
-        function showPage(pageId) {
-            // Hide all pages
-            const pages = document.querySelectorAll('.page-content');
-            pages.forEach(page => {
-                page.classList.remove('active');
-            });
-
-            // Show selected page
-            const targetPage = document.getElementById(pageId + 'Page');
-            if (targetPage) {
-                targetPage.classList.add('active');
-                currentPage = pageId;
-            }
-
-            // Close mobile menu if open
-            const mobileNav = document.getElementById('mobileNav');
-            if (mobileNav) {
-                mobileNav.style.display = 'none';
-            }
-
-            // Scroll to top
-            window.scrollTo(0, 0);
-        }
-
-        function toggleMobileMenu() {
-            const mobileNav = document.getElementById('mobileNav');
-            if (mobileNav) {
-                mobileNav.style.display = mobileNav.style.display === 'block' ? 'none' : 'block';
-            }
-        }
-
-        // Search functions
-        function searchEvents() {
-            alert('Search functionality would filter events based on selected criteria.');
-        }
-
-        // Form submission functions
-        function submitContact(event) {
-            event.preventDefault();
-            alert('Thank you for your message! We will respond to your inquiry within 24 hours.');
-            event.target.reset();
-        }
-
-        function submitEvent(event) {
-            event.preventDefault();
-            alert('Thank you for submitting your event! We will review it and contact you within 2-3 business days.');
-            event.target.reset();
-        }
-
-        // Admin functions
-        function showAdminLogin() {
-            const password = prompt('Enter admin password:');
-            if (password === 'QuabbinVibes2025!') {
-                isAdminLoggedIn = true;
-                const adminPanel = document.getElementById('adminPanel');
-                if (adminPanel) {
-                    adminPanel.style.display = 'block';
-                    showAdminTab('dashboard');
-                }
-            } else if (password !== null && password !== '') {
-                alert('Incorrect password.');
-            }
-        }
-
-        function closeAdmin() {
-            const adminPanel = document.getElementById('adminPanel');
-            if (adminPanel) {
-                adminPanel.style.display = 'none';
-            }
-            isAdminLoggedIn = false;
-        }
-
-        function closeAdmin() {
-            const adminPanel = document.getElementById('adminPanel');
-            if (adminPanel) {
-                adminPanel.style.display = 'none';
-            }
-            isAdminLoggedIn = false;
-        }
-
-        function showAdminTab(tabName) {
-            // Update tab buttons
-            const tabs = document.querySelectorAll('.admin-tab');
-            tabs.forEach(tab => {
-                tab.classList.remove('active');
-            });
-            
-            // Find and activate the correct tab
-            tabs.forEach(tab => {
-                const tabText = tab.textContent.toLowerCase();
-                if ((tabName === 'dashboard' && tabText.includes('dashboard')) ||
-                    (tabName === 'hero' && tabText.includes('hero')) ||
-                    (tabName === 'events' && tabText.includes('events')) ||
-                    (tabName === 'blog' && tabText.includes('blog')) ||
-                    (tabName === 'copy' && tabText.includes('copy')) ||
-                    (tabName === 'stats' && tabText.includes('statistics'))) {
-                    tab.classList.add('active');
-                }
-            });
-
-            // Hide all admin sections
-            const sections = document.querySelectorAll('.admin-section');
-            sections.forEach(section => {
-                section.classList.add('hidden');
-            });
-
-            // Show selected section
-            const targetSection = document.getElementById('admin' + tabName.charAt(0).toUpperCase() + tabName.slice(1));
-            if (targetSection) {
-                targetSection.classList.remove('hidden');
-            }
-        }
-
-        function adminLogin() {
-            const password = prompt('Enter admin password:');
-            if (password === 'QuabbinVibes2025!') {
-                showPage('admin');
-            } else if (password !== null && password !== '') {
-                alert('Incorrect password.');
-            }
-        }
-
-        // Admin functionality - now much simpler
-        function updateHeroImage() {
-            const imageUrl = document.getElementById('heroImageUrl').value;
-            const credit = document.getElementById('heroCredit').value;
-            
-            if (imageUrl) {
-                const heroSection = document.getElementById('heroSection');
-                if (heroSection) {
-                    heroSection.style.backgroundImage = `linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.6)), url('${imageUrl}')`;
-                    
-                    // Update photo credit if provided
-                    if (credit) {
-                        const photoCredit = heroSection.querySelector('.photo-credit');
-                        if (photoCredit) {
-                            photoCredit.textContent = `📸 ${credit}`;
-                        }
-                    }
-                    
-                    alert('Hero image updated successfully!');
-                    document.getElementById('heroImageUrl').value = '';
-                    document.getElementById('heroCredit').value = '';
-                }
-            } else {
-                alert('Please enter an image URL');
-            }
-        }
-
-        function addEvent(event) {
-            event.preventDefault();
-            alert('Event added successfully! It will appear on the events page.');
-            event.target.reset();
-        }
-
-        function addBlogPost(event) {
-            event.preventDefault();
-            alert('Blog post created successfully! It will appear in the Photography & Reviews section.');
-            event.target.reset();
-        }
-
-        function updateHeroCopy() {
-            const title = document.getElementById('heroTitle').value;
-            const subtitle = document.getElementById('heroSubtitle').value;
-            
-            // Update the actual hero section
-            const heroTitle = document.querySelector('.hero h1');
-            const heroSubtitle = document.querySelector('.hero-subtitle');
-            
-            if (heroTitle && title) {
-                heroTitle.textContent = title;
-            }
-            if (heroSubtitle && subtitle) {
-                heroSubtitle.textContent = subtitle;
-            }
-            
-            alert('Hero copy updated successfully!');
-        }
-
-        // Navigation and branding updates
-        function updateNavigation() {
-            const eventsText = document.getElementById('navEvents').value;
-            const photographyText = document.getElementById('navPhotography').value;
-            const venuesText = document.getElementById('navVenues').value;
-            const aboutText = document.getElementById('navAbout').value;
-            const contactText = document.getElementById('navContact').value;
-            
-            // Update desktop navigation
-            const navLinks = document.querySelectorAll('.nav-desktop a');
-            if (navLinks[0]) navLinks[0].textContent = eventsText;
-            if (navLinks[1]) navLinks[1].textContent = photographyText;
-            if (navLinks[2]) navLinks[2].textContent = venuesText;
-            if (navLinks[3]) navLinks[3].textContent = aboutText;
-            if (navLinks[4]) navLinks[4].textContent = contactText;
-            
-            // Update mobile navigation
-            const mobileLinks = document.querySelectorAll('.nav-mobile a');
-            if (mobileLinks[0]) mobileLinks[0].textContent = eventsText;
-            if (mobileLinks[1]) mobileLinks[1].textContent = photographyText;
-            if (mobileLinks[2]) mobileLinks[2].textContent = venuesText;
-            if (mobileLinks[3]) mobileLinks[3].textContent = aboutText;
-            if (mobileLinks[4]) mobileLinks[4].textContent = contactText;
-            
-            alert('Navigation updated successfully!');
-        }
-
-        function updateBranding() {
-            const logoText = document.getElementById('siteLogo').value;
-            
-            // Update logo in header
-            const logo = document.querySelector('.logo');
-            if (logo && logoText) {
-                logo.textContent = logoText;
-            }
-            
-            alert('Site branding updated successfully!');
-        }
-
-        // Event scraper functions
-        function testEventImport() {
-            alert('Testing event import... This would connect to the specified source and import a sample of events for review.');
-        }
-
-        function scheduleImport() {
-            alert('Daily import scheduled! Events will be automatically imported and added to your review queue.');
-        }
-
-        // Initialize page and set up event listeners
-        document.addEventListener('DOMContentLoaded', function() {
-            // Set initial page
-            showPage('home');
-            
-            // Close mobile menu when clicking outside
-            document.addEventListener('click', function(event) {
-                const mobileNav = document.getElementById('mobileNav');
-                const hamburger = document.querySelector('.hamburger');
-                
-                if (mobileNav && hamburger && 
-                    !mobileNav.contains(event.target) && 
-                    !hamburger.contains(event.target)) {
-                    mobileNav.style.display = 'none';
-                }
-            });
-
-            // Close admin panel when clicking outside
-            document.addEventListener('click', function(event) {
-                const adminPanel = document.getElementById('adminPanel');
-                const adminContent = document.querySelector('.admin-content');
-                
-                if (adminPanel && adminContent && 
-                    adminPanel.style.display === 'block' &&
-                    !adminContent.contains(event.target)) {
-                    closeAdmin();
-                }
-            });
-
-            // Test admin access functionality
-            console.log('Admin access initialized. Password: QuabbinVibes2025!');
-        });
-
-        // Handle window resize
-        window.addEventListener('resize', function() {
-            const mobileNav = document.getElementById('mobileNav');
-            if (window.innerWidth > 768 && mobileNav) {
-                mobileNav.style.display = 'none';
-            }
-        });
-    </script>
+    function setDark(on) {
+      root.classList.toggle('dark', on);
+      document.body.className = on ? 'bg-slate-900 text-slate-100' : 'bg-slate-50 text-slate-900';
+    }
+    setDark(prefersDark.matches);
+    prefersDark.addEventListener('change', (e) => setDark(e.matches));
+    themeToggle?.addEventListener('click', () => setDark(!root.classList.contains('dark')));
+  </script>
 </body>
 </html>
