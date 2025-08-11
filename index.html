@@ -1,45 +1,52 @@
-!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Quabbin Vibes — Events, Food, Music & Family Fun</title>
-  <meta name="description" content="Discover the best events across Western & Central MA — concerts, markets, family fun, outdoors, and more. Submit your event and get featured." />
-  <meta property="og:title" content="Quabbin Vibes — Regional Events" />
+  <title>Quabbin Vibes — Western & Central MA Events</title>
+  <meta name="description" content="Discover the best events across Worcester County, the Pioneer Valley, and the Berkshires. Submit events, browse by category, and manage listings with a built‑in admin (no backend)." />
+  <meta name="theme-color" content="#0ea5e9" />
+  <meta property="og:title" content="Quabbin Vibes — Events, Food, Music & Family Fun" />
   <meta property="og:description" content="Your complete regional events platform for Western & Central Massachusetts." />
   <meta property="og:type" content="website" />
-  <meta property="og:image" content="https://dummyimage.com/1200x630/111827/ffffff&text=Quabbin+Vibes" />
-  <meta name="theme-color" content="#0ea5e9" />
-
-  <!-- Tailwind CDN (works on GitHub Pages without a build step) -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    // Tailwind config for fonts & container
+  <meta property="og:image" content="https://images.unsplash.com/photo-1472653431158-6364773b2a56?q=80&w=1200&auto=format&fit=crop" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%230ea5e9'/%3E%3Cpath d='M16 40L28 20l6 10 6-10 8 14' stroke='white' stroke-width='5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E" />  <!-- Tailwind via CDN (works on GitHub Pages / Vercel static) -->  <script src="https://cdn.tailwindcss.com"></script>  <script>
     tailwind.config = {
       theme: {
         extend: {
+          container: { center: true, padding: '1rem' },
           fontFamily: {
             display: ["Inter", "ui-sans-serif", "system-ui", "Segoe UI", "Roboto", "Helvetica Neue", "Arial", "Noto Sans", "sans-serif"],
           },
-          container: { center: true, padding: "1rem" },
-          boxShadow: { glow: "0 10px 30px rgba(2, 132, 199, 0.25)" },
-        },
-      },
-    };
-  </script>
-  <style>
-    /* Smooth scroll, nicer focus */
-    html { scroll-behavior: smooth; }
-    :focus-visible { outline: 3px solid #38bdf8; outline-offset: 2px; border-radius: 8px; }
-
-    /* Subtle noise texture */
-    .noise { position: relative; }
-    .noise:before { content: ""; pointer-events: none; position: absolute; inset: 0; opacity: .05; background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="140" height="140" viewBox="0 0 140 140"><filter id="n"><feTurbulence baseFrequency="0.8" numOctaves="4" stitchTiles="stitch"/></filter><rect width="100%" height="100%" filter="url(%23n)" opacity=".5"/></svg>'); }
-  </style>
-</head>
+          boxShadow: {
+            glow: "0 20px 60px rgba(14,165,233,.25)",
+          },
+          keyframes: {
+            fadeUp: { '0%': { opacity: 0, transform: 'translateY(20px)' }, '100%': { opacity: 1, transform: 'translateY(0)' } },
+          },
+          animation: {
+            fadeUp: 'fadeUp .6s ease-out both',
+          }
+        }
+      }
+    }
+  </script>  <style>
+    html{scroll-behavior:smooth}
+    :focus-visible{outline:3px solid #38bdf8; outline-offset:2px; border-radius:10px}
+    .hero-bg{position:relative}
+    .hero-bg:before{content:"";position:absolute;inset:0;opacity:.35;background:radial-gradient(60% 60% at 70% 20%,rgba(14,165,233,.4),transparent),linear-gradient(to bottom,rgba(2,6,23,.65),rgba(2,6,23,.2),transparent 60%)}
+    .noise:after{content:"";position:absolute;inset:0;pointer-events:none;opacity:.04;background-image:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="160" height="160" viewBox="0 0 160 160"><filter id="n"><feTurbulence baseFrequency="0.8" numOctaves="4"/></filter><rect width="100%" height="100%" filter="url(%23n)"/></svg>')}
+    .line-clamp-2{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+  </style></head>
 <body class="bg-slate-50 text-slate-900 antialiased">
-  <!-- Sticky Nav -->
-  <header class="sticky top-0 z-40 bg-white/80 backdrop-blur border-b border-slate-200">
+  <!-- Error banner (auto-hides) -->
+  <div id="err" class="hidden">
+    <div class="container mt-3">
+      <div class="rounded-xl border border-red-200 bg-red-50 text-red-800 px-4 py-3 text-sm flex items-start gap-3">
+        <svg viewBox="0 0 24 24" class="w-5 h-5" xmlns="http://www.w3.org/2000/svg"><path fill="currentColor" d="M11 7h2v6h-2zm0 8h2v2h-2z"/><path fill="currentColor" d="m1 21l11-19l11 19zm11-3.9l7.53.01L12 6.55L4.47 17.11z"/></svg>
+        <div id="errmsg">Something went wrong.</div>
+      </div>
+    </div>
+  </div>  <!-- Nav -->  <header class="sticky top-0 z-40 bg-white/80 backdrop-blur border-b border-slate-200">
     <nav class="container flex items-center justify-between py-3">
       <a href="#" class="flex items-center gap-2 font-semibold tracking-tight">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-7 h-7 text-sky-500"><path fill="currentColor" d="M12 2l2.39 4.84 5.34.78-3.86 3.77.91 5.31L12 14.9 6.22 16.7l.91-5.31L3.27 7.62l5.34-.78L12 2z"/></svg>
@@ -70,191 +77,86 @@
         <a href="#submit" class="hover:text-sky-600">Submit</a>
         <a href="#newsletter" class="hover:text-sky-600">Newsletter</a>
         <a href="#about" class="hover:text-sky-600">About</a>
+        <a href="#admin" class="hover:text-sky-600">Admin</a>
       </div>
     </div>
-  </header>
-
-  <!-- Hero -->
-  <section class="relative noise overflow-hidden">
-    <div class="absolute inset-0 bg-gradient-to-br from-sky-50 via-white to-cyan-50"></div>
-    <div class="absolute -top-32 -right-32 w-[40rem] h-[40rem] rounded-full bg-sky-200/30 blur-3xl"></div>
-    <div class="container relative py-16 md:py-24 grid md:grid-cols-2 gap-10 items-center">
+  </header>  <!-- HERO (full-bleed image, landing vibes) -->  <section class="relative hero-bg noise">
+    <div id="hero" class="relative h-[70vh] min-h-[520px] w-full overflow-hidden">
+      <img class="absolute inset-0 w-full h-full object-cover" alt="Crowd at outdoor summer concert" src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?q=80&w=1800&auto=format&fit=crop"/>
+      <div class="absolute inset-0 bg-gradient-to-b from-slate-900/60 via-slate-900/40 to-transparent"></div>
+      <div class="relative container h-full flex items-end pb-14">
+        <div class="max-w-2xl text-white animate-fadeUp">
+          <p class="uppercase tracking-[0.2em] text-xs text-sky-200">Western & Central Massachusetts</p>
+          <h1 class="mt-2 text-4xl md:text-6xl font-extrabold leading-[1.05]">Find your weekend.<br/>Events, food, music & family fun.</h1>
+          <p class="mt-4 text-slate-200 text-lg">Curated listings across Worcester, the 413, and the Berkshires — submitted by locals, approved fast.</p>
+          <div class="mt-6 flex flex-wrap gap-3">
+            <a href="#events" class="inline-flex items-center gap-2 px-5 py-3 rounded-2xl bg-white text-slate-900 hover:bg-slate-100 font-semibold shadow-glow">Browse events</a>
+            <a href="#submit" class="inline-flex items-center gap-2 px-5 py-3 rounded-2xl border border-white/30 text-white hover:bg-white/10">Submit your event</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>  <!-- Quick Filters / Categories -->  <section id="categories" class="container py-12 md:py-16">
+    <div class="flex items-end justify-between gap-4 flex-wrap">
       <div>
-        <h1 class="font-display text-4xl md:text-5xl font-extrabold tracking-tight leading-tight">
-          The complete regional events platform for <span class="text-sky-600">Western & Central MA</span>
-        </h1>
-        <p class="mt-4 text-slate-600 text-lg">
-          Concerts, markets, hikes, family fun, food trucks — all in one place. Submit your event, get approved fast, and reach the right crowd.
-        </p>
-        <div class="mt-6 flex flex-wrap gap-3">
-          <a href="#events" class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-900 text-white hover:bg-slate-800">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-4 h-4"><path fill="currentColor" d="M19 4h-1V2h-2v2H8V2H6v2H5a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2m0 15H5V10h14z"/></svg>
-            Browse Events
-          </a>
-          <a href="#submit" class="inline-flex items-center gap-2 px-4 py-2 rounded-xl border border-slate-200 hover:bg-slate-100">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-4 h-4"><path fill="currentColor" d="M12 3a9 9 0 1 0 9 9a9.01 9.01 0 0 0-9-9m1 13h-2v-4H7v-2h4V6h2v4h4v2h-4z"/></svg>
-            Submit Your Event
-          </a>
-        </div>
-        <div class="mt-6 flex items-center gap-4 text-sm text-slate-500">
-          <div class="flex items-center gap-2">
-            <span class="inline-block w-2 h-2 rounded-full bg-emerald-500"></span>
-            Fast approvals
-          </div>
-          <div class="flex items-center gap-2">
-            <span class="inline-block w-2 h-2 rounded-full bg-sky-500"></span>
-            Free to list basics
-          </div>
-        </div>
+        <h2 class="text-2xl md:text-3xl font-bold">Popular categories</h2>
+        <p class="text-slate-600 mt-1">Tap to filter — instant search below.</p>
       </div>
-      <div class="md:pl-10">
-        <div class="relative rounded-2xl overflow-hidden shadow-2xl ring-1 ring-slate-200">
-          <img src="https://images.unsplash.com/photo-1483412033650-1015ddeb83d1?q=80&w=1400&auto=format&fit=crop" alt="Outdoor concert crowd" class="w-full h-72 md:h-[28rem] object-cover" />
-          <div class="absolute inset-x-0 bottom-0 p-4 bg-gradient-to-t from-black/60 to-transparent text-white">
-            <p class="text-sm uppercase tracking-widest">This Weekend</p>
-            <p class="font-semibold text-lg">Live on the Green • Amherst</p>
-          </div>
-        </div>
+      <div class="relative">
+        <input id="q" placeholder="Search by name, town, tag…" class="rounded-2xl border-slate-200 pl-10 pr-4 py-2 text-sm w-72" />
+        <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" viewBox="0 0 24 24"><path fill="currentColor" d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5A6.5 6.5 0 1 0 9.5 16a6.471 6.471 0 0 0 4.23-1.57l.27.28v.79L20 21.49L21.49 20zM9.5 14A4.5 4.5 0 1 1 14 9.5A4.5 4.5 0 0 1 9.5 14"/></svg>
       </div>
     </div>
-  </section>
-
-  <!-- Quick Filters / Categories -->
-  <section id="categories" class="container py-12 md:py-16">
-    <h2 class="text-2xl md:text-3xl font-bold">Popular categories</h2>
-    <div class="mt-6 grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
-      <button class="group w-full rounded-2xl border border-slate-200 p-5 text-left hover:border-sky-300 hover:shadow-glow">
-        <div class="flex items-center justify-between">
-          <span class="font-semibold">Music & Nightlife</span>
-          <span class="text-xs px-2 py-1 rounded-full bg-sky-100 text-sky-700 group-hover:bg-sky-200">128</span>
-        </div>
-        <p class="mt-2 text-sm text-slate-600">Concerts, open mics, brewery sets.</p>
-      </button>
-      <button class="group w-full rounded-2xl border border-slate-200 p-5 text-left hover:border-sky-300 hover:shadow-glow">
-        <div class="flex items-center justify-between">
-          <span class="font-semibold">Family & Kids</span>
-          <span class="text-xs px-2 py-1 rounded-full bg-sky-100 text-sky-700 group-hover:bg-sky-2 00">96</span>
-        </div>
-        <p class="mt-2 text-sm text-slate-600">Festivals, libraries, farms.</p>
-      </button>
-      <button class="group w-full rounded-2xl border border-slate-200 p-5 text-left hover:border-sky-300 hover:shadow-glow">
-        <div class="flex items-center justify-between">
-          <span class="font-semibold">Outdoors</span>
-          <span class="text-xs px-2 py-1 rounded-full bg-sky-100 text-sky-700 group-hover:bg-sky-200">54</span>
-        </div>
-        <p class="mt-2 text-sm text-slate-600">Hikes, paddles, stargazing.</p>
-      </button>
-      <button class="group w-full rounded-2xl border border-slate-200 p-5 text-left hover:border-sky-300 hover:shadow-glow">
-        <div class="flex items-center justify-between">
-          <span class="font-semibold">Markets & Food</span>
-          <span class="text-xs px-2 py-1 rounded-full bg-sky-100 text-sky-700 group-hover:bg-sky-200">73</span>
-        </div>
-        <p class="mt-2 text-sm text-slate-600">Farmers, food trucks, pop-ups.</p>
-      </button>
-    </div>
-  </section>
-
-  <!-- Events Grid -->
-  <section id="events" class="bg-white border-y border-slate-200">
+    <div class="mt-6 grid sm:grid-cols-2 lg:grid-cols-4 gap-4" id="catButtons"></div>
+  </section>  <!-- Events Grid -->  <section id="events" class="bg-white border-y border-slate-200">
     <div class="container py-12 md:py-16">
       <div class="flex items-end justify-between gap-4 flex-wrap">
         <div>
           <h2 class="text-2xl md:text-3xl font-bold">Upcoming events</h2>
           <p class="text-slate-600 mt-1">Hand‑picked highlights across the region.</p>
         </div>
-        <div class="flex items-center gap-2">
-          <label class="text-sm text-slate-600" for="when">When</label>
-          <select id="when" class="text-sm rounded-xl border-slate-200 focus:ring-sky-300">
-            <option>Anytime</option>
-            <option>Today</option>
-            <option>This weekend</option>
-            <option>Next 7 days</option>
+        <div class="flex items-center gap-2 text-sm">
+          <label for="when" class="text-slate-600">When</label>
+          <select id="when" class="rounded-xl border-slate-200">
+            <option value="any">Anytime</option>
+            <option value="today">Today</option>
+            <option value="weekend">This weekend</option>
+            <option value="7d">Next 7 days</option>
           </select>
-          <label class="text-sm text-slate-600 ml-3" for="where">Where</label>
-          <select id="where" class="text-sm rounded-xl border-slate-200 focus:ring-sky-300">
-            <option>All areas</option>
-            <option>Worcester</option>
-            <option>Pioneer Valley</option>
-            <option>Berkshires</option>
+          <label for="where" class="text-slate-600 ml-3">Where</label>
+          <select id="where" class="rounded-xl border-slate-200">
+            <option value="all">All areas</option>
+            <option value="Worcester">Worcester</option>
+            <option value="Pioneer Valley">Pioneer Valley</option>
+            <option value="Berkshires">Berkshires</option>
           </select>
         </div>
       </div>
-
-      <div id="eventsGrid" class="mt-6 grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        <!-- Event Card Template repeated -->
-        <article class="group rounded-2xl overflow-hidden border border-slate-200 hover:shadow-xl hover:border-sky-200 transition">
-          <div class="relative">
-            <img src="https://images.unsplash.com/photo-1470225620780-dba8ba36b745?q=80&w=1400&auto=format&fit=crop" alt="Farmers market" class="h-44 w-full object-cover" />
-            <div class="absolute top-3 left-3 text-xs px-2 py-1 rounded-lg bg-white/90 border border-slate-200">Sat • Northampton</div>
-          </div>
-          <div class="p-4">
-            <h3 class="font-semibold leading-tight">Downtown Farmers Market</h3>
-            <p class="mt-1 text-sm text-slate-600 line-clamp-2">Fresh produce, live music, and local makers on Main Street. Family‑friendly.</p>
-            <div class="mt-4 flex items-center justify-between">
-              <span class="text-sm text-slate-500">9:00a – 1:00p</span>
-              <a href="#" class="text-sm font-medium text-sky-700 hover:underline">Details</a>
-            </div>
-          </div>
-        </article>
-
-        <article class="group rounded-2xl overflow-hidden border border-slate-200 hover:shadow-xl hover:border-sky-200 transition">
-          <div class="relative">
-            <img src="https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=1400&auto=format&fit=crop" alt="Outdoor concert" class="h-44 w-full object-cover" />
-            <div class="absolute top-3 left-3 text-xs px-2 py-1 rounded-lg bg-white/90 border border-slate-200">Fri • Worcester</div>
-          </div>
-          <div class="p-4">
-            <h3 class="font-semibold leading-tight">Summer Nights on the Common</h3>
-            <p class="mt-1 text-sm text-slate-600 line-clamp-2">Free show featuring regional bands, food trucks, and local vendors.</p>
-            <div class="mt-4 flex items-center justify-between">
-              <span class="text-sm text-slate-500">6:30p – 9:30p</span>
-              <a href="#" class="text-sm font-medium text-sky-700 hover:underline">Details</a>
-            </div>
-          </div>
-        </article>
-
-        <article class="group rounded-2xl overflow-hidden border border-slate-200 hover:shadow-xl hover:border-sky-200 transition">
-          <div class="relative">
-            <img src="https://images.unsplash.com/photo-1519681393784-d120267933ba?q=80&w=1400&auto=format&fit=crop" alt="Art fair" class="h-44 w-full object-cover" />
-            <div class="absolute top-3 left-3 text-xs px-2 py-1 rounded-lg bg-white/90 border border-slate-200">Sun • Pittsfield</div>
-          </div>
-          <div class="p-4">
-            <h3 class="font-semibold leading-tight">Berkshire Arts & Makers Fair</h3>
-            <p class="mt-1 text-sm text-slate-600 line-clamp-2">Juried artists, craft demos, and kids’ activities in the park.</p>
-            <div class="mt-4 flex items-center justify-between">
-              <span class="text-sm text-slate-500">10:00a – 4:00p</span>
-              <a href="#" class="text-sm font-medium text-sky-700 hover:underline">Details</a>
-            </div>
-          </div>
-        </article>
-      </div>
-
+      <div id="eventsGrid" class="mt-6 grid sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+      <div id="noResults" class="hidden mt-10 text-center text-slate-500">No events match your filters… try clearing them.</div>
       <div class="mt-8 text-center">
-        <a href="#" class="inline-flex items-center gap-2 px-4 py-2 rounded-xl border border-slate-200 hover:bg-slate-100">View full calendar</a>
+        <button id="clearFilters" class="inline-flex items-center gap-2 px-4 py-2 rounded-xl border border-slate-200 hover:bg-slate-100">Clear filters</button>
       </div>
     </div>
-  </section>
-
-  <!-- Submit Event CTA -->
-  <section id="submit" class="container py-12 md:py-16">
+  </section>  <!-- Submit Event CTA + Form (static) -->  <section id="submit" class="container py-12 md:py-16">
     <div class="grid lg:grid-cols-2 gap-8 items-center">
       <div>
         <h2 class="text-2xl md:text-3xl font-bold">Submit your event — get discovered</h2>
-        <p class="mt-3 text-slate-600">Creators, venues, libraries, farms, breweries — listing the basics is free. We review quickly and approve what fits the vibe.</p>
+        <p class="mt-3 text-slate-600">Free basic listing. We manually approve to keep quality high. Optionally upgrade for featured placement and newsletter shoutout.</p>
         <ul class="mt-4 space-y-2 text-slate-700">
-          <li class="flex items-start gap-3"><span class="mt-1 inline-block w-2 h-2 rounded-full bg-emerald-500"></span> Fast manual approval to keep quality high</li>
-          <li class="flex items-start gap-3"><span class="mt-1 inline-block w-2 h-2 rounded-full bg-sky-500"></span> Optional upgrades: featured placement, newsletter shoutout</li>
-          <li class="flex items-start gap-3"><span class="mt-1 inline-block w-2 h-2 rounded-full bg-fuchsia-500"></span> Bring your own images or we’ll style it</li>
+          <li class="flex items-start gap-3"><span class="mt-1 inline-block w-2 h-2 rounded-full bg-emerald-500"></span> Fast manual approval</li>
+          <li class="flex items-start gap-3"><span class="mt-1 inline-block w-2 h-2 rounded-full bg-sky-500"></span> Bring your own images or we’ll style it</li>
+          <li class="flex items-start gap-3"><span class="mt-1 inline-block w-2 h-2 rounded-full bg-fuchsia-500"></span> Family‑friendly first, no spam</li>
         </ul>
         <div class="mt-6 flex flex-wrap gap-3">
-          <!-- Replace the mailto with your intake form URL when ready -->
           <a href="mailto:hello@quabbinvibes.com?subject=Event%20Submission" class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-sky-500 text-white hover:bg-sky-600 shadow-glow">Email Submission</a>
           <a href="#form" class="inline-flex items-center gap-2 px-4 py-2 rounded-xl border border-slate-200 hover:bg-slate-100">Open Form</a>
         </div>
       </div>
       <div id="form" class="rounded-2xl border border-slate-200 p-6 bg-white shadow-sm">
         <h3 class="font-semibold text-lg">Quick submission form</h3>
-        <p class="text-sm text-slate-600">This is a simple static form that emails you. Replace with Airtable/Jotform/Typeform when ready.</p>
-        <form class="mt-4 grid gap-3" action="https://formsubmit.co/your@email.com" method="POST">
+        <p class="text-sm text-slate-600">Static email form for now — swap to Airtable/Jotform later.</p>
+        <form class="mt-4 grid gap-3" action="https://formsubmit.co/hello@quabbinvibes.com" method="POST">
           <input type="hidden" name="_subject" value="New Quabbin Vibes Event" />
           <label class="grid gap-1 text-sm">
             <span>Event name</span>
@@ -280,38 +182,32 @@
         </form>
       </div>
     </div>
-  </section>
-
-  <!-- Newsletter -->
-  <section id="newsletter" class="bg-slate-900 text-white">
+  </section>  <!-- Newsletter -->  <section id="newsletter" class="bg-slate-900 text-white">
     <div class="container py-12 md:py-16">
       <div class="grid lg:grid-cols-2 gap-8 items-center">
         <div>
           <h2 class="text-2xl md:text-3xl font-bold">The weekend, sorted — in your inbox</h2>
-          <p class="mt-3 text-slate-300">Hand‑picked events and last‑minute finds, every Thursday morning.</p>
+          <p class="mt-3 text-slate-300">Hand‑picked events every Thursday morning.</p>
           <ul class="mt-4 space-y-2 text-slate-300 text-sm">
-            <li>Focus on Western & Central MA: Worcester • Pioneer Valley • Berkshires</li>
+            <li>Worcester • Pioneer Valley • Berkshires</li>
             <li>No spam. Unsubscribe anytime.</li>
           </ul>
         </div>
         <div class="rounded-2xl bg-white/5 p-6 ring-1 ring-white/10">
-          <!-- Replace with your Beehiiv embed when ready -->
+          <!-- Replace with Beehiiv embed; we style it automatically -->
           <form class="grid sm:grid-cols-[1fr_auto] gap-3">
             <input type="email" required placeholder="you@email.com" class="rounded-xl border-0 px-4 py-3 text-slate-900" />
             <button class="rounded-xl px-4 py-3 bg-sky-500 hover:bg-sky-400 text-white font-medium">Subscribe</button>
           </form>
-          <p class="text-xs text-slate-300 mt-2">Have Beehiiv? Paste their embed here — we’ll restyle it.</p>
+          <p class="text-xs text-slate-300 mt-2">Paste your Beehiiv embed code here later.</p>
         </div>
       </div>
     </div>
-  </section>
-
-  <!-- About / Footer -->
-  <section id="about" class="container py-12 md:py-16">
+  </section>  <!-- About / Footer -->  <section id="about" class="container py-12 md:py-16">
     <div class="grid lg:grid-cols-2 gap-8 items-start">
       <div>
         <h2 class="text-2xl md:text-3xl font-bold">About Quabbin Vibes</h2>
-        <p class="mt-3 text-slate-600">We’re building the cleanest way to discover what’s good across Worcester County, the Pioneer Valley, and the Berkshires. Curated by locals. No junk.</p>
+        <p class="mt-3 text-slate-600">Built by locals, for locals. We’re curating what’s good across Worcester County, the Pioneer Valley, and the Berkshires — with fast approvals and a clean, no-junk experience.</p>
         <div class="mt-6 grid sm:grid-cols-2 gap-4">
           <div class="rounded-2xl border border-slate-200 p-5">
             <p class="text-sm text-slate-500">Coverage</p>
@@ -325,7 +221,8 @@
       </div>
       <div class="rounded-2xl border border-slate-200 p-6 bg-white shadow-sm">
         <h3 class="font-semibold text-lg">Blog highlights</h3>
-        <div class="mt-4 space-y-4">
+        <div class="mt-4 space-y-4" id="blogList">
+          <!-- Static placeholders; swap with your CMS later -->
           <a href="#" class="block p-4 rounded-xl border border-slate-200 hover:bg-slate-50">
             <p class="text-sm text-slate-500">Guide</p>
             <p class="font-medium">Best family-friendly hikes within 45 minutes of Amherst</p>
@@ -341,9 +238,7 @@
         </div>
       </div>
     </div>
-  </section>
-
-  <footer class="border-t border-slate-200 bg-white">
+  </section>  <footer class="border-t border-slate-200 bg-white">
     <div class="container py-8 flex flex-col md:flex-row items-center justify-between gap-4">
       <p class="text-sm text-slate-500">© <span id="y"></span> Quabbin Vibes. All rights reserved.</p>
       <div class="flex items-center gap-3 text-sm">
@@ -352,29 +247,369 @@
         <a href="#" class="hover:text-sky-600">Terms</a>
         <span class="text-slate-300">•</span>
         <a href="mailto:hello@quabbinvibes.com" class="hover:text-sky-600">Contact</a>
+        <span class="text-slate-300">•</span>
+        <a href="#admin" class="hover:text-sky-600">Admin</a>
       </div>
     </div>
-  </footer>
+  </footer>  <!-- Admin View (single-file, no backend) -->  <template id="adminTpl">
+    <section class="container py-10">
+      <div class="flex items-center justify-between gap-4">
+        <h1 class="text-2xl md:text-3xl font-bold">Admin — Events & Settings</h1>
+        <div class="flex items-center gap-2">
+          <button id="exportBtn" class="px-3 py-1.5 rounded-xl border border-slate-200">Export JSON</button>
+          <label class="px-3 py-1.5 rounded-xl border border-slate-200 cursor-pointer">Import JSON<input id="importInput" type="file" accept="application/json" class="hidden"></label>
+          <button id="newEventBtn" class="px-3 py-1.5 rounded-xl bg-sky-500 text-white hover:bg-sky-600">New Event</button>
+        </div>
+      </div><div class="mt-6 grid lg:grid-cols-[2fr_1fr] gap-6">
+    <!-- Events table -->
+    <div class="rounded-2xl border border-slate-200 bg-white overflow-hidden">
+      <div class="p-4 border-b border-slate-200 flex items-center justify-between">
+        <div class="text-sm text-slate-600">Total <span id="evCount">0</span></div>
+        <div class="flex items-center gap-2">
+          <input id="evSearch" placeholder="Search events…" class="rounded-xl border-slate-200 text-sm" />
+          <button id="clearAdminFilters" class="text-sm px-3 py-1.5 rounded-xl border border-slate-200">Clear</button>
+        </div>
+      </div>
+      <div class="overflow-x-auto">
+        <table class="min-w-full text-sm">
+          <thead class="bg-slate-50 text-slate-600">
+            <tr>
+              <th class="text-left px-4 py-3">Name</th>
+              <th class="text-left px-4 py-3">When</th>
+              <th class="text-left px-4 py-3">Where</th>
+              <th class="text-left px-4 py-3">Tags</th>
+              <th class="text-left px-4 py-3">Published</th>
+              <th class="text-right px-4 py-3">Actions</th>
+            </tr>
+          </thead>
+          <tbody id="evTable"></tbody>
+        </table>
+      </div>
+    </div>
 
-  <script>
-    // basic JS: year, menu, theme toggle (prefers-color-scheme aware)
-    document.getElementById('y').textContent = new Date().getFullYear();
+    <!-- Settings -->
+    <div class="rounded-2xl border border-slate-200 bg-white p-5">
+      <h3 class="font-semibold">Settings</h3>
+      <div class="mt-4 grid gap-3 text-sm">
+        <label class="grid gap-1">
+          <span>Admin passcode</span>
+          <input id="passInput" class="rounded-xl border-slate-200" placeholder="Change passcode" />
+          <p class="text-xs text-slate-500">Default: <code>quabbin</code> (client‑side only; for demo). Use Supabase/Vercel KV for real auth.</p>
+        </label>
+        <label class="grid gap-1">
+          <span>Analytics provider</span>
+          <select id="analyticsProvider" class="rounded-xl border-slate-200">
+            <option value="none">None</option>
+            <option value="plausible">Plausible</option>
+            <option value="umami">Umami</option>
+            <option value="ga4">Google Analytics 4</option>
+          </select>
+        </label>
+        <label class="grid gap-1">
+          <span>Analytics ID / Domain</span>
+          <input id="analyticsId" class="rounded-xl border-slate-200" placeholder="ex: yourdomain.com or GA-ID" />
+        </label>
+        <button id="saveSettings" class="mt-2 px-3 py-1.5 rounded-xl bg-slate-900 text-white">Save settings</button>
+      </div>
+    </div>
+  </div>
+</section>
 
-    const menuBtn = document.getElementById('menuBtn');
-    const mobileMenu = document.getElementById('mobileMenu');
-    menuBtn?.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+<!-- Modal -->
+<dialog id="modal" class="rounded-2xl p-0 w-full max-w-2xl backdrop:bg-black/40">
+  <form method="dialog" class="bg-white rounded-2xl overflow-hidden">
+    <div class="p-4 border-b border-slate-200 flex items-center justify-between">
+      <h3 class="font-semibold" id="modalTitle">New Event</h3>
+      <button id="closeModal" class="px-3 py-1.5 rounded-xl border border-slate-200">Close</button>
+    </div>
+    <div class="p-5 grid sm:grid-cols-2 gap-4 text-sm">
+      <label class="grid gap-1"><span>Name</span><input id="f_name" class="rounded-xl border-slate-200" required /></label>
+      <label class="grid gap-1"><span>Date (YYYY-MM-DD)</span><input id="f_date" class="rounded-xl border-slate-200" required /></label>
+      <label class="grid gap-1"><span>Time (e.g., 18:30–21:00)</span><input id="f_time" class="rounded-xl border-slate-200" /></label>
+      <label class="grid gap-1"><span>Area</span><input id="f_area" class="rounded-xl border-slate-200" placeholder="Worcester / Pioneer Valley / Berkshires" /></label>
+      <label class="grid gap-1 sm:col-span-2"><span>Location</span><input id="f_where" class="rounded-xl border-slate-200" /></label>
+      <label class="grid gap-1 sm:col-span-2"><span>Description</span><textarea id="f_desc" rows="3" class="rounded-xl border-slate-200"></textarea></label>
+      <label class="grid gap-1 sm:col-span-2"><span>Image URL</span><input id="f_img" class="rounded-xl border-slate-200" placeholder="https://…" /></label>
+      <label class="grid gap-1 sm:col-span-2"><span>Tags (comma‑sep)</span><input id="f_tags" class="rounded-xl border-slate-200" placeholder="music, family, free" /></label>
+      <label class="inline-flex items-center gap-2 mt-2"><input type="checkbox" id="f_pub"/> <span>Published</span></label>
+    </div>
+    <div class="p-4 border-t border-slate-200 flex items-center justify-end gap-2">
+      <button id="delBtn" class="hidden px-3 py-1.5 rounded-xl border border-red-200 text-red-700">Delete</button>
+      <button id="saveBtn" class="px-3 py-1.5 rounded-xl bg-sky-500 text-white hover:bg-sky-600">Save</button>
+    </div>
+  </form>
+</dialog>
 
-    const themeToggle = document.getElementById('themeToggle');
+  </template>  <script>
+  (function(){
+    const $ = (q, el=document) => el.querySelector(q);
+    const $$ = (q, el=document) => Array.from(el.querySelectorAll(q));
+
+    // Basic state / DB persisted to localStorage
+    const STORE_KEY = 'qv_db_v1';
+    const DEFAULT = {
+      passcode: 'quabbin',
+      analytics: { provider: 'none', id: '' },
+      categories: ['Music & Nightlife','Family & Kids','Outdoors','Markets & Food','Arts & Culture','Workshops'],
+      events: [
+        { id: crypto.randomUUID(), name: 'Downtown Farmers Market', date: addDays(2), time: '9:00–13:00', area: 'Pioneer Valley', where: 'Northampton Main St', desc: 'Fresh produce, live music, and local makers. Family‑friendly.', img: 'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?q=80&w=1400&auto=format&fit=crop', tags:['markets','family','music'], published: true },
+        { id: crypto.randomUUID(), name: 'Summer Nights on the Common', date: addDays(1), time: '18:30–21:30', area: 'Worcester', where: 'Worcester Common', desc: 'Regional bands, food trucks, local vendors. Free.', img:'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=1400&auto=format&fit=crop', tags:['music','free','food'], published: true },
+        { id: crypto.randomUUID(), name: 'Berkshire Arts & Makers Fair', date: addDays(4), time: '10:00–16:00', area: 'Berkshires', where: 'Pittsfield Park', desc: 'Juried artists, craft demos, and kids’ activities.', img:'https://images.unsplash.com/photo-1519681393784-d120267933ba?q=80&w=1400&auto=format&fit=crop', tags:['arts','family','outdoors'], published: true },
+      ]
+    };
+
+    function addDays(n){ const d=new Date(); d.setDate(d.getDate()+n); return d.toISOString().slice(0,10); }
+
+    function load(){ try{ return JSON.parse(localStorage.getItem(STORE_KEY)) || DEFAULT }catch(e){ return DEFAULT } }
+    function save(db){ localStorage.setItem(STORE_KEY, JSON.stringify(db)); }
+
+    let DB = load();
+
+    // Theme + nav
+    $('#y').textContent = new Date().getFullYear();
+    $('#menuBtn')?.addEventListener('click', () => $('#mobileMenu').classList.toggle('hidden'));
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
     const root = document.documentElement;
-
-    function setDark(on) {
-      root.classList.toggle('dark', on);
-      document.body.className = on ? 'bg-slate-900 text-slate-100' : 'bg-slate-50 text-slate-900';
-    }
+    function setDark(on){ root.classList.toggle('dark', on); document.body.className = on ? 'bg-slate-900 text-slate-100' : 'bg-slate-50 text-slate-900'; }
     setDark(prefersDark.matches);
-    prefersDark.addEventListener('change', (e) => setDark(e.matches));
-    themeToggle?.addEventListener('click', () => setDark(!root.classList.contains('dark')));
-  </script>
-</body>
+    prefersDark.addEventListener('change', e => setDark(e.matches));
+    $('#themeToggle')?.addEventListener('click', () => setDark(!root.classList.contains('dark')));
+
+    // Categories UI
+    const catWrap = $('#catButtons');
+    function renderCats(){
+      catWrap.innerHTML = '';
+      DB.categories.forEach(c => {
+        const b = document.createElement('button');
+        b.className = 'group w-full rounded-2xl border border-slate-200 p-5 text-left hover:border-sky-300 hover:shadow-glow';
+        b.innerHTML = `<div class="flex items-center justify-between"><span class="font-semibold">${c}</span><span class="text-xs px-2 py-1 rounded-full bg-sky-100 text-sky-700 group-hover:bg-sky-200">Filter</span></div><p class="mt-2 text-sm text-slate-600">`+(c.includes('Music')?'Concerts, open mics, brewery sets.':c.includes('Family')?'Festivals, libraries, farms.':c.includes('Outdoors')?'Hikes, paddles, stargazing.':'Curated picks.')+`</p>`;
+        b.addEventListener('click', ()=>{ $('#q').value = c.split(' & ')[0].toLowerCase(); renderEvents(); });
+        catWrap.appendChild(b);
+      });
+    }
+
+    // Events list with filters
+    const grid = $('#eventsGrid');
+    function withinWhen(dateStr, when){
+      const d = new Date(dateStr);
+      const now = new Date();
+      const endOfWeek = new Date(); endOfWeek.setDate(now.getDate() + (6-now.getDay()));
+      if(when==='any') return true;
+      if(when==='today') return d.toDateString()===now.toDateString();
+      if(when==='weekend') return d>=startOfWeekend() && d<=endOfWeekend();
+      if(when==='7d') return (d-now) <= 7*24*3600*1000 && d>=startOfDay(now);
+      return true;
+    }
+    function startOfWeekend(){ const n=new Date(); const day=n.getDay(); const s=new Date(n); s.setDate(n.getDate() + ((6-day+7)%7)); s.setHours(0,0,0,0); return s; }
+    function endOfWeekend(){ const s=startOfWeekend(); const e=new Date(s); e.setDate(s.getDate()+1); e.setHours(23,59,59,999); return e; }
+    function startOfDay(d){ const x=new Date(d); x.setHours(0,0,0,0); return x; }
+
+    function renderEvents(){
+      const q = $('#q').value.trim().toLowerCase();
+      const when = $('#when').value;
+      const where = $('#where').value;
+      const ev = DB.events
+        .filter(e=>e.published)
+        .filter(e=> withinWhen(e.date, when))
+        .filter(e=> where==='all' ? true : (e.area===where))
+        .filter(e=> !q ? true : [e.name,e.where,e.area,(e.tags||[]).join(',')].join(' ').toLowerCase().includes(q));
+
+      grid.innerHTML = '';
+      if(!ev.length){ $('#noResults').classList.remove('hidden'); return; } else { $('#noResults').classList.add('hidden'); }
+
+      ev.sort((a,b)=> (a.date>b.date?1:-1));
+
+      ev.forEach(e=>{
+        const el = document.createElement('article');
+        el.className = 'group rounded-2xl overflow-hidden border border-slate-200 hover:shadow-xl hover:border-sky-200 transition';
+        el.innerHTML = `
+          <div class="relative">
+            <img src="${e.img||'https://images.unsplash.com/photo-1483412033650-1015ddeb83d1?q=80&w=1400&auto=format&fit=crop'}" alt="${escapeHtml(e.name)}" class="h-44 w-full object-cover" />
+            <div class="absolute top-3 left-3 text-xs px-2 py-1 rounded-lg bg-white/90 border border-slate-200">${fmtBadge(e.date)} • ${escapeHtml(e.area||'')}</div>
+          </div>
+          <div class="p-4">
+            <h3 class="font-semibold leading-tight">${escapeHtml(e.name)}</h3>
+            <p class="mt-1 text-sm text-slate-600 line-clamp-2">${escapeHtml(e.desc||'')}</p>
+            <div class="mt-4 flex items-center justify-between">
+              <span class="text-sm text-slate-500">${escapeHtml(e.time||'')}</span>
+              <a href="#" class="text-sm font-medium text-sky-700 hover:underline" aria-label="Details for ${escapeHtml(e.name)}" title="${escapeHtml(e.where||'')}">Details</a>
+            </div>
+          </div>`;
+        grid.appendChild(el);
+      })
+    }
+
+    function fmtBadge(dateStr){
+      const d = new Date(dateStr+'T00:00:00');
+      return d.toLocaleDateString(undefined,{weekday:'short'})
+    }
+
+    function escapeHtml(s){ return (s||'').replace(/[&<>"]/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m])); }
+
+    $('#q').addEventListener('input', renderEvents);
+    $('#when').addEventListener('change', renderEvents);
+    $('#where').addEventListener('change', renderEvents);
+    $('#clearFilters').addEventListener('click', ()=>{ $('#q').value=''; $('#when').value='any'; $('#where').value='all'; renderEvents(); });
+
+    renderCats();
+    renderEvents();
+
+    // ADMIN ROUTER
+    window.addEventListener('hashchange', route);
+    route();
+
+    function route(){
+      if(location.hash==='#admin'){ showAdmin(); }
+    }
+
+    function requirePasscode(){
+      const input = prompt('Enter admin passcode (demo uses "quabbin")');
+      return input && input === (DB.passcode||'quabbin');
+    }
+
+    function showAdmin(){
+      if(!requirePasscode()) { alert('Incorrect passcode'); location.hash=''; return; }
+      document.body.scrollTo({top:0});
+      // Hide public sections
+      $$('header, section, footer').forEach(el=> el.style.display='none');
+      // Mount admin template
+      const tpl = $('#adminTpl').content.cloneNode(true);
+      document.body.appendChild(tpl);
+
+      // Wire admin
+      const evTable = $('#evTable');
+      const evCount = $('#evCount');
+      const evSearch = $('#evSearch');
+      const modal = $('#modal');
+      const delBtn = $('#delBtn');
+      const saveBtn = $('#saveBtn');
+      const closeBtn = $('#closeModal');
+      const passInput = $('#passInput');
+      const providerSel = $('#analyticsProvider');
+      const analyticsId = $('#analyticsId');
+
+      passInput.value = DB.passcode||'';
+      providerSel.value = DB.analytics?.provider||'none';
+      analyticsId.value = DB.analytics?.id||'';
+
+      function drawTable(list){
+        evTable.innerHTML='';
+        list.forEach(e=>{
+          const tr = document.createElement('tr');
+          tr.className='border-t border-slate-100';
+          tr.innerHTML = `
+            <td class="px-4 py-3">${escapeHtml(e.name)}</td>
+            <td class="px-4 py-3">${escapeHtml(e.date)} ${e.time?('• '+escapeHtml(e.time)) : ''}</td>
+            <td class="px-4 py-3">${escapeHtml(e.where||'')}<div class="text-xs text-slate-500">${escapeHtml(e.area||'')}</div></td>
+            <td class="px-4 py-3">${(e.tags||[]).map(t=>`<span class='px-2 py-0.5 rounded bg-slate-100 mr-1'>${escapeHtml(t)}</span>`).join('')}</td>
+            <td class="px-4 py-3">${e.published?'<span class="text-emerald-600">Yes</span>':'<span class="text-slate-400">No</span>'}</td>
+            <td class="px-4 py-3 text-right">
+              <button class="text-sky-700 hover:underline" data-id="${e.id}">Edit</button>
+            </td>`;
+          tr.querySelector('button').addEventListener('click', () => openModal(e));
+          evTable.appendChild(tr);
+        });
+        evCount.textContent = list.length;
+      }
+
+      function listFiltered(){
+        const q = evSearch.value.trim().toLowerCase();
+        return DB.events.filter(e=> !q ? true : [e.name,e.where,e.area,(e.tags||[]).join(',')].join(' ').toLowerCase().includes(q));
+      }
+
+      drawTable(listFiltered());
+      evSearch.addEventListener('input', ()=> drawTable(listFiltered()));
+      $('#clearAdminFilters').addEventListener('click', ()=>{ evSearch.value=''; drawTable(listFiltered()); });
+
+      $('#newEventBtn').addEventListener('click', ()=> openModal());
+
+      function openModal(e){
+        $('#modalTitle').textContent = e? 'Edit Event' : 'New Event';
+        $('#f_name').value = e?.name || '';
+        $('#f_date').value = e?.date || '';
+        $('#f_time').value = e?.time || '';
+        $('#f_area').value = e?.area || '';
+        $('#f_where').value = e?.where || '';
+        $('#f_desc').value = e?.desc || '';
+        $('#f_img').value = e?.img || '';
+        $('#f_tags').value = (e?.tags||[]).join(', ');
+        $('#f_pub').checked = !!e?.published;
+        delBtn.classList.toggle('hidden', !e);
+        delBtn.onclick = () => { if(confirm('Delete this event?')) { DB.events = DB.events.filter(x=>x.id!==e.id); save(DB); drawTable(listFiltered()); renderEvents(); modal.close(); } }; 
+        saveBtn.onclick = () => {
+          const obj = {
+            id: e?.id || crypto.randomUUID(),
+            name: $('#f_name').value.trim(),
+            date: $('#f_date').value.trim(),
+            time: $('#f_time').value.trim(),
+            area: $('#f_area').value.trim(),
+            where: $('#f_where').value.trim(),
+            desc: $('#f_desc').value.trim(),
+            img: $('#f_img').value.trim(),
+            tags: $('#f_tags').value.split(',').map(s=>s.trim()).filter(Boolean),
+            published: $('#f_pub').checked
+          };
+          if(!obj.name || !obj.date){ alert('Name and date are required'); return; }
+          if(e){ const idx = DB.events.findIndex(x=>x.id===e.id); DB.events[idx]=obj; } else { DB.events.push(obj); }
+          save(DB); drawTable(listFiltered()); renderEvents(); modal.close();
+        };
+        closeBtn.onclick = () => modal.close();
+        modal.showModal();
+      }
+
+      // Export / Import
+      $('#exportBtn').addEventListener('click', ()=>{
+        const blob = new Blob([JSON.stringify(DB,null,2)], {type:'application/json'});
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob); a.download = 'quabbin-vibes.json'; a.click();
+      });
+      $('#importInput').addEventListener('change', async (e)=>{
+        const file = e.target.files[0]; if(!file) return;
+        const json = JSON.parse(await file.text());
+        if(!json.events) return alert('Invalid file');
+        DB = json; save(DB); drawTable(listFiltered()); renderEvents(); alert('Imported');
+      });
+
+      // Settings
+      $('#saveSettings').addEventListener('click', ()=>{
+        DB.passcode = passInput.value || DB.passcode;
+        DB.analytics = { provider: providerSel.value, id: analyticsId.value.trim() };
+        save(DB);
+        injectAnalytics();
+        alert('Settings saved');
+      });
+    }
+
+    // Analytics (opt‑in)
+    function injectAnalytics(){
+      // Remove existing
+      $$('script[data-analytics]').forEach(s=> s.remove());
+      const {provider,id} = DB.analytics||{};
+      if(provider==='plausible' && id){
+        const s=document.createElement('script'); s.defer=true; s.setAttribute('data-domain', id); s.src='https://plausible.io/js/script.js'; s.setAttribute('data-analytics','plausible'); document.head.appendChild(s);
+      } else if(provider==='umami' && id){
+        const s=document.createElement('script'); s.defer=true; s.src='https://cloud.umami.is/script.js'; s.setAttribute('data-website-id', id); s.setAttribute('data-analytics','umami'); document.head.appendChild(s);
+      } else if(provider==='ga4' && id){
+        const g=document.createElement('script'); g.async=true; g.src=`https://www.googletagmanager.com/gtag/js?id=${id}`; g.setAttribute('data-analytics','ga4'); document.head.appendChild(g);
+        const s=document.createElement('script'); s.setAttribute('data-analytics','ga4'); s.innerHTML = `window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)};gtag('js', new Date());gtag('config','${id}');`; document.head.appendChild(s);
+      }
+    }
+    injectAnalytics();
+
+    // Global error capture → banner
+    window.addEventListener('error', (e)=> showError(e.message||'Script error'));
+    window.addEventListener('unhandledrejection', (e)=> showError(e.reason?.message||'Promise error'));
+    function showError(msg){ $('#errmsg').textContent = msg; $('#err').classList.remove('hidden'); setTimeout(()=>$('#err').classList.add('hidden'), 6000); }
+  })();
+  </script>  <!-- Simple JSON-LD (enhance SEO for organization) -->  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"Organization",
+    "name":"Quabbin Vibes",
+    "url":"https://quabbinvibes.com",
+    "logo":"https://quabbinvibes.com/logo.png",
+    "areaServed":["Worcester County","Hampshire County","Hampden County","Berkshire County"],
+    "description":"Regional events discovery for Western & Central Massachusetts."
+  }
+  </script></body>
 </html>
