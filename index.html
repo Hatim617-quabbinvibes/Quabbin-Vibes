@@ -669,7 +669,7 @@
                 <a href="#" onclick="showPage('venues')">Venues</a>
                 <a href="#" onclick="showPage('about')">About</a>
                 <a href="#" onclick="showPage('contact')">Contact</a>
-                <a href="#" onclick="showPage('submit')">Submit Event</a>
+                <a href="#" onclick="showPage('admin')">Admin Panel</a>
             </nav>
 
             <!-- Mobile Hamburger -->
@@ -687,7 +687,7 @@
                     <li><a href="#" onclick="showPage('venues'); toggleMobileMenu();">Venues</a></li>
                     <li><a href="#" onclick="showPage('about'); toggleMobileMenu();">About</a></li>
                     <li><a href="#" onclick="showPage('contact'); toggleMobileMenu();">Contact</a></li>
-                    <li><a href="#" onclick="showPage('submit'); toggleMobileMenu();">Submit Event</a></li>
+                    <li><a href="#" onclick="showPage('admin')">Admin Panel</a></li>
                 </ul>
             </div>
         </div>
@@ -1571,7 +1571,6 @@
 
         <div class="footer-bottom">
             <p>&copy; 2025 Quabbin Vibes. All rights reserved. | Professional Regional Media Coverage</p>
-            <p class="admin-access" onclick="showAdminLogin()">Admin Access</p>
         </div>
     </footer>
 
@@ -1719,62 +1718,65 @@
             }
         }
 
-        // Admin functionality
-        function changeHeroImageAdmin() {
-            const newImageUrl = prompt('Enter new image URL for hero background:');
-            if (newImageUrl) {
-                const heroSection = document.getElementById('heroSection');
-                if (heroSection) {
-                    heroSection.style.backgroundImage = `linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.6)), url('${newImageUrl}')`;
-                    alert('Hero background updated successfully!');
-                }
-            }
+        function showAdminLogin() {
+            showPage('admin');
         }
 
-        function uploadHeroImage(event) {
-            event.preventDefault();
-            const formData = new FormData(event.target);
-            const imageUrl = formData.get('url');
+        // Admin functionality - now much simpler
+        function updateHeroImage() {
+            const imageUrl = document.getElementById('heroImageUrl').value;
+            const credit = document.getElementById('heroCredit').value;
             
             if (imageUrl) {
                 const heroSection = document.getElementById('heroSection');
                 if (heroSection) {
                     heroSection.style.backgroundImage = `linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.6)), url('${imageUrl}')`;
+                    
+                    // Update photo credit if provided
+                    if (credit) {
+                        const photoCredit = heroSection.querySelector('.photo-credit');
+                        if (photoCredit) {
+                            photoCredit.textContent = `📸 ${credit}`;
+                        }
+                    }
+                    
                     alert('Hero image updated successfully!');
-                    event.target.reset();
+                    document.getElementById('heroImageUrl').value = '';
+                    document.getElementById('heroCredit').value = '';
                 }
+            } else {
+                alert('Please enter an image URL');
             }
         }
 
-        function addNewEvent(event) {
+        function addEvent(event) {
             event.preventDefault();
             alert('Event added successfully! It will appear on the events page.');
             event.target.reset();
-            
-            // In real implementation, this would add to database and update the events list
         }
 
-        function createBlogPost(event) {
+        function addBlogPost(event) {
             event.preventDefault();
             alert('Blog post created successfully! It will appear in the Photography & Reviews section.');
             event.target.reset();
-            
-            // In real implementation, this would add to database and update the blog
         }
 
         function updateHeroCopy() {
+            const title = document.getElementById('heroTitle').value;
+            const subtitle = document.getElementById('heroSubtitle').value;
+            
+            // Update the actual hero section
+            const heroTitle = document.querySelector('.hero h1');
+            const heroSubtitle = document.querySelector('.hero-subtitle');
+            
+            if (heroTitle && title) {
+                heroTitle.textContent = title;
+            }
+            if (heroSubtitle && subtitle) {
+                heroSubtitle.textContent = subtitle;
+            }
+            
             alert('Hero copy updated successfully!');
-            // In real implementation, this would update the actual page content
-        }
-
-        function updateAboutCopy() {
-            alert('About page copy updated successfully!');
-            // In real implementation, this would update the about page content
-        }
-
-        function updatePhotographyCopy() {
-            alert('Photography page copy updated successfully!');
-            // In real implementation, this would update the photography page content
         }
 
         // Initialize page and set up event listeners
@@ -1819,4 +1821,4 @@
         });
     </script>
 </body>
-</html>
+                </html>
