@@ -574,14 +574,15 @@
         }
 
         .admin-access {
-            color: rgba(255,255,255,0.3);
-            font-size: 0.8em;
+            color: rgba(255,255,255,0.2);
+            font-size: 1.2em;
             cursor: pointer;
             transition: color 0.3s;
+            user-select: none;
         }
 
         .admin-access:hover {
-            color: #5865f2;
+            color: rgba(255,255,255,0.6);
         }
 
         /* Responsive Design */
@@ -669,7 +670,7 @@
                 <a href="#" onclick="showPage('venues')">Venues</a>
                 <a href="#" onclick="showPage('about')">About</a>
                 <a href="#" onclick="showPage('contact')">Contact</a>
-                <a href="#" onclick="showPage('admin')">Admin Panel</a>
+                <a href="#" onclick="showPage('submit')">Submit Event</a>
             </nav>
 
             <!-- Mobile Hamburger -->
@@ -687,7 +688,7 @@
                     <li><a href="#" onclick="showPage('venues'); toggleMobileMenu();">Venues</a></li>
                     <li><a href="#" onclick="showPage('about'); toggleMobileMenu();">About</a></li>
                     <li><a href="#" onclick="showPage('contact'); toggleMobileMenu();">Contact</a></li>
-                    <li><a href="#" onclick="showPage('admin')">Admin Panel</a></li>
+                    <li><a href="#" onclick="showPage('submit'); toggleMobileMenu();">Submit Event</a></li>
                 </ul>
             </div>
         </div>
@@ -1571,6 +1572,7 @@
 
         <div class="footer-bottom">
             <p>&copy; 2025 Quabbin Vibes. All rights reserved. | Professional Regional Media Coverage</p>
+            <p class="admin-access" onclick="adminLogin()">•</p>
         </div>
     </footer>
 
@@ -1718,8 +1720,13 @@
             }
         }
 
-        function showAdminLogin() {
-            showPage('admin');
+        function adminLogin() {
+            const password = prompt('Enter admin password:');
+            if (password === 'QuabbinVibes2025!') {
+                showPage('admin');
+            } else if (password !== null && password !== '') {
+                alert('Incorrect password.');
+            }
         }
 
         // Admin functionality - now much simpler
@@ -1821,4 +1828,4 @@
         });
     </script>
 </body>
-                </html>
+                        </html>
