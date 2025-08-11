@@ -1582,6 +1582,29 @@
         let currentPage = 'home';
         let isAdminLoggedIn = false;
 
+        // Define all functions first
+        function showAdminLogin() {
+            const password = prompt('Enter admin password:');
+            if (password === 'QuabbinVibes2025!') {
+                isAdminLoggedIn = true;
+                const adminPanel = document.getElementById('adminPanel');
+                if (adminPanel) {
+                    adminPanel.style.display = 'block';
+                    showAdminTab('dashboard');
+                }
+            } else if (password !== null && password !== '') {
+                alert('Incorrect password.');
+            }
+        }
+
+        function closeAdmin() {
+            const adminPanel = document.getElementById('adminPanel');
+            if (adminPanel) {
+                adminPanel.style.display = 'none';
+            }
+            isAdminLoggedIn = false;
+        }
+
         // Navigation functions
         function showPage(pageId) {
             // Hide all pages
@@ -1638,15 +1661,28 @@
             if (password === 'QuabbinVibes2025!') {
                 isAdminLoggedIn = true;
                 const adminPanel = document.getElementById('adminPanel');
-                adminPanel.style.display = 'block';
-                showAdminTab('dashboard');
-            } else if (password !== null) {
+                if (adminPanel) {
+                    adminPanel.style.display = 'block';
+                    showAdminTab('dashboard');
+                }
+            } else if (password !== null && password !== '') {
                 alert('Incorrect password.');
             }
         }
 
         function closeAdmin() {
-            document.getElementById('adminPanel').style.display = 'none';
+            const adminPanel = document.getElementById('adminPanel');
+            if (adminPanel) {
+                adminPanel.style.display = 'none';
+            }
+            isAdminLoggedIn = false;
+        }
+
+        function closeAdmin() {
+            const adminPanel = document.getElementById('adminPanel');
+            if (adminPanel) {
+                adminPanel.style.display = 'none';
+            }
             isAdminLoggedIn = false;
         }
 
@@ -1657,9 +1693,15 @@
                 tab.classList.remove('active');
             });
             
-            // Find and activate the clicked tab
+            // Find and activate the correct tab
             tabs.forEach(tab => {
-                if (tab.textContent.toLowerCase().includes(tabName)) {
+                const tabText = tab.textContent.toLowerCase();
+                if ((tabName === 'dashboard' && tabText.includes('dashboard')) ||
+                    (tabName === 'hero' && tabText.includes('hero')) ||
+                    (tabName === 'events' && tabText.includes('events')) ||
+                    (tabName === 'blog' && tabText.includes('blog')) ||
+                    (tabName === 'copy' && tabText.includes('copy')) ||
+                    (tabName === 'stats' && tabText.includes('statistics'))) {
                     tab.classList.add('active');
                 }
             });
@@ -1735,7 +1777,7 @@
             // In real implementation, this would update the photography page content
         }
 
-        // Initialize page
+        // Initialize page and set up event listeners
         document.addEventListener('DOMContentLoaded', function() {
             // Set initial page
             showPage('home');
@@ -1763,6 +1805,9 @@
                     closeAdmin();
                 }
             });
+
+            // Test admin access functionality
+            console.log('Admin access initialized. Password: QuabbinVibes2025!');
         });
 
         // Handle window resize
@@ -1774,4 +1819,4 @@
         });
     </script>
 </body>
-    </html>
+</html>
