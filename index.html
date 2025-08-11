@@ -80,9 +80,9 @@
             transform: translateY(-1px);
         }
 
-        /* Hero Section with Seasonal Backgrounds */
+        /* Hero Section with Custom Photography */
         .hero {
-            background: linear-gradient(rgba(102, 126, 234, 0.7), rgba(118, 75, 162, 0.7)), 
+            background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.4)), 
                         var(--hero-bg);
             background-size: cover;
             background-position: center;
@@ -94,21 +94,38 @@
             transition: background-image 1s ease-in-out;
         }
 
-        /* Seasonal Background Variables */
+        /* Custom Photography Backgrounds - Replace these URLs with your own photos */
         :root {
-            --hero-bg: url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1400&h=700&fit=crop&q=80'); /* Summer - Lake/Nature */
+            --hero-bg: url('https://your-photo-url.com/summer-quabbin.jpg'); /* Your summer photo */
         }
 
         .hero.fall {
-            --hero-bg: url('https://images.unsplash.com/photo-1508739773434-c26b3d09e071?w=1400&h=700&fit=crop&q=80'); /* Fall foliage */
+            --hero-bg: url('https://your-photo-url.com/fall-foliage.jpg'); /* Your fall photo */
         }
 
         .hero.winter {
-            --hero-bg: url('https://images.unsplash.com/photo-1551582045-6ec9c11d8697?w=1400&h=700&fit=crop&q=80'); /* Winter landscape */
+            --hero-bg: url('https://your-photo-url.com/winter-landscape.jpg'); /* Your winter photo */
         }
 
         .hero.spring {
-            --hero-bg: url('https://images.unsplash.com/photo-1490750967868-88aa4486c946?w=1400&h=700&fit=crop&q=80'); /* Spring blooms */
+            --hero-bg: url('https://your-photo-url.com/spring-blooms.jpg'); /* Your spring photo */
+        }
+
+        /* Temporary placeholder backgrounds (remove these when you add your photos) */
+        .hero.temp-summer {
+            --hero-bg: url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1400&h=700&fit=crop&q=80');
+        }
+        
+        .hero.temp-fall {
+            --hero-bg: url('https://images.unsplash.com/photo-1508739773434-c26b3d09e071?w=1400&h=700&fit=crop&q=80');
+        }
+        
+        .hero.temp-winter {
+            --hero-bg: url('https://images.unsplash.com/photo-1551582045-6ec9c11d8697?w=1400&h=700&fit=crop&q=80');
+        }
+        
+        .hero.temp-spring {
+            --hero-bg: url('https://images.unsplash.com/photo-1490750967868-88aa4486c946?w=1400&h=700&fit=crop&q=80');
         }
 
         .hero::before {
@@ -118,7 +135,7 @@
             left: 0;
             right: 0;
             height: 120px;
-            background: linear-gradient(transparent, rgba(0, 0, 0, 0.4));
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.2));
             pointer-events: none;
         }
 
@@ -133,6 +150,43 @@
             font-size: 0.9rem;
             opacity: 0.9;
             backdrop-filter: blur(5px);
+        }
+
+        /* Admin Photo Upload Section */
+        .photo-upload-section {
+            background: #f8f9fa;
+            border-radius: 1rem;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .upload-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .upload-card {
+            background: white;
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .upload-card h4 {
+            margin-bottom: 1rem;
+            color: #333;
+        }
+
+        .current-photo {
+            width: 100%;
+            height: 120px;
+            background-size: cover;
+            background-position: center;
+            border-radius: 0.5rem;
+            margin-bottom: 1rem;
+            border: 2px solid #e0e0e0;
         }
 
         /* Seasonal Background Selector (Admin) */
@@ -754,14 +808,64 @@
 
             <div class="admin-panel">
                 <div class="admin-tabs">
-                    <button class="admin-tab active" onclick="showAdminTab('manage-events')">Manage Events</button>
+                    <button class="admin-tab active" onclick="showAdminTab('hero-photos')">Hero Photos</button>
+                    <button class="admin-tab" onclick="showAdminTab('manage-events')">Manage Events</button>
                     <button class="admin-tab" onclick="showAdminTab('submissions')">Review Submissions</button>
                     <button class="admin-tab" onclick="showAdminTab('blog-posts')">Blog Posts</button>
                     <button class="admin-tab" onclick="showAdminTab('featured')">Featured Events</button>
                 </div>
 
+                <!-- Hero Photos Management Tab -->
+                <div id="hero-photos" class="admin-content active">
+                    <h3>Manage Hero Background Photos</h3>
+                    <p>Upload your own photography for the seasonal hero backgrounds. Use high-resolution images (1400x700px recommended).</p>
+                    
+                    <div class="photo-upload-section">
+                        <div class="upload-grid">
+                            <div class="upload-card">
+                                <h4>🌞 Summer Photo</h4>
+                                <div class="current-photo" id="summerPreview" style="background-image: url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=300&h=120&fit=crop&q=80');"></div>
+                                <input type="url" id="summerPhotoUrl" placeholder="Enter your summer photo URL" style="width: 100%; margin-bottom: 0.5rem; padding: 0.5rem;">
+                                <button class="btn" onclick="updateHeroPhoto('summer')">Update Summer</button>
+                            </div>
+                            
+                            <div class="upload-card">
+                                <h4>🍂 Fall Photo</h4>
+                                <div class="current-photo" id="fallPreview" style="background-image: url('https://images.unsplash.com/photo-1508739773434-c26b3d09e071?w=300&h=120&fit=crop&q=80');"></div>
+                                <input type="url" id="fallPhotoUrl" placeholder="Enter your fall photo URL" style="width: 100%; margin-bottom: 0.5rem; padding: 0.5rem;">
+                                <button class="btn" onclick="updateHeroPhoto('fall')">Update Fall</button>
+                            </div>
+                            
+                            <div class="upload-card">
+                                <h4>❄️ Winter Photo</h4>
+                                <div class="current-photo" id="winterPreview" style="background-image: url('https://images.unsplash.com/photo-1551582045-6ec9c11d8697?w=300&h=120&fit=crop&q=80');"></div>
+                                <input type="url" id="winterPhotoUrl" placeholder="Enter your winter photo URL" style="width: 100%; margin-bottom: 0.5rem; padding: 0.5rem;">
+                                <button class="btn" onclick="updateHeroPhoto('winter')">Update Winter</button>
+                            </div>
+                            
+                            <div class="upload-card">
+                                <h4>🌸 Spring Photo</h4>
+                                <div class="current-photo" id="springPreview" style="background-image: url('https://images.unsplash.com/photo-1490750967868-88aa4486c946?w=300&h=120&fit=crop&q=80');"></div>
+                                <input type="url" id="springPhotoUrl" placeholder="Enter your spring photo URL" style="width: 100%; margin-bottom: 0.5rem; padding: 0.5rem;">
+                                <button class="btn" onclick="updateHeroPhoto('spring')">Update Spring</button>
+                            </div>
+                        </div>
+                        
+                        <div style="margin-top: 2rem; padding: 1rem; background: #e3f2fd; border-radius: 0.5rem;">
+                            <h4>📸 Photo Tips:</h4>
+                            <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+                                <li>Best size: 1400x700 pixels (2:1 aspect ratio)</li>
+                                <li>Upload to Imgur, Google Drive, or your own server</li>
+                                <li>Use landscape photos from the Quabbin region</li>
+                                <li>Photos should work well with white text overlay</li>
+                                <li>Dark overlay is automatically applied for readability</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Manage Events Tab -->
-                <div id="manage-events" class="admin-content active">
+                <div id="manage-events" class="admin-content">
                     <h3>Add New Event</h3>
                     <form id="adminEventForm">
                         <div class="form-group">
@@ -1296,13 +1400,62 @@
             }
         });
 
+        // Hero Photo Management
+        let heroPhotos = {
+            summer: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1400&h=700&fit=crop&q=80',
+            fall: 'https://images.unsplash.com/photo-1508739773434-c26b3d09e071?w=1400&h=700&fit=crop&q=80',
+            winter: 'https://images.unsplash.com/photo-1551582045-6ec9c11d8697?w=1400&h=700&fit=crop&q=80',
+            spring: 'https://images.unsplash.com/photo-1490750967868-88aa4486c946?w=1400&h=700&fit=crop&q=80'
+        };
+
+        function updateHeroPhoto(season) {
+            const photoUrl = document.getElementById(`${season}PhotoUrl`).value;
+            if (!photoUrl) {
+                showNotification('Please enter a photo URL', 'error');
+                return;
+            }
+
+            // Update the stored photo URL
+            heroPhotos[season] = photoUrl;
+            
+            // Update preview
+            document.getElementById(`${season}Preview`).style.backgroundImage = `url(${photoUrl})`;
+            
+            // Update hero background if this is the current season
+            if (currentSeason === season) {
+                updateCurrentHeroBackground();
+            }
+            
+            // Save to storage (in real app, would save to database)
+            try {
+                localStorage.setItem('heroPhotos', JSON.stringify(heroPhotos));
+            } catch (e) {
+                // Continue without saving if localStorage unavailable
+            }
+            
+            showNotification(`${season.charAt(0).toUpperCase() + season.slice(1)} photo updated!`);
+            
+            // Clear input
+            document.getElementById(`${season}PhotoUrl`).value = '';
+        }
+
+        function updateCurrentHeroBackground() {
+            const heroSection = document.getElementById('heroSection');
+            const currentPhotoUrl = heroPhotos[currentSeason];
+            
+            // Update CSS custom property
+            document.documentElement.style.setProperty(`--hero-bg-${currentSeason}`, `url(${currentPhotoUrl})`);
+            
+            // Apply the background
+            heroSection.style.setProperty('--hero-bg', `url(${currentPhotoUrl})`);
+        }
         // Seasonal Background Management
         let currentSeason = 'summer';
         const seasonCredits = {
-            summer: '📷 Quabbin Reservoir Summer',
-            fall: '📷 New England Fall Foliage', 
-            winter: '📷 Berkshire Winter Landscape',
-            spring: '📷 Western Mass Spring Blooms'
+            summer: '📷 Your Summer Photography',
+            fall: '📷 Your Fall Photography', 
+            winter: '📷 Your Winter Photography',
+            spring: '📷 Your Spring Photography'
         };
 
         function changeSeason(season) {
@@ -1310,12 +1463,10 @@
             const heroCredit = document.getElementById('heroCredit');
             
             // Remove all season classes
-            heroSection.classList.remove('summer', 'fall', 'winter', 'spring');
+            heroSection.classList.remove('summer', 'fall', 'winter', 'spring', 'temp-summer', 'temp-fall', 'temp-winter', 'temp-spring');
             
-            // Add new season class
-            if (season !== 'summer') {
-                heroSection.classList.add(season);
-            }
+            // Add temporary class until user uploads their own photos
+            heroSection.classList.add(`temp-${season}`);
             
             // Update credit
             heroCredit.textContent = seasonCredits[season];
@@ -1328,11 +1479,17 @@
             
             currentSeason = season;
             
-            // Save preference (in real app, would save to database)
+            // Apply custom photo if available
+            if (heroPhotos[season] && !heroPhotos[season].includes('unsplash.com')) {
+                updateCurrentHeroBackground();
+                heroSection.classList.remove(`temp-${season}`);
+            }
+            
+            // Save preference
             try {
                 localStorage.setItem('heroSeason', season);
             } catch (e) {
-                // localStorage not available, continue without saving
+                // Continue without saving if localStorage unavailable
             }
         }
 
@@ -1347,13 +1504,18 @@
             else if (month >= 8 && month <= 10) season = 'fall';  // Sep-Nov
             else season = 'winter';                               // Dec-Feb
             
-            // Check if admin has set a preference (with error handling)
+            // Check if admin has set a preference
             let savedSeason = null;
             try {
                 savedSeason = localStorage.getItem('heroSeason');
+                const savedPhotos = localStorage.getItem('heroPhotos');
+                if (savedPhotos) {
+                    heroPhotos = JSON.parse(savedPhotos);
+                }
             } catch (e) {
-                // localStorage not available, use default season
+                // Continue with defaults if localStorage unavailable
             }
+            
             if (savedSeason) {
                 season = savedSeason;
             }
@@ -1361,16 +1523,21 @@
             const heroSection = document.getElementById('heroSection');
             const heroCredit = document.getElementById('heroCredit');
             
-            if (season !== 'summer') {
-                heroSection.classList.add(season);
-            }
+            // Use temporary class initially
+            heroSection.classList.add(`temp-${season}`);
             heroCredit.textContent = seasonCredits[season];
             currentSeason = season;
+            
+            // Apply custom photo if available
+            if (heroPhotos[season] && !heroPhotos[season].includes('unsplash.com')) {
+                updateCurrentHeroBackground();
+                heroSection.classList.remove(`temp-${season}`);
+            }
             
             // Update active button
             document.querySelectorAll('.season-btn').forEach(btn => {
                 btn.classList.remove('active');
-                if (btn.textContent.toLowerCase() === season) {
+                if (btn.textContent.toLowerCase().includes(season)) {
                     btn.classList.add('active');
                 }
             });
@@ -1394,14 +1561,15 @@
             document.getElementById('featuredEvents').textContent = eventsData.filter(e => e.featured).length;
         }
 
-        function showNotification(message) {
+        function showNotification(message, type = 'success') {
             // Create notification element
             const notification = document.createElement('div');
+            const bgColor = type === 'error' ? '#dc3545' : '#28a745';
             notification.style.cssText = `
                 position: fixed;
                 top: 20px;
                 right: 20px;
-                background: #28a745;
+                background: ${bgColor};
                 color: white;
                 padding: 1rem 1.5rem;
                 border-radius: 8px;
