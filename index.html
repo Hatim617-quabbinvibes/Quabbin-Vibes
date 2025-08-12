@@ -2,716 +2,551 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Quabbin Vibes - Your Complete Regional Events Platform</title>
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Quabbin Vibes — Regional Events & Media</title>
+<meta name="description" content="Discover events & hidden gems across Western & Central New England. Curated calendar, venues, and pro media coverage." />
+<link rel="preconnect" href="https://images.unsplash.com">
 <style>
-/* ---------- Base / Layout ---------- */
-*{margin:0;padding:0;box-sizing:border-box}
+/* ============ Design Tokens ============ */
 :root{
-  --brand:#5865f2; --brand-2:#2ed573; --ink:#333; --muted:#666; --bg:#f8f9fa;
-  --card:#fff; --shadow:0 10px 30px rgba(0,0,0,.10);
+  --bg: #0b0f17;
+  --panel: #0f141d;
+  --elev: #0f1622;
+  --ink: #e6ebf3;
+  --muted: #96a0b2;
+  --brand: #7a8cff;      /* periwinkle */
+  --brand-2: #25d0a6;    /* mint */
+  --accent: #ffd166;     /* honey */
+  --danger:#ff6b6b;
+  --radius: 16px;
+  --shadow: 0 20px 50px rgba(0,0,0,.35);
 }
-body{font-family:system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; line-height:1.6; color:var(--ink); background:var(--bg)}
-.hidden{display:none!important}
 
-/* ---------- Header ---------- */
-header{position:fixed;inset:0 0 auto 0;z-index:1000;background:rgba(255,255,255,.95);backdrop-filter:blur(10px);border-bottom:1px solid rgba(0,0,0,.08)}
-.header-container{max-width:1200px;margin:0 auto;padding:0 20px;height:70px;display:flex;align-items:center;justify-content:space-between}
-.logo{font-size:1.6rem;font-weight:800;color:var(--brand);text-decoration:none}
-.nav-desktop{display:flex;gap:26px;list-style:none}
-.nav-desktop a{color:var(--ink);text-decoration:none;font-weight:600}
-.nav-desktop a:hover{color:var(--brand)}
-.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer}
-.hamburger span{width:26px;height:3px;background:#222;border-radius:4px}
-.nav-mobile{display:none;position:absolute;top:70px;left:0;right:0;background:#fff;border-bottom:1px solid rgba(0,0,0,.08);box-shadow:var(--shadow)}
-.nav-mobile ul{list-style:none;padding:18px}
-.nav-mobile li{margin:12px 0}
-.nav-mobile a{text-decoration:none;color:#222;font-weight:600}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial;
+  color:var(--ink);
+  background:
+    radial-gradient(1200px 600px at 10% -10%, #1b2030 0%, transparent 60%),
+    radial-gradient(900px 600px at 100% 0%, #131a2c 0%, transparent 55%),
+    linear-gradient(#0c111a, #0a0f17);
+  overflow-x:hidden;
+}
 
-/* ---------- Hero ---------- */
-.hero{height:100vh;min-height:560px;margin-top:70px;display:flex;align-items:center;justify-content:center;text-align:center;color:#fff;position:relative;background-size:cover;background-position:center;background-attachment:fixed}
-.hero:before{content:"";position:absolute;inset:0;background:linear-gradient(rgba(0,0,0,.35), rgba(0,0,0,.6))}
-.hero-content{position:relative;z-index:1;max-width:880px;padding:0 20px}
-.hero h1{font-size:3.4rem;line-height:1.08;margin-bottom:16px;text-shadow:2px 2px 8px rgba(0,0,0,.5)}
-.hero-subtitle{font-size:1.25rem;opacity:.95;margin-bottom:26px;text-shadow:1px 1px 5px rgba(0,0,0,.5)}
-.coverage-area{display:inline-block;background:rgba(0,0,0,.45);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.25);padding:18px 22px;border-radius:14px;color:#e9f2ff}
-.photo-credit{position:absolute;right:18px;bottom:18px;background:rgba(0,0,0,.6);padding:8px 14px;border-radius:999px;border:1px solid rgba(255,255,255,.2);font-size:.9rem}
+/* ============ Header ============ */
+header{
+  position:sticky; top:0; z-index:1000;
+  backdrop-filter: blur(18px);
+  background: rgba(10,15,23,.55);
+  border-bottom: 1px solid rgba(255,255,255,.06);
+}
+.nav{
+  max-width:1200px; margin:0 auto; padding:14px 20px;
+  display:flex; align-items:center; gap:18px;
+}
+.brand{
+  display:flex; align-items:center; gap:12px; text-decoration:none; color:var(--ink);
+  font-weight:900; letter-spacing:.2px; font-size:1.25rem;
+}
+.brand-badge{
+  width:34px; height:34px; border-radius:10px;
+  background: conic-gradient(from 210deg, var(--brand), var(--brand-2), var(--accent), var(--brand));
+  box-shadow: 0 8px 24px rgba(122,140,255,.35);
+}
+.spacer{flex:1}
+.nav a{color:var(--muted); text-decoration:none; font-weight:700}
+.nav a:hover{color:var(--ink)}
+.cta{
+  background: linear-gradient(135deg, var(--brand), var(--brand-2));
+  color:#0a0f17; padding:10px 14px; border-radius:12px; font-weight:900; text-decoration:none;
+  box-shadow: 0 8px 16px rgba(37,208,166,.28);
+}
 
-/* ---------- Search ---------- */
-.search-section{background:#fff;padding:40px 20px;margin-top:-50px;position:relative;z-index:10}
-.search-container{max-width:900px;margin:0 auto;background:#fff;border-radius:14px;box-shadow:var(--shadow);padding:22px;display:flex;gap:12px;flex-wrap:wrap}
-.search-input,.search-select{border:2px solid #e5e7eb;border-radius:10px;padding:12px 14px;font-size:1rem}
-.search-input{flex:1;min-width:240px}
-.search-select{min-width:160px}
-.search-btn{background:var(--brand);color:#fff;border:0;border-radius:10px;padding:12px 20px;font-weight:800;cursor:pointer}
-.search-btn:hover{filter:brightness(.95)}
+/* Mobile menu minimal (hidden for mockup) */
+.menu-btn{display:none}
 
-/* ---------- Sections ---------- */
-.main-content{max-width:1200px;margin:0 auto;padding:60px 20px}
-.section-title{font-size:2.1rem;text-align:center;margin-bottom:28px}
+/* ============ Hero ============ */
+.hero{
+  position:relative; isolation:isolate;
+  display:grid; grid-template-columns: 1.1fr .9fr; gap:28px;
+  max-width:1200px; margin:42px auto 28px; padding:0 20px;
+}
+.hero-copy{
+  padding:18px 0 32px;
+}
+.kicker{
+  display:inline-flex; align-items:center; gap:10px;
+  padding:8px 12px; border-radius:999px;
+  background: rgba(122,140,255,.12);
+  border:1px solid rgba(122,140,255,.25);
+  color:var(--brand);
+  font-weight:800; font-size:.9rem;
+}
+.kicker .dot{width:7px; height:7px; background:var(--brand-2); border-radius:999px; box-shadow:0 0 16px var(--brand-2)}
+.hero h1{
+  font-size:clamp(2.2rem, 3.2vw + 1rem, 4rem);
+  line-height:1.05; margin:14px 0 10px; letter-spacing:.2px;
+  text-shadow:0 6px 30px rgba(0,0,0,.35);
+}
+.hero p.sub{
+  color:var(--muted); font-size:1.1rem; max-width:52ch;
+}
+.hero-actions{margin-top:20px; display:flex; gap:12px; flex-wrap:wrap}
+.btn{
+  display:inline-flex; align-items:center; gap:10px; padding:12px 16px; border-radius:12px;
+  font-weight:900; text-decoration:none; border:1px solid rgba(255,255,255,.08); color:var(--ink);
+  background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+}
+.btn.primary{background:linear-gradient(135deg, var(--brand), var(--brand-2)); color:#0a0f17; border:0}
+.btn.ghost:hover{border-color:rgba(255,255,255,.22)}
+.hero-tags{margin-top:16px; display:flex; gap:8px; flex-wrap:wrap}
+.tag{padding:6px 10px; border-radius:999px; background:#12192a; color:#b7c3d9; font-size:.85rem; border:1px solid rgba(255,255,255,.06)}
 
-/* ---------- Cards / Grid ---------- */
-.events-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:22px}
-.card{background:var(--card);border-radius:16px;box-shadow:var(--shadow);overflow:hidden;border:1px solid rgba(0,0,0,.05)}
-.event-image{height:200px;background:linear-gradient(135deg,#667eea,#764ba2);position:relative;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700}
-.badge{position:absolute;left:14px;top:14px;background:#ff4757;color:#fff;border-radius:999px;padding:6px 12px;font-size:.8rem;font-weight:800}
-.datechip{position:absolute;right:14px;top:14px;background:rgba(255,255,255,.92);border-radius:10px;padding:8px 10px;color:#222;text-align:center;font-weight:800;min-width:64px}
-.event-info{padding:18px}
-.event-title{font-size:1.2rem;font-weight:800;margin-bottom:4px}
-.event-meta{color:var(--muted);font-size:.95rem;margin:6px 0}
-.event-desc{color:#777}
+.hero-art{
+  position:relative; min-height:420px; border-radius:var(--radius);
+  background: radial-gradient(120% 120% at 80% 10%, rgba(122,140,255,.18), transparent 60%),
+              url('https://images.unsplash.com/photo-1518972559570-7cc1309f3229?auto=format&fit=crop&w=1500&q=60') center/cover no-repeat;
+  overflow:hidden; box-shadow: var(--shadow); border:1px solid rgba(255,255,255,.06);
+}
+.hero-art::after{
+  content:""; position:absolute; inset:0;
+  background: linear-gradient(180deg, rgba(11,15,23,.1), rgba(11,15,23,.55) 60%, rgba(11,15,23,.8));
+}
+.hero-credit{position:absolute; right:14px; bottom:14px; font-size:.85rem; color:#cfd7e6; opacity:.9}
 
-/* ---------- Page Containers ---------- */
-.page-content{display:none;max-width:1200px;margin:0 auto;padding:100px 20px 60px}
-.page-content.active{display:block}
+/* ============ Category Marquee ============ */
+.marquee{
+  margin:18px 0 6px; padding:10px 0; overflow:hidden; mask-image:linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+}
+.marquee-track{
+  display:flex; gap:14px; animation:slide 30s linear infinite;
+}
+.pill{
+  padding:8px 12px; border-radius:999px; font-weight:800; font-size:.9rem;
+  background:#121827; color:#c7d2e9; border:1px solid rgba(255,255,255,.06)
+}
+@keyframes slide{ 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
 
-/* ---------- Footer ---------- */
-footer{background:#2c3e50;color:#fff;margin-top:70px}
-.footer-content{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:26px;padding:46px 20px 20px}
-.footer-section h3{color:var(--brand);margin-bottom:10px}
-.footer-section a{color:#fff;text-decoration:none}
-.footer-section a:hover{color:var(--brand)}
-.footer-bottom{border-top:1px solid rgba(255,255,255,.15);text-align:center;padding:16px 20px;opacity:.8;position:relative}
-.admin-dot{position:absolute;right:10px;bottom:12px;width:7px;height:7px;border-radius:999px;background:rgba(255,255,255,.35);cursor:pointer}
+/* ============ Featured Carousel ============ */
+.section{max-width:1200px; margin:0 auto; padding:28px 20px}
+.h2{font-size:1.6rem; margin-bottom:14px; letter-spacing:.2px}
+.carousel{
+  display:grid; grid-auto-flow:column; grid-auto-columns: minmax(260px, 1fr);
+  gap:16px; overflow:auto; scroll-snap-type:x mandatory; padding-bottom:6px;
+}
+.card{
+  background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
+  border:1px solid rgba(255,255,255,.08); border-radius:18px; overflow:hidden;
+  scroll-snap-align:start; box-shadow: 0 8px 30px rgba(0,0,0,.25);
+}
+.card .img{height:160px; background:#1b2233 center/cover no-repeat}
+.card .meta{padding:14px}
+.meta h3{font-size:1.05rem; line-height:1.25}
+.meta p{color:var(--muted); margin-top:6px; font-size:.95rem}
+.chip{display:inline-block; padding:6px 10px; border-radius:999px; background:#1a2031; border:1px solid rgba(255,255,255,.08); font-size:.8rem; color:#c9d4ea; margin-top:10px}
+.datechip{
+  position:absolute; right:10px; top:10px; padding:8px 10px; border-radius:10px; font-weight:900;
+  background:rgba(255,255,255,.9); color:#0a0f17; font-size:.85rem
+}
 
-/* ---------- Admin Overlay ---------- */
-.admin{position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:2000;display:none}
-.admin .panel{background:#fff;width:92%;max-width:1100px;height:86%;margin:4% auto;border-radius:16px;overflow:hidden;display:flex;flex-direction:column}
-.admin .head{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid #eef1f4}
-.admin .tabs{display:flex;gap:8px;padding:10px;border-bottom:1px solid #eef1f4;flex-wrap:wrap}
-.admin .tab{border:0;padding:10px 12px;border-radius:10px;background:#eef1f8;font-weight:800;cursor:pointer}
-.admin .tab.active{background:var(--brand);color:#fff}
-.admin .body{flex:1;overflow:auto;padding:16px}
-.table{width:100%;border-collapse:collapse}
-.table th,.table td{padding:10px;border-top:1px solid #eef1f4;text-align:left}
-.btn{border:1px solid #e5e7eb;background:#fff;padding:8px 12px;border-radius:10px;cursor:pointer;font-weight:700}
-.btn.primary{background:var(--brand);color:#fff;border-color:transparent}
-.btn.danger{background:#ff4757;color:#fff;border-color:transparent}
+/* ============ Filters + Grid ============ */
+.filterbar{
+  margin-top:8px; display:flex; gap:10px; flex-wrap:wrap;
+}
+.input, .select{
+  background:#0f1522; color:var(--ink); border:1px solid rgba(255,255,255,.08); padding:12px 14px;
+  border-radius:12px; min-width:180px
+}
+.button{padding:12px 16px; border-radius:12px; font-weight:900; background:linear-gradient(135deg,var(--brand),var(--brand-2)); color:#0a0f17; border:0}
+.grid{
+  margin-top:16px; display:grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap:16px
+}
+.event{
+  position:relative; border-radius:18px; overflow:hidden; border:1px solid rgba(255,255,255,.08);
+  background:#111827; box-shadow: var(--shadow)
+}
+.event .photo{height:140px; background:#1e273a center/cover no-repeat}
+.event .body{padding:14px}
+.event .title{font-weight:900}
+.event .muted{color:var(--muted); font-size:.95rem; margin-top:6px}
+.event .desc{color:#c7d2e9; margin-top:8px; font-size:.95rem}
 
-/* ---------- Responsive ---------- */
-@media (max-width:768px){
-  .nav-desktop{display:none}
-  .hamburger{display:flex}
-  .hero h1{font-size:2.4rem}
-  .hero-subtitle{font-size:1.05rem}
-  .search-container{padding:16px}
-  .events-grid{grid-template-columns:1fr}
+/* ============ Venues Highlight ============ */
+.venue-grid{
+  display:grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap:16px; margin-top:10px
+}
+.venue{
+  background:linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
+  border:1px solid rgba(255,255,255,.08); border-radius:16px; overflow:hidden
+}
+.venue .img{height:160px;background:#172033 center/cover no-repeat}
+.venue .meta{padding:14px}
+.badge{display:inline-block; padding:6px 10px; border-radius:999px; background:#171e2c; color:#c7d2e9; border:1px solid rgba(255,255,255,.08); font-size:.8rem}
+
+/* ============ Partners strip ============ */
+.partners{
+  margin-top:18px; display:flex; gap:22px; flex-wrap:wrap; align-items:center; opacity:.9
+}
+.logo-t{
+  height:28px; filter:invert(1) contrast(0.8) opacity(.7)
+}
+
+/* ============ Newsletter ============ */
+.news{
+  margin-top:12px; display:grid; grid-template-columns: 1.2fr .8fr; gap:16px
+}
+.box{
+  background:linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
+  border:1px solid rgba(255,255,255,.08); border-radius:16px; padding:16px
+}
+.field{display:flex; gap:10px; margin-top:10px}
+.field input{
+  flex:1; padding:12px 14px; border-radius:12px; border:1px solid rgba(255,255,255,.1); background:#0f1522; color:var(--ink)
+}
+
+/* ============ Footer ============ */
+footer{
+  margin-top:36px; background: #070b12; border-top:1px solid rgba(255,255,255,.06)
+}
+.foot{
+  max-width:1200px; margin:0 auto; padding:26px 20px; display:grid; grid-template-columns: 1.2fr .8fr; gap:16px
+}
+.foot small{color:var(--muted)}
+.subtle{color:#a9b5ca}
+.copy{
+  border-top:1px solid rgba(255,255,255,.06); text-align:center; padding:16px; color:#8f9bb2; position:relative
+}
+#adminDot{
+  position:absolute; right:10px; bottom:12px; width:8px; height:8px; border-radius:999px;
+  background:rgba(255,255,255,.35); cursor:pointer
+}
+
+/* ============ Dark mode toggle ============ */
+.toggle{
+  position:fixed; right:16px; top:86px; z-index:999; user-select:none
+}
+.toggle button{
+  background:linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.02));
+  border:1px solid rgba(255,255,255,.12); color:var(--ink); padding:8px 12px; border-radius:12px; font-weight:900; cursor:pointer
+}
+
+/* ============ Admin mock modal ============ */
+#adminPanel{position:fixed; inset:0; background:rgba(0,0,0,.75); display:none; z-index:2000; align-items:center; justify-content:center}
+.admin-card{
+  width:min(92vw, 920px); background:#0c111a; border:1px solid rgba(255,255,255,.1); border-radius:16px; box-shadow:var(--shadow);
+  padding:18px
+}
+.admin-card h3{margin-bottom:6px}
+.row{display:grid; grid-template-columns: repeat(auto-fit, minmax(220px,1fr)); gap:12px; margin-top:10px}
+.row .input{min-width:auto}
+.admin-actions{display:flex; gap:10px; justify-content:flex-end; margin-top:12px}
+.close{background:var(--danger);border:0;color:#fff;padding:10px 14px;border-radius:12px;font-weight:900;cursor:pointer}
+.save{background:linear-gradient(135deg,var(--brand),var(--brand-2));border:0;color:#0a0f17;padding:10px 14px;border-radius:12px;font-weight:900;cursor:pointer}
+
+@media (max-width:900px){
+  .hero{grid-template-columns:1fr; gap:18px}
+  .news{grid-template-columns:1fr}
+  .foot{grid-template-columns:1fr}
 }
 </style>
 </head>
 <body>
 
-<!-- ===== Header ===== -->
 <header>
-  <div class="header-container">
-    <a href="#" class="logo" id="logoLink">Quabbin Vibes</a>
-    <nav class="nav-desktop">
-      <a href="#" onclick="showPage('home')">Home</a>
-      <a href="#" onclick="showPage('events')">Events</a>
-      <a href="#" onclick="showPage('photography')">Photography & Reviews</a>
-      <a href="#" onclick="showPage('venues')">Venues</a>
-      <a href="#" onclick="showPage('about')">About</a>
-      <a href="#" onclick="showPage('contact')">Contact</a>
-      <a href="#" onclick="showPage('submit')">Submit Event</a>
-    </nav>
-    <div class="hamburger" onclick="toggleMobileMenu()">
-      <span></span><span></span><span></span>
+  <nav class="nav">
+    <a class="brand" href="#">
+      <span class="brand-badge"></span> Quabbin Vibes
+    </a>
+    <a href="#events">Events</a>
+    <a href="#venues">Venues</a>
+    <a href="#media">Media</a>
+    <a href="#about">About</a>
+    <span class="spacer"></span>
+    <a class="cta" href="#submit">Submit Event</a>
+  </nav>
+</header>
+
+<div class="toggle">
+  <button id="modeBtn">🌙 Dark</button>
+</div>
+
+<section class="hero" id="top">
+  <div class="hero-copy">
+    <span class="kicker"><span class="dot"></span> Western & Central New England</span>
+    <h1>Discover what’s on—<br/>from Worcester to the Berkshires</h1>
+    <p class="sub">A curated calendar of music, arts, festivals, and neighborhood gems—paired with professional media coverage and venue spotlights.</p>
+    <div class="hero-actions">
+      <a class="btn primary" href="#events">Browse Events</a>
+      <a class="btn ghost" href="#subscribe">Get Weekly Picks</a>
     </div>
-    <div class="nav-mobile" id="mobileNav">
-      <ul>
-        <li><a href="#" onclick="navTo('home')">Home</a></li>
-        <li><a href="#" onclick="navTo('events')">Events</a></li>
-        <li><a href="#" onclick="navTo('photography')">Photography & Reviews</a></li>
-        <li><a href="#" onclick="navTo('venues')">Venues</a></li>
-        <li><a href="#" onclick="navTo('about')">About</a></li>
-        <li><a href="#" onclick="navTo('contact')">Contact</a></li>
-        <li><a href="#" onclick="navTo('submit')">Submit Event</a></li>
+    <div class="hero-tags">
+      <span class="tag">Music</span><span class="tag">Festivals</span><span class="tag">Arts & Culture</span>
+      <span class="tag">Food & Drink</span><span class="tag">Family</span>
+    </div>
+  </div>
+  <div class="hero-art">
+    <div class="hero-credit">📸 Quabbin Vibes</div>
+  </div>
+</section>
+
+<div class="marquee" aria-hidden="true">
+  <div class="marquee-track">
+    <span class="pill">Worcester</span><span class="pill">Pioneer Valley</span><span class="pill">Berkshires</span>
+    <span class="pill">Brattleboro</span><span class="pill">Hartford</span><span class="pill">Keene</span>
+    <span class="pill">North Adams</span><span class="pill">Amherst</span><span class="pill">Springfield</span>
+    <span class="pill">Greenfield</span><span class="pill">Lenox</span>
+    <!-- second copy for loop -->
+    <span class="pill">Worcester</span><span class="pill">Pioneer Valley</span><span class="pill">Berkshires</span>
+    <span class="pill">Brattleboro</span><span class="pill">Hartford</span><span class="pill">Keene</span>
+    <span class="pill">North Adams</span><span class="pill">Amherst</span><span class="pill">Springfield</span>
+    <span class="pill">Greenfield</span><span class="pill">Lenox</span>
+  </div>
+</div>
+
+<!-- Featured Carousel -->
+<section class="section" id="media">
+  <div class="h2">Featured This Week</div>
+  <div class="carousel">
+    <article class="card">
+      <div class="img" style="background-image:url('https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1400&q=60')">
+        <span class="datechip">Aug 16</span>
+      </div>
+      <div class="meta">
+        <h3>Tanglewood Summer Concert</h3>
+        <p>Lenox, MA • Boston Symphony under the stars.</p>
+        <span class="chip">Music • Featured</span>
+      </div>
+    </article>
+    <article class="card">
+      <div class="img" style="background-image:url('https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1400&q=60')">
+        <span class="datechip">Aug 18</span>
+      </div>
+      <div class="meta">
+        <h3>Hartford Arts Festival</h3>
+        <p>Bushnell Park • Installations, live sets, & makers.</p>
+        <span class="chip">Arts & Culture</span>
+      </div>
+    </article>
+    <article class="card">
+      <div class="img" style="background-image:url('https://images.unsplash.com/photo-1532634896-26909d0d4b6a?auto=format&fit=crop&w=1400&q=60')">
+        <span class="datechip">Aug 19</span>
+      </div>
+      <div class="meta">
+        <h3>Vermont Maple Street Fair</h3>
+        <p>Brattleboro • Local food, crafts & acoustic.</p>
+        <span class="chip">Festival</span>
+      </div>
+    </article>
+    <article class="card">
+      <div class="img" style="background-image:url('https://images.unsplash.com/photo-1444210971048-6130cf0c46cf?auto=format&fit=crop&w=1400&q=60')">
+        <span class="datechip">Aug 22</span>
+      </div>
+      <div class="meta">
+        <h3>Outdoor Cinema Night</h3>
+        <p>Northampton • Classic films & food trucks.</p>
+        <span class="chip">Community</span>
+      </div>
+    </article>
+  </div>
+</section>
+
+<!-- Filters + Events Grid -->
+<section class="section" id="events">
+  <div class="h2">Upcoming Events</div>
+  <div class="filterbar">
+    <input id="q" class="input" placeholder="Search events, venues, tags…">
+    <select id="area" class="select">
+      <option value="all">All Areas</option>
+      <option>Worcester</option><option>Pioneer Valley</option><option>Berkshires</option>
+      <option>Vermont</option><option>Connecticut</option>
+    </select>
+    <select id="when" class="select">
+      <option value="any">Anytime</option>
+      <option value="today">Today</option>
+      <option value="weekend">Weekend</option>
+      <option value="7d">Next 7 days</option>
+    </select>
+    <button class="button" onclick="applyFilters()">Filter</button>
+  </div>
+
+  <div id="grid" class="grid" style="margin-top:10px"></div>
+  <p id="empty" style="text-align:center; color:var(--muted); margin-top:8px; display:none">No events match your filters.</p>
+</section>
+
+<!-- Venues -->
+<section class="section" id="venues">
+  <div class="h2">Featured Venues</div>
+  <div class="venue-grid">
+    <div class="venue">
+      <div class="img" style="background-image:url('https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=1400&q=60')"></div>
+      <div class="meta">
+        <h3>Tanglewood Music Center</h3>
+        <p class="subtle">Lenox, MA</p>
+        <span class="badge">Outdoor • 18k cap</span>
+      </div>
+    </div>
+    <div class="venue">
+      <div class="img" style="background-image:url('https://images.unsplash.com/photo-1530062845286-05c2c27b8b56?auto=format&fit=crop&w=1400&q=60')"></div>
+      <div class="meta">
+        <h3>Mass MoCA</h3>
+        <p class="subtle">North Adams, MA</p>
+        <span class="badge">Contemporary Arts</span>
+      </div>
+    </div>
+    <div class="venue">
+      <div class="img" style="background-image:url('https://images.unsplash.com/photo-1491555103944-7c647fd857e6?auto=format&fit=crop&w=1400&q=60')"></div>
+      <div class="meta">
+        <h3>Hanover Theatre</h3>
+        <p class="subtle">Worcester, MA</p>
+        <span class="badge">Performing Arts</span>
+      </div>
+    </div>
+  </div>
+  <div class="partners">
+    <img class="logo-t" src="https://dummyimage.com/160x40/ffffff/000000.png&text=TANGLEWOOD" alt="">
+    <img class="logo-t" src="https://dummyimage.com/140x40/ffffff/000000.png&text=MASS+MOCA" alt="">
+    <img class="logo-t" src="https://dummyimage.com/120x40/ffffff/000000.png&text=HANOVER" alt="">
+    <img class="logo-t" src="https://dummyimage.com/120x40/ffffff/000000.png&text=PIONEER" alt="">
+  </div>
+</section>
+
+<!-- Newsletter + About -->
+<section class="section" id="subscribe">
+  <div class="news">
+    <div class="box">
+      <div class="h2">Get the Weekly Drop</div>
+      <p class="subtle">Every Thursday morning—top picks and new venues across the region. No spam.</p>
+      <div class="field">
+        <input placeholder="you@example.com">
+        <button class="button" onclick="alert('Subscribed!')">Subscribe</button>
+      </div>
+    </div>
+    <div class="box">
+      <div class="h2" id="about">Why Quabbin Vibes?</div>
+      <p class="subtle">We’re a local-first guide with pro photo coverage—tailored to Western & Central New England. No paywall, no noisy aggregator bloat.</p>
+      <ul style="margin-top:8px; color:#c8d3e9; line-height:1.9">
+        <li>Curated by humans, not bots</li>
+        <li>Venue relationships + press access</li>
+        <li>Real-time updates & cancellations</li>
       </ul>
     </div>
   </div>
-</header>
+</section>
 
-<!-- ===== HOME ===== -->
-<div id="homePage" class="page-content active" style="padding-top:0">
-  <section class="hero" id="heroSection"
-    style="background-image:linear-gradient(rgba(0,0,0,.35),rgba(0,0,0,.6)),url('https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?auto=format&fit=crop&w=1600&q=80')">
-    <div class="hero-content">
-      <h1 id="heroTitle">Quabbin Vibes</h1>
-      <p class="hero-subtitle" id="heroSubtitle">Discover authentic events and hidden gems across Western & Central New England</p>
-      <div class="coverage-area">Worcester → Pittsfield • Brattleboro → Hartford</div>
-    </div>
-    <div class="photo-credit" id="heroCredit">📸 Your Event Photography</div>
-  </section>
-
-  <section class="search-section">
-    <div class="search-container">
-      <input id="q" type="text" class="search-input" placeholder="Search events, venues, keywords…">
-      <select id="areaSel" class="search-select">
-        <option value="all">All Areas</option>
-        <option>Worcester</option><option>Pioneer Valley</option><option>Berkshires</option>
-        <option>Vermont</option><option>New Hampshire</option><option>Connecticut</option>
-      </select>
-      <select id="whenSel" class="search-select">
-        <option value="any">Anytime</option><option value="today">Today</option>
-        <option value="weekend">Weekend</option><option value="7d">Next 7 days</option>
-      </select>
-      <button class="search-btn" onclick="renderEvents()">Search</button>
-    </div>
-  </section>
-
-  <section class="main-content">
-    <h2 class="section-title">Upcoming Events</h2>
-    <div id="eventsGrid" class="events-grid"></div>
-    <p id="noEvents" class="hidden" style="text-align:center;color:#666;margin-top:10px">No events match your filters.</p>
-  </section>
-</div>
-
-<!-- ===== OTHER PAGES (placeholders kept from your structure) ===== -->
-<div id="eventsPage" class="page-content"><h1 class="section-title">Events</h1><div id="eventsGrid2" class="events-grid"></div></div>
-<div id="photographyPage" class="page-content"><h1 class="section-title">Photography & Reviews</h1><p style="text-align:center;color:#666">Add gallery/posts via Admin → Blog (coming soon).</p></div>
-<div id="venuesPage" class="page-content"><h1 class="section-title">Venues</h1><p style="text-align:center;color:#666">Feature partner venues here.</p></div>
-<div id="aboutPage" class="page-content"><h1 class="section-title">About</h1><p style="max-width:800px;margin:8px auto;color:#555;text-align:center">Professional regional media & events discovery across Western & Central New England.</p></div>
-<div id="contactPage" class="page-content">
-  <h1 class="section-title">Contact</h1>
-  <form onsubmit="submitContact(event)" class="card" style="max-width:660px;margin:0 auto;padding:22px">
-    <label>Name<br/><input class="search-input" required></label><br/>
-    <label>Email<br/><input type="email" class="search-input" required></label><br/>
-    <label>Message<br/><textarea class="search-input" required rows="5"></textarea></label><br/>
-    <button class="search-btn" style="width:100%">Send</button>
-  </form>
-</div>
-<div id="submitPage" class="page-content">
-  <h1 class="section-title">Submit Event</h1>
-  <form onsubmit="submitEvent(event)" class="card" style="max-width:760px;margin:0 auto;padding:22px">
-    <label>Event Name<br/><input class="search-input" required></label><br/>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
-      <label>Date<br/><input type="date" class="search-input" required></label>
-      <label>Time<br/><input type="time" class="search-input"></label>
-    </div><br/>
-    <label>Area<br/><input class="search-input" placeholder="Worcester / Pioneer Valley …"></label><br/>
-    <label>Location<br/><input class="search-input" placeholder="Venue, City, State"></label><br/>
-    <label>Image URL<br/><input class="search-input" placeholder="https://…"></label><br/>
-    <label>Description<br/><textarea class="search-input" rows="5"></textarea></label><br/>
-    <button class="search-btn" style="width:100%">Submit</button>
-  </form>
-</div>
-
-<!-- ===== Footer ===== -->
 <footer>
-  <div class="footer-content">
-    <div class="footer-section"><h3>Quabbin Vibes</h3><p>Regional events platform for Western & Central New England.</p></div>
-    <div class="footer-section"><h3>Quick Links</h3>
-      <p><a href="#" onclick="showPage('events')">Events</a></p>
-      <p><a href="#" onclick="showPage('submit')">Submit Event</a></p>
-      <p><a href="#" onclick="showPage('contact')">Contact</a></p>
+  <div class="foot">
+    <div>
+      <div class="h2">Quabbin Vibes</div>
+      <p class="subtle">Worcester • Pioneer Valley • Berkshires • VT • CT</p>
+      <p class="subtle" style="margin-top:8px">Press & partnerships: <b>press@quabbinvibes.com</b></p>
     </div>
-    <div class="footer-section"><h3>Coverage</h3><p>Worcester • Pioneer Valley • Berkshires • VT • NH • CT</p></div>
-    <div class="footer-section"><h3>Media</h3><p>📸 Professional event photography & reviews.</p></div>
+    <div>
+      <div class="h2">Quick Links</div>
+      <p><a class="cta" href="#submit" style="display:inline-block;margin-top:6px">Submit an Event</a></p>
+      <p class="subtle" style="margin-top:10px"><a href="#events" style="color:#cfe0ff;text-decoration:none">Browse all events →</a></p>
+    </div>
   </div>
-  <div class="footer-bottom">
-    <p>© <span id="year"></span> Quabbin Vibes</p>
-    <!-- Hidden admin access dot -->
-    <span class="admin-dot" title="." onclick="adminLogin()"></span>
+  <div class="copy">
+    © <span id="year"></span> Quabbin Vibes — All rights reserved.
+    <span id="adminDot" title="."></span>
   </div>
 </footer>
 
-<!-- ===== Admin Overlay ===== -->
-<div id="admin" class="admin">
-  <div class="panel">
-    <div class="head">
-      <strong>Quabbin Vibes — Admin</strong>
-      <div>
-        <button class="btn" onclick="exportJSON()">Export JSON</button>
-        <label class="btn"><input id="importFile" type="file" accept="application/json" style="display:none" onchange="importJSON(this.files[0])">Import JSON</label>
-        <button class="btn danger" onclick="closeAdmin()">Close</button>
-      </div>
+<!-- Admin mock panel (polished placeholder) -->
+<div id="adminPanel">
+  <div class="admin-card">
+    <h3>Admin (Mock)</h3>
+    <p class="subtle">This is a visual-only admin preview. Your production build can wire this to localStorage or a backend later.</p>
+    <div class="row">
+      <input class="input" placeholder="Hero Image URL">
+      <input class="input" placeholder="Logo URL">
+      <input class="input" placeholder="Add RSS/ICS/JSON Source">
+      <input class="input" placeholder="Passcode">
     </div>
-    <div class="tabs">
-      <button class="tab active" data-tab="events">Events</button>
-      <button class="tab" data-tab="media">Media</button>
-      <button class="tab" data-tab="sources">Sources</button>
-      <button class="tab" data-tab="settings">Settings</button>
-    </div>
-    <div class="body">
-      <!-- EVENTS -->
-      <section id="tab-events">
-        <div style="display:flex;gap:8px;align-items:center;margin-bottom:10px">
-          <input id="evSearch" class="search-input" placeholder="Search events…">
-          <button class="btn primary" onclick="openEventModal()">New Event</button>
-        </div>
-        <table class="table">
-          <thead><tr><th>Name</th><th>Date</th><th>Area</th><th>Where</th><th>Pub</th><th style="text-align:right">Actions</th></tr></thead>
-          <tbody id="evTable"></tbody>
-        </table>
-      </section>
-
-      <!-- MEDIA -->
-      <section id="tab-media" class="hidden">
-        <div class="card" style="padding:14px">
-          <h3>Media Library</h3>
-          <div style="display:flex;gap:8px;margin:8px 0">
-            <input id="mediaUrl" class="search-input" placeholder="Image URL https://…">
-            <button class="btn" onclick="addMedia()">Add</button>
-          </div>
-          <div id="mediaGrid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-top:8px"></div>
-        </div>
-        <div class="card" style="padding:14px;margin-top:12px">
-          <h3>Branding</h3>
-          <label>Logo Text/URL</label>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:8px 0">
-            <input id="logoText" class="search-input" placeholder="Logo text…">
-            <input id="logoImgUrl" class="search-input" placeholder="(Optional) Logo image URL">
-          </div>
-          <label>Hero Image URL</label>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:8px 0">
-            <input id="heroUrl" class="search-input" placeholder="https://…">
-            <input id="heroCred" class="search-input" placeholder="Photo credit">
-          </div>
-          <button class="btn primary" onclick="saveBranding()">Save Branding</button>
-        </div>
-      </section>
-
-      <!-- SOURCES -->
-      <section id="tab-sources" class="hidden">
-        <div class="card" style="padding:14px">
-          <h3>Sources (RSS / ICS / JSON / Page)</h3>
-          <div style="display:grid;grid-template-columns:1fr 140px 120px;gap:8px;margin:8px 0">
-            <input id="srcUrl" class="search-input" placeholder="https://…">
-            <select id="srcType" class="search-select">
-              <option value="auto">Auto</option><option value="rss">RSS</option><option value="ics">ICS</option><option value="json">JSON</option><option value="page">Page</option>
-            </select>
-            <button class="btn" onclick="addSource()">Add</button>
-          </div>
-          <div id="srcList"></div>
-          <div style="display:flex;gap:8px;margin-top:8px">
-            <button class="btn primary" onclick="runImport()">Run Import</button>
-            <span id="importStatus" style="color:#666"></span>
-          </div>
-        </div>
-      </section>
-
-      <!-- SETTINGS -->
-      <section id="tab-settings" class="hidden">
-        <div class="card" style="padding:14px">
-          <h3>Settings</h3>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:8px">
-            <div>
-              <label>Admin Passcode</label>
-              <input id="passInput" class="search-input" placeholder="Change passcode">
-              <p style="color:#888;font-size:.9rem;margin-top:6px">Default: <code>QuabbinVibes2025!</code> (client-side only)</p>
-            </div>
-            <div>
-              <label>Analytics</label>
-              <select id="analyticsProvider" class="search-select">
-                <option value="none">None</option>
-                <option value="plausible">Plausible</option>
-                <option value="umami">Umami</option>
-                <option value="ga4">Google Analytics 4</option>
-              </select>
-              <input id="analyticsId" class="search-input" placeholder="domain.com or G-XXXX…">
-            </div>
-          </div>
-          <button class="btn primary" style="margin-top:10px" onclick="saveSettings()">Save Settings</button>
-        </div>
-      </section>
+    <div class="admin-actions">
+      <button class="save" onclick="alert('Saved (mock)')">Save</button>
+      <button class="close" onclick="closeAdmin()">Close</button>
     </div>
   </div>
 </div>
 
-<!-- ===== Modal (Events) ===== -->
-<dialog id="evModal" style="border:0;border-radius:16px;max-width:640px;width:92%;padding:0">
-  <form method="dialog" class="card" style="border:0;margin:0">
-    <div style="display:flex;justify-content:space-between;align-items:center;padding:14px 16px;border-bottom:1px solid #eef1f4">
-      <strong id="evModalTitle">New Event</strong>
-      <button class="btn" onclick="closeEventModal()">Close</button>
-    </div>
-    <div style="padding:16px;display:grid;gap:10px">
-      <label>Name<input id="f_name" class="search-input" required></label>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
-        <label>Date<input id="f_date" type="date" class="search-input" required></label>
-        <label>Time<input id="f_time" class="search-input" placeholder="18:30–21:00"></label>
-      </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
-        <label>Area<input id="f_area" class="search-input" placeholder="Worcester / Pioneer Valley / Berkshires"></label>
-        <label>Where<input id="f_where" class="search-input" placeholder="Venue, City, State"></label>
-      </div>
-      <label>Image URL<input id="f_img" class="search-input" placeholder="https://…"></label>
-      <label>Tags (comma)<input id="f_tags" class="search-input" placeholder="music, family, free"></label>
-      <label>Description<textarea id="f_desc" rows="4" class="search-input"></textarea></label>
-      <label><input id="f_pub" type="checkbox"> Published</label>
-    </div>
-    <div style="display:flex;justify-content:flex-end;gap:8px;padding:14px 16px;border-top:1px solid #eef1f4">
-      <button id="delBtn" type="button" class="btn danger hidden" onclick="deleteEvent()">Delete</button>
-      <button id="saveBtn" type="button" class="btn primary" onclick="saveEvent()">Save</button>
-    </div>
-  </form>
-</dialog>
-
 <script>
-/* ===================== STATE ===================== */
-const STORE = 'qv_site_v2';
-const DEFAULT = {
-  passcode: 'QuabbinVibes2025!',
-  analytics: { provider:'none', id:'' },
-  logoText: 'Quabbin Vibes',
-  logoImg: '',
-  heroUrl: 'https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?auto=format&fit=crop&w=1600&q=80',
-  heroCredit: 'Your Event Photography',
-  media: [],
-  sources: [],
-  events: [
-    mkEvent('Tanglewood Summer Concert', +2, '19:00', 'Berkshires', 'Tanglewood, Lenox, MA',
-      'Boston Symphony Orchestra performs classic summer repertoire under the stars.',
-      'https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1400&q=80', ['music','featured'], true),
-    mkEvent('Downtown Farmers Market', +3, '09:00–13:00', 'Pioneer Valley', 'Northampton Main St',
-      'Fresh produce, live music, and local makers.', 'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&w=1400&q=80', ['family','markets'], true)
-  ]
-};
-function mkEvent(name, plusDays, time, area, where, desc, img, tags, pub){
-  const d=new Date(); d.setDate(d.getDate()+plusDays);
-  return { id:crypto.randomUUID(), name, date:d.toISOString().slice(0,10), time, area, where, desc, img, tags, published:pub, link:'' }
-}
-let DB = load();
-
-function load(){ try { return JSON.parse(localStorage.getItem(STORE)) || DEFAULT } catch { return DEFAULT } }
-function persist(){ localStorage.setItem(STORE, JSON.stringify(DB)) }
-
-/* ===================== NAV / UI ===================== */
-document.getElementById('year').textContent = new Date().getFullYear();
-function toggleMobileMenu(){ const m=document.getElementById('mobileNav'); m.style.display = m.style.display==='block'?'none':'block' }
-function navTo(id){ showPage(id); toggleMobileMenu() }
-function showPage(id){
-  document.querySelectorAll('.page-content').forEach(p=>p.classList.remove('active'));
-  document.getElementById(id+'Page')?.classList.add('active');
-  window.scrollTo({top:0,behavior:'smooth'});
-}
-document.addEventListener('click',e=>{
-  const m=document.getElementById('mobileNav');
-  const ham=document.querySelector('.hamburger');
-  if(m && ham && m.style.display==='block' && !m.contains(e.target) && !ham.contains(e.target)) m.style.display='none';
-});
-
-/* ===================== HERO / BRAND ===================== */
-applyBrand();
-function applyBrand(){
-  document.getElementById('logoLink').textContent = DB.logoText || 'Quabbin Vibes';
-  if(DB.logoImg){ document.getElementById('logoLink').innerHTML = `<img src="${DB.logoImg}" alt="logo" style="height:28px;vertical-align:middle">`; }
-  document.getElementById('heroSection').style.backgroundImage =
-    `linear-gradient(rgba(0,0,0,.35),rgba(0,0,0,.6)),url('${DB.heroUrl}')`;
-  document.getElementById('heroCredit').textContent = '📸 ' + (DB.heroCredit||'');
+/* ===== Mock data for grid ===== */
+const DATA = [
+  ev('Downtown Jazz Night','Aug 17','Worcester','BrickBox Theater, Worcester, MA','https://images.unsplash.com/photo-1483412033650-1015ddeb83d1?auto=format&fit=crop&w=1400&q=60','music'),
+  ev('Farmers Market + Live Folk','Aug 17','Pioneer Valley','Northampton Main St','https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&w=1400&q=60','family'),
+  ev('Outdoor Cinema: Indie Classics','Aug 18','Pioneer Valley','Florence Fields, MA','https://images.unsplash.com/photo-1444210971048-6130cf0c46cf?auto=format&fit=crop&w=1400&q=60','film'),
+  ev('Brewfest on the Green','Aug 19','Berkshires','Great Barrington, MA','https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&w=1400&q=60','food'),
+  ev('Art Walk & Open Studios','Aug 20','Vermont','Brattleboro, VT','https://images.unsplash.com/photo-1504199367641-aba8151af406?auto=format&fit=crop&w=1400&q=60','arts'),
+  ev('Symphony Under the Stars','Aug 21','Berkshires','Tanglewood, Lenox, MA','https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&w=1400&q=60','music'),
+  ev('Hartford Night Market','Aug 22','Connecticut','Bushnell Park, Hartford, CT','https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=1400&q=60','market'),
+  ev('Trail Day & Picnic','Aug 23','Pioneer Valley','Mount Tom State Reservation','https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=1400&q=60','outdoors')
+];
+function ev(name, dateLabel, area, where, img, tag){
+  return {name, dateLabel, area, where, img, tag, desc:'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus sodales.'}
 }
 
-/* ===================== EVENTS LIST ===================== */
-const grid = document.getElementById('eventsGrid');
-const grid2 = document.getElementById('eventsGrid2');
-function withinWhen(dateStr, when){
-  const d=new Date(dateStr), now=new Date();
-  if(when==='any') return true;
-  if(when==='today') return d.toDateString()===now.toDateString();
-  if(when==='weekend') return [0,6].includes(d.getDay());
-  if(when==='7d') return d>=startOfDay(now) && (d-now)<=7*24*3600*1000;
-  return true;
-}
-function startOfDay(d){const x=new Date(d); x.setHours(0,0,0,0); return x}
-function renderEvents(){
-  const q = document.getElementById('q').value.trim().toLowerCase();
-  const area = document.getElementById('areaSel').value;
-  const when = document.getElementById('whenSel').value;
-  const list = DB.events
-    .filter(e=>e.published)
-    .filter(e=> area==='all' ? true : (e.area||'').toLowerCase().includes(area.toLowerCase()))
-    .filter(e=> withinWhen(e.date, when))
-    .filter(e=> !q ? true : [e.name,e.where,e.area,(e.tags||[]).join(',')].join(' ').toLowerCase().includes(q))
-    .sort((a,b)=> a.date.localeCompare(b.date));
-  grid.innerHTML=''; grid2.innerHTML='';
-  if(!list.length){ document.getElementById('noEvents').classList.remove('hidden'); return }
-  document.getElementById('noEvents').classList.add('hidden');
-  list.forEach(e=> grid.appendChild(eventCard(e)));
-  DB.events.forEach(e=> grid2.appendChild(eventCard(e))); // full list on /events
-}
-function eventCard(e){
-  const el = document.createElement('article'); el.className='card';
+/* ===== Render grid ===== */
+const grid = document.getElementById('grid');
+const empty = document.getElementById('empty');
+function card(e){
+  const el=document.createElement('article'); el.className='event';
   el.innerHTML = `
-    <div class="event-image" style="background-image:url('${e.img||""}');background-size:cover;background-position:center">
-      ${ (e.tags||[]).includes('featured') ? `<span class="badge">Featured</span>`:''}
-      <div class="datechip">${new Date(e.date).toLocaleDateString(undefined,{month:'short',day:'2-digit'})}</div>
+    <div class="photo" style="background-image:url('${e.img}')">
+      <div class="datechip" style="position:absolute;right:10px;top:10px">${e.dateLabel}</div>
     </div>
-    <div class="event-info">
-      <div class="event-title">${escapeHtml(e.name)}</div>
-      <div class="event-meta">📍 ${escapeHtml(e.where||'')}</div>
-      <div class="event-meta">🗓 ${escapeHtml(e.date)} ${e.time?('• '+escapeHtml(e.time)) : ''}</div>
-      <p class="event-desc">${escapeHtml(e.desc||'')}</p>
+    <div class="body">
+      <div class="title">${e.name}</div>
+      <div class="muted">📍 ${e.where}</div>
+      <div class="muted">📍 Region: ${e.area}</div>
+      <p class="desc">${e.desc}</p>
     </div>`;
   return el;
 }
-function escapeHtml(s){ return (s||'').replace(/[&<>"]/g, m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m])) }
-renderEvents();
+function render(list=DATA){
+  grid.innerHTML=''; list.forEach(e=>grid.appendChild(card(e)));
+  empty.style.display = list.length ? 'none' : 'block';
+}
+render();
 
-/* ===================== SIMPLE FORMS ===================== */
-function submitContact(ev){ ev.preventDefault(); alert('Thanks! We’ll reply within 24 hours.'); ev.target.reset() }
-function submitEvent(ev){ ev.preventDefault(); alert('Thanks! We’ll review and publish soon.'); ev.target.reset() }
-
-/* ===================== ADMIN ACCESS ===================== */
-function adminLogin(){
-  const input = prompt('Enter admin password:');
-  if(!input) return;
-  if(input === (DB.passcode||'QuabbinVibes2025!')) openAdmin();
-  else alert('Incorrect password.');
-}
-function openAdmin(){
-  document.getElementById('admin').style.display='block';
-  // tabs
-  document.querySelectorAll('.tab').forEach(btn=>{
-    btn.onclick = () => {
-      document.querySelectorAll('.tab').forEach(b=>b.classList.remove('active'));
-      btn.classList.add('active');
-      document.querySelectorAll('[id^="tab-"]').forEach(s=>s.classList.add('hidden'));
-      document.getElementById('tab-'+btn.dataset.tab).classList.remove('hidden');
-    };
-  });
-  // fill tables/fields
-  drawTable();
-  drawMedia(); drawSources();
-  document.getElementById('logoText').value = DB.logoText||'';
-  document.getElementById('logoImgUrl').value = DB.logoImg||'';
-  document.getElementById('heroUrl').value = DB.heroUrl||'';
-  document.getElementById('heroCred').value = DB.heroCredit||'';
-  document.getElementById('passInput').value = DB.passcode||'';
-  document.getElementById('analyticsProvider').value = DB.analytics?.provider||'none';
-  document.getElementById('analyticsId').value = DB.analytics?.id||'';
-}
-function closeAdmin(){ document.getElementById('admin').style.display='none' }
-
-/* ----- Events CRUD (Admin) ----- */
-let editingId = null;
-function drawTable(){
-  const q = (document.getElementById('evSearch').value||'').toLowerCase();
-  const tbody = document.getElementById('evTable'); tbody.innerHTML='';
-  DB.events.filter(e=> !q || [e.name,e.where,e.area,(e.tags||[]).join(',')].join(' ').toLowerCase().includes(q))
-    .sort((a,b)=>a.date.localeCompare(b.date))
-    .forEach(e=>{
-      const tr=document.createElement('tr');
-      tr.innerHTML = `<td>${escapeHtml(e.name)}</td><td>${e.date}</td><td>${escapeHtml(e.area||'')}</td><td>${escapeHtml(e.where||'')}</td><td>${e.published?'Yes':'No'}</td>
-      <td style="text-align:right"><button class="btn" onclick="editEvent('${e.id}')">Edit</button></td>`;
-      tbody.appendChild(tr);
-    });
-}
-document.getElementById('evSearch').addEventListener('input', drawTable);
-function openEventModal(){ editingId=null; fillEventForm(); document.getElementById('evModalTitle').textContent='New Event'; document.getElementById('delBtn').classList.add('hidden'); document.getElementById('evModal').showModal() }
-function editEvent(id){
-  editingId=id; const e = DB.events.find(x=>x.id===id); fillEventForm(e);
-  document.getElementById('evModalTitle').textContent='Edit Event';
-  document.getElementById('delBtn').classList.remove('hidden');
-  document.getElementById('evModal').showModal();
-}
-function closeEventModal(){ document.getElementById('evModal').close() }
-function fillEventForm(e={}){
-  f_name.value = e.name||''; f_date.value = e.date||''; f_time.value = e.time||''; f_area.value=e.area||'';
-  f_where.value=e.where||''; f_img.value=e.img||''; f_tags.value=(e.tags||[]).join(', '); f_desc.value=e.desc||''; f_pub.checked=!!e.published;
-}
-function saveEvent(){
-  const obj = {
-    id: editingId || crypto.randomUUID(),
-    name: f_name.value.trim(),
-    date: f_date.value.trim(),
-    time: f_time.value.trim(),
-    area: f_area.value.trim(),
-    where: f_where.value.trim(),
-    img: f_img.value.trim(),
-    tags: f_tags.value.split(',').map(s=>s.trim()).filter(Boolean),
-    desc: f_desc.value.trim(),
-    published: f_pub.checked,
-    link: ''
-  };
-  if(!obj.name || !obj.date){ alert('Name and date required'); return }
-  if(editingId){ const i=DB.events.findIndex(x=>x.id===editingId); DB.events[i]=obj } else { DB.events.push(obj) }
-  persist(); renderEvents(); drawTable(); closeEventModal();
-}
-function deleteEvent(){
-  if(!editingId) return; if(!confirm('Delete this event?')) return;
-  DB.events = DB.events.filter(x=>x.id!==editingId); persist(); renderEvents(); drawTable(); closeEventModal();
+/* ===== Filters ===== */
+function applyFilters(){
+  const q = document.getElementById('q').value.trim().toLowerCase();
+  const area = document.getElementById('area').value;
+  const when = document.getElementById('when').value; // mock (not used vs. real dates)
+  let list = DATA.filter(e => !q || [e.name,e.where,e.area,e.tag].join(' ').toLowerCase().includes(q));
+  if(area!=='all') list = list.filter(e => e.area.toLowerCase().includes(area.toLowerCase()));
+  // when filter would require real dates; left as mock
+  render(list);
 }
 
-/* ----- Media / Branding (Admin) ----- */
-function addMedia(){ const u=mediaUrl.value.trim(); if(!u) return; DB.media.unshift(u); persist(); mediaUrl.value=''; drawMedia() }
-function drawMedia(){
-  const g=document.getElementById('mediaGrid'); g.innerHTML='';
-  (DB.media||[]).forEach((url,i)=>{
-    const card=document.createElement('div'); card.className='card'; card.style.padding='6px';
-    card.innerHTML=`<img src="${url}" style="width:100%;height:100px;object-fit:cover;border-radius:10px"/>
-    <div style="display:flex;gap:6px;margin-top:6px">
-      <button class="btn" onclick="setHero(${i})">Hero</button>
-      <button class="btn" onclick="setLogoImg(${i})">Logo</button>
-      <button class="btn danger" onclick="delMedia(${i})">Remove</button>
-    </div>`;
-    g.appendChild(card);
-  });
-}
-function setHero(i){ DB.heroUrl=DB.media[i]; persist(); applyBrand(); alert('Hero updated.') }
-function setLogoImg(i){ DB.logoImg=DB.media[i]; DB.logoText=''; persist(); applyBrand(); alert('Logo updated.') }
-function delMedia(i){ DB.media.splice(i,1); persist(); drawMedia() }
-function saveBranding(){
-  DB.logoText = document.getElementById('logoText').value.trim();
-  DB.logoImg  = document.getElementById('logoImgUrl').value.trim();
-  DB.heroUrl  = document.getElementById('heroUrl').value.trim() || DB.heroUrl;
-  DB.heroCredit = document.getElementById('heroCred').value.trim() || DB.heroCredit;
-  persist(); applyBrand(); alert('Branding saved.');
-}
-
-/* ----- Sources / Import (Admin) ----- */
-function addSource(){
-  const url = document.getElementById('srcUrl').value.trim();
-  const type = document.getElementById('srcType').value;
-  if(!url) return;
-  DB.sources.push({url, type}); persist(); document.getElementById('srcUrl').value=''; drawSources();
-}
-function drawSources(){
-  const list=document.getElementById('srcList'); list.innerHTML='';
-  (DB.sources||[]).forEach((s,i)=>{
-    const row=document.createElement('div'); row.className='card'; row.style.padding='10px'; row.style.margin='6px 0';
-    row.innerHTML=`<div style="display:flex;justify-content:space-between;gap:10px;align-items:center">
-      <div><strong>${s.type||'auto'}</strong> — ${s.url}</div>
-      <div>
-        <button class="btn" onclick="testImport(${i})">Test</button>
-        <button class="btn danger" onclick="removeSource(${i})">Remove</button>
-      </div></div>`;
-    list.appendChild(row);
-  });
-}
-function removeSource(i){ DB.sources.splice(i,1); persist(); drawSources() }
-async function runImport(){
-  document.getElementById('importStatus').textContent='Importing…';
-  let added=0;
-  for(const s of (DB.sources||[])){
-    try{
-      const items = await importFromSource(s);
-      items.forEach(it=>{
-        const key = it.name + it.date;
-        if(!DB.events.some(e=>e.name+e.date===key)) { DB.events.push(it); added++ }
-      });
-    }catch(err){ console.warn('Import error', err) }
+/* ===== Dark/Light toggle (cosmetic) ===== */
+const modeBtn = document.getElementById('modeBtn');
+let dark=true;
+modeBtn.addEventListener('click', ()=>{
+  dark=!dark;
+  if(dark){
+    document.documentElement.style.setProperty('--bg','#0b0f17');
+    document.body.style.background = `radial-gradient(1200px 600px at 10% -10%, #1b2030 0%, transparent 60%),
+    radial-gradient(900px 600px at 100% 0%, #131a2c 0%, transparent 55%),
+    linear-gradient(#0c111a, #0a0f17)`;
+    modeBtn.textContent='🌙 Dark';
+  }else{
+    document.documentElement.style.setProperty('--bg','#f6f8fb');
+    document.body.style.background = `linear-gradient(#eef3ff,#f6f8fb)`;
+    modeBtn.textContent='☀️ Light';
   }
-  persist(); renderEvents(); drawTable();
-  document.getElementById('importStatus').textContent=`Imported ${added} item(s).`;
-}
-async function testImport(i){
-  document.getElementById('importStatus').textContent='Testing…';
-  try{ const items = await importFromSource(DB.sources[i]); document.getElementById('importStatus').textContent=`Parsed ${items.length} item(s).`; }
-  catch(err){ document.getElementById('importStatus').textContent='Error: '+err.message }
-}
-function guessType(url){
-  if(/\.(rss|xml)(\?|$)/i.test(url)) return 'rss';
-  if(/\.(ics)(\?|$)/i.test(url)) return 'ics';
-  if(/\.(json)(\?|$)/i.test(url)) return 'json';
-  return 'page';
-}
-async function importFromSource(s){
-  const type = s.type==='auto' ? guessType(s.url) : s.type;
-  if(type==='rss') return importRSS(s.url);
-  if(type==='ics') return importICS(s.url);
-  if(type==='json') return importJSON(s.url);
-  if(type==='page') return importPage(s.url);
-  // auto fallback chain
-  try{ return await importRSS(s.url) }catch{} try{ return await importICS(s.url) }catch{}
-  return importPage(s.url);
-}
-async function fetchText(url){
-  // Try direct; if blocked, use read-only proxy (no secrets needed)
-  try{ const r=await fetch(url); if(!r.ok) throw new Error('HTTP '+r.status); return await r.text() }
-  catch(e){ const prox='https://r.jina.ai/http/'+url.replace(/^https?:\/\//,''); const r=await fetch(prox); if(!r.ok) throw new Error('Proxy HTTP '+r.status); return await r.text() }
-}
-async function importRSS(url){
-  const xml = await fetchText(url);
-  const doc = new DOMParser().parseFromString(xml, 'text/xml');
-  const items = Array.from(doc.querySelectorAll('item, entry')).slice(0,60).map(x=>{
-    const title = (x.querySelector('title')?.textContent||'').trim();
-    const link = (x.querySelector('link')?.getAttribute?.('href') || x.querySelector('link')?.textContent || '').trim();
-    const desc  = (x.querySelector('description, summary')?.textContent||'').trim();
-    const when  = (x.querySelector('pubDate, updated, dc\\:date')?.textContent||'').trim();
-    const date  = guessDate(desc) || guessDate(title) || safeISO(when);
-    return normItem({title, desc, when:date, link});
-  });
-  return items;
-}
-async function importICS(url){
-  const txt = await fetchText(url);
-  const lines = txt.split(/\r?\n/);
-  const out=[]; let cur={};
-  for(const ln of lines){
-    if(ln.startsWith('BEGIN:VEVENT')) cur={};
-    else if(ln.startsWith('SUMMARY:')) cur.title=ln.slice(8).trim();
-    else if(ln.startsWith('DTSTART')) cur.date=icsDate(ln.split(':')[1]);
-    else if(ln.startsWith('DTEND')) cur.end=icsDate(ln.split(':')[1]);
-    else if(ln.startsWith('LOCATION:')) cur.where=ln.slice(9).trim();
-    else if(ln.startsWith('DESCRIPTION:')) cur.desc=ln.slice(12).trim();
-    else if(ln.startsWith('END:VEVENT')){ if(cur.title && cur.date){ out.push(normItem({title:cur.title,desc:cur.desc,when:cur.date,where:cur.where})) } }
-  }
-  return out;
-}
-async function importJSON(url){
-  const txt = await fetchText(url); const data = JSON.parse(txt);
-  const arr = Array.isArray(data) ? data : (data.items||data.events||[]);
-  return arr.slice(0,100).map(it=> normItem({
-    title: it.title||it.name, desc: it.description||it.desc||'',
-    when: it.date||it.when||it.start||it.startDate, where: it.location||it.where||it.venue||'',
-    img: it.image||it.img||'', link: it.url||it.link||''
-  }));
-}
-async function importPage(url){
-  const text = await fetchText(url);
-  const lines = text.split('\n').map(s=>s.trim()).filter(Boolean).slice(0,800);
-  const out=[];
-  for(let i=0;i<lines.length;i++){
-    const L=lines[i], d=guessDate(L);
-    if(d){ const title=(lines[i+1]&&lines[i+1].length>8)?lines[i+1]:L.replace(/\s*[-–|].*/,''); out.push(normItem({title,desc:L,when:d,link:url})) }
-  }
-  return out.slice(0,40);
-}
-function normItem({title, desc, when, where='', img='', link=''}) {
-  const name=(title||'').replace(/\s+/g,' ').trim();
-  const date=safeISO(when) || safeISO(new Date());
-  return { id:crypto.randomUUID(), name, date, time:'', area:guessArea(where)||'Pioneer Valley', where:where||'', desc:(desc||'').slice(0,300), img, tags:['imported'], published:true, link };
-}
-function safeISO(s){ try{ const d=new Date(s); if(!isNaN(d)) return d.toISOString().slice(0,10) }catch(_){} return null }
-function icsDate(s){ if(!s) return null; const y=s.slice(0,4), m=s.slice(4,6), d=s.slice(6,8); return `${y}-${m}-${d}` }
-function guessDate(s){ if(!s) return null; const m=s.match(/(\b\d{1,2}[\/.-]\d{1,2}(?:[\/.-]\d{2,4})?\b)|(\b(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\s+\d{1,2}(?:,\s*\d{2,4})?\b)/i); return m? safeISO(m[0]): null }
-function guessArea(where){ if(/worcester/i.test(where)) return 'Worcester'; if(/northampton|amherst|greenfield|springfield|pioneer/i.test(where)) return 'Pioneer Valley'; if(/pittsfield|lenox|stockbridge|north adams|berkshir/i.test(where)) return 'Berkshires'; if(/vermont/i.test(where)) return 'Vermont'; if(/connecticut|hartford/i.test(where)) return 'Connecticut'; return 'Pioneer Valley' }
-
-/* ----- Settings (Admin) ----- */
-function saveSettings(){
-  DB.passcode = document.getElementById('passInput').value || DB.passcode;
-  DB.analytics = { provider: analyticsProvider.value, id: analyticsId.value.trim() };
-  persist(); injectAnalytics(); alert('Settings saved.');
-}
-function injectAnalytics(){
-  document.querySelectorAll('script[data-analytics]').forEach(s=>s.remove());
-  const {provider,id}=DB.analytics||{};
-  if(provider==='plausible' && id){
-    const s=document.createElement('script'); s.defer=true; s.src='https://plausible.io/js/script.js'; s.setAttribute('data-domain', id); s.setAttribute('data-analytics','plausible'); document.head.appendChild(s);
-  }else if(provider==='umami' && id){
-    const s=document.createElement('script'); s.defer=true; s.src='https://cloud.umami.is/script.js'; s.setAttribute('data-website-id', id); s.setAttribute('data-analytics','umami'); document.head.appendChild(s);
-  }else if(provider==='ga4' && id){
-    const g=document.createElement('script'); g.async=true; g.src=`https://www.googletagmanager.com/gtag/js?id=${id}`; g.setAttribute('data-analytics','ga4'); document.head.appendChild(g);
-    const s=document.createElement('script'); s.setAttribute('data-analytics','ga4'); s.innerHTML=`window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)};gtag('js', new Date());gtag('config','${id}');`; document.head.appendChild(s);
-  }
-}
-injectAnalytics();
-
-/* ----- Import/Export ----- */
-function exportJSON(){
-  const blob = new Blob([JSON.stringify(DB,null,2)], {type:'application/json'});
-  const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='quabbin-vibes.json'; a.click();
-}
-async function importJSON(file){
-  if(!file) return; const text = await file.text(); const obj = JSON.parse(text);
-  if(!obj.events){ alert('Invalid file'); return }
-  DB = obj; persist(); applyBrand(); renderEvents(); drawTable(); drawSources(); drawMedia(); alert('Imported.')
-}
-
-/* ===================== BOOT ===================== */
-document.addEventListener('DOMContentLoaded', ()=>{
-  renderEvents();
 });
+
+/* ===== Admin mock ===== */
+document.getElementById('year').textContent = new Date().getFullYear();
+const admin = document.getElementById('adminPanel');
+document.getElementById('adminDot').addEventListener('click', ()=>{
+  const ok = prompt('Enter admin passcode:');
+  if(ok=== 'quabbin' || ok==='QuabbinVibes2025!'){ admin.style.display='flex' }
+});
+function closeAdmin(){ admin.style.display='none' }
 </script>
 </body>
 </html>
