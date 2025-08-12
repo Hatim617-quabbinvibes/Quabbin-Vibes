@@ -1,757 +1,717 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Quabbin Vibes — Western & Central MA Events</title>
-  <meta name="description" content="Discover the best events across Worcester County, the Pioneer Valley, and the Berkshires. Submit events, browse by category, and manage listings — with hidden admin, feed import, and easy image/logo controls in one file." />
-  <meta name="theme-color" content="#0ea5e9" />
-  <meta property="og:title" content="Quabbin Vibes — Events, Food, Music & Family Fun" />
-  <meta property="og:description" content="Your complete regional events platform for Western & Central Massachusetts." />
-  <meta property="og:type" content="website" />
-  <meta property="og:image" content="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?q=80&w=1600&auto=format&fit=crop" />
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%230ea5e9'/%3E%3Cpath d='M16 40L28 20l6 10 6-10 8 14' stroke='white' stroke-width='5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E" />  <!-- Tailwind (no build step) -->  <script src="https://cdn.tailwindcss.com"></script>  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          container: { center: true, padding: '1rem' },
-          fontFamily: { display: ["Inter","ui-sans-serif","system-ui","Segoe UI","Roboto","Helvetica Neue","Arial","Noto Sans","sans-serif"] },
-          boxShadow: { glow: "0 20px 60px rgba(14,165,233,.25)" },
-          keyframes: { fadeUp: { '0%':{opacity:0,transform:'translateY(20px)'}, '100%':{opacity:1,transform:'translateY(0)'} } },
-          animation: { fadeUp: 'fadeUp .6s ease-out both' }
-        }
-      }
-    }
-  </script>  <style>
-    html{scroll-behavior:smooth}
-    :focus-visible{outline:3px solid #38bdf8; outline-offset:2px; border-radius:10px}
-    .hero-bg{position:relative}
-    .hero-bg:before{content:"";position:absolute;inset:0;opacity:.35;background:radial-gradient(60% 60% at 70% 20%,rgba(14,165,233,.4),transparent),linear-gradient(to bottom,rgba(2,6,23,.65),rgba(2,6,23,.2),transparent 60%)}
-    .noise:after{content:"";position:absolute;inset:0;pointer-events:none;opacity:.04;background-image:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="160" height="160" viewBox="0 0 160 160"><filter id="n"><feTurbulence baseFrequency="0.8" numOctaves="4"/></filter><rect width="100%" height="100%" filter="url(%23n)"/></svg>')}
-    .line-clamp-2{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-  </style></head>
-<body class="bg-slate-50 text-slate-900 antialiased">
-  <!-- Error banner (auto-hides) -->
-  <div id="err" class="hidden">
-    <div class="container mt-3">
-      <div class="rounded-xl border border-red-200 bg-red-50 text-red-800 px-4 py-3 text-sm flex items-start gap-3">
-        <svg viewBox="0 0 24 24" class="w-5 h-5" xmlns="http://www.w3.org/2000/svg"><path fill="currentColor" d="M11 7h2v6h-2zm0 8h2v2h-2z"/><path fill="currentColor" d="m1 21l11-19l11 19zm11-3.9l7.53.01L12 6.55L4.47 17.11z"/></svg>
-        <div id="errmsg">Something went wrong.</div>
-      </div>
-    </div>
-  </div>  <!-- NAV -->  <header class="sticky top-0 z-40 bg-white/80 backdrop-blur border-b border-slate-200">
-    <nav class="container flex items-center justify-between py-3">
-      <a href="#" class="flex items-center gap-2 font-semibold tracking-tight">
-        <img id="logoImg" src="https://dummyimage.com/40x40/0ea5e9/ffffff.png&text=QV" alt="Quabbin Vibes logo" class="w-8 h-8 rounded-xl ring-1 ring-sky-200" />
-        <span>Quabbin Vibes</span>
-      </a>
-      <div class="hidden md:flex items-center gap-6 text-sm">
-        <a href="#events" class="hover:text-sky-600">Events</a>
-        <a href="#categories" class="hover:text-sky-600">Categories</a>
-        <a href="#submit" class="hover:text-sky-600">Submit</a>
-        <a href="#newsletter" class="hover:text-sky-600">Newsletter</a>
-        <a href="#about" class="hover:text-sky-600">About</a>
-      </div>
-      <div class="flex items-center gap-2">
-        <button id="themeToggle" class="inline-flex items-center gap-2 text-sm px-3 py-1.5 rounded-xl border border-slate-200 hover:bg-slate-100">
-          <svg id="sun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-4 h-4"><path fill="currentColor" d="M6.76 4.84l-1.8-1.79L3.17 4.84l1.79 1.8zm10.48 0l1.79-1.79l1.79 1.79l-1.79 1.8zM12 4V1h0v3zm0 19v-3h0v3zM4 12H1v0h3zm22 0h-3v0h3zM6.76 19.16l-1.8 1.79l-1.79-1.79l1.8-1.8zm10.48 0l1.79 1.79l1.79-1.79l-1.79-1.8zM12 8a4 4 0 100 8a4 4 0 000-8z"/></svg>
-          <span class="hidden sm:inline">Theme</span>
-        </button>
-        <a href="#submit" class="hidden sm:inline-flex items-center text-sm font-medium px-3 py-1.5 rounded-xl bg-sky-500 text-white hover:bg-sky-600 shadow-glow">Submit Event</a>
-        <button id="menuBtn" class="md:hidden inline-flex items-center p-2 rounded-lg hover:bg-slate-100" aria-label="Open menu">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-6 h-6"><path fill="currentColor" d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
-        </button>
-      </div>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Quabbin Vibes - Your Complete Regional Events Platform</title>
+<style>
+/* ---------- Base / Layout ---------- */
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --brand:#5865f2; --brand-2:#2ed573; --ink:#333; --muted:#666; --bg:#f8f9fa;
+  --card:#fff; --shadow:0 10px 30px rgba(0,0,0,.10);
+}
+body{font-family:system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; line-height:1.6; color:var(--ink); background:var(--bg)}
+.hidden{display:none!important}
+
+/* ---------- Header ---------- */
+header{position:fixed;inset:0 0 auto 0;z-index:1000;background:rgba(255,255,255,.95);backdrop-filter:blur(10px);border-bottom:1px solid rgba(0,0,0,.08)}
+.header-container{max-width:1200px;margin:0 auto;padding:0 20px;height:70px;display:flex;align-items:center;justify-content:space-between}
+.logo{font-size:1.6rem;font-weight:800;color:var(--brand);text-decoration:none}
+.nav-desktop{display:flex;gap:26px;list-style:none}
+.nav-desktop a{color:var(--ink);text-decoration:none;font-weight:600}
+.nav-desktop a:hover{color:var(--brand)}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer}
+.hamburger span{width:26px;height:3px;background:#222;border-radius:4px}
+.nav-mobile{display:none;position:absolute;top:70px;left:0;right:0;background:#fff;border-bottom:1px solid rgba(0,0,0,.08);box-shadow:var(--shadow)}
+.nav-mobile ul{list-style:none;padding:18px}
+.nav-mobile li{margin:12px 0}
+.nav-mobile a{text-decoration:none;color:#222;font-weight:600}
+
+/* ---------- Hero ---------- */
+.hero{height:100vh;min-height:560px;margin-top:70px;display:flex;align-items:center;justify-content:center;text-align:center;color:#fff;position:relative;background-size:cover;background-position:center;background-attachment:fixed}
+.hero:before{content:"";position:absolute;inset:0;background:linear-gradient(rgba(0,0,0,.35), rgba(0,0,0,.6))}
+.hero-content{position:relative;z-index:1;max-width:880px;padding:0 20px}
+.hero h1{font-size:3.4rem;line-height:1.08;margin-bottom:16px;text-shadow:2px 2px 8px rgba(0,0,0,.5)}
+.hero-subtitle{font-size:1.25rem;opacity:.95;margin-bottom:26px;text-shadow:1px 1px 5px rgba(0,0,0,.5)}
+.coverage-area{display:inline-block;background:rgba(0,0,0,.45);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.25);padding:18px 22px;border-radius:14px;color:#e9f2ff}
+.photo-credit{position:absolute;right:18px;bottom:18px;background:rgba(0,0,0,.6);padding:8px 14px;border-radius:999px;border:1px solid rgba(255,255,255,.2);font-size:.9rem}
+
+/* ---------- Search ---------- */
+.search-section{background:#fff;padding:40px 20px;margin-top:-50px;position:relative;z-index:10}
+.search-container{max-width:900px;margin:0 auto;background:#fff;border-radius:14px;box-shadow:var(--shadow);padding:22px;display:flex;gap:12px;flex-wrap:wrap}
+.search-input,.search-select{border:2px solid #e5e7eb;border-radius:10px;padding:12px 14px;font-size:1rem}
+.search-input{flex:1;min-width:240px}
+.search-select{min-width:160px}
+.search-btn{background:var(--brand);color:#fff;border:0;border-radius:10px;padding:12px 20px;font-weight:800;cursor:pointer}
+.search-btn:hover{filter:brightness(.95)}
+
+/* ---------- Sections ---------- */
+.main-content{max-width:1200px;margin:0 auto;padding:60px 20px}
+.section-title{font-size:2.1rem;text-align:center;margin-bottom:28px}
+
+/* ---------- Cards / Grid ---------- */
+.events-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:22px}
+.card{background:var(--card);border-radius:16px;box-shadow:var(--shadow);overflow:hidden;border:1px solid rgba(0,0,0,.05)}
+.event-image{height:200px;background:linear-gradient(135deg,#667eea,#764ba2);position:relative;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700}
+.badge{position:absolute;left:14px;top:14px;background:#ff4757;color:#fff;border-radius:999px;padding:6px 12px;font-size:.8rem;font-weight:800}
+.datechip{position:absolute;right:14px;top:14px;background:rgba(255,255,255,.92);border-radius:10px;padding:8px 10px;color:#222;text-align:center;font-weight:800;min-width:64px}
+.event-info{padding:18px}
+.event-title{font-size:1.2rem;font-weight:800;margin-bottom:4px}
+.event-meta{color:var(--muted);font-size:.95rem;margin:6px 0}
+.event-desc{color:#777}
+
+/* ---------- Page Containers ---------- */
+.page-content{display:none;max-width:1200px;margin:0 auto;padding:100px 20px 60px}
+.page-content.active{display:block}
+
+/* ---------- Footer ---------- */
+footer{background:#2c3e50;color:#fff;margin-top:70px}
+.footer-content{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:26px;padding:46px 20px 20px}
+.footer-section h3{color:var(--brand);margin-bottom:10px}
+.footer-section a{color:#fff;text-decoration:none}
+.footer-section a:hover{color:var(--brand)}
+.footer-bottom{border-top:1px solid rgba(255,255,255,.15);text-align:center;padding:16px 20px;opacity:.8;position:relative}
+.admin-dot{position:absolute;right:10px;bottom:12px;width:7px;height:7px;border-radius:999px;background:rgba(255,255,255,.35);cursor:pointer}
+
+/* ---------- Admin Overlay ---------- */
+.admin{position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:2000;display:none}
+.admin .panel{background:#fff;width:92%;max-width:1100px;height:86%;margin:4% auto;border-radius:16px;overflow:hidden;display:flex;flex-direction:column}
+.admin .head{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid #eef1f4}
+.admin .tabs{display:flex;gap:8px;padding:10px;border-bottom:1px solid #eef1f4;flex-wrap:wrap}
+.admin .tab{border:0;padding:10px 12px;border-radius:10px;background:#eef1f8;font-weight:800;cursor:pointer}
+.admin .tab.active{background:var(--brand);color:#fff}
+.admin .body{flex:1;overflow:auto;padding:16px}
+.table{width:100%;border-collapse:collapse}
+.table th,.table td{padding:10px;border-top:1px solid #eef1f4;text-align:left}
+.btn{border:1px solid #e5e7eb;background:#fff;padding:8px 12px;border-radius:10px;cursor:pointer;font-weight:700}
+.btn.primary{background:var(--brand);color:#fff;border-color:transparent}
+.btn.danger{background:#ff4757;color:#fff;border-color:transparent}
+
+/* ---------- Responsive ---------- */
+@media (max-width:768px){
+  .nav-desktop{display:none}
+  .hamburger{display:flex}
+  .hero h1{font-size:2.4rem}
+  .hero-subtitle{font-size:1.05rem}
+  .search-container{padding:16px}
+  .events-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- ===== Header ===== -->
+<header>
+  <div class="header-container">
+    <a href="#" class="logo" id="logoLink">Quabbin Vibes</a>
+    <nav class="nav-desktop">
+      <a href="#" onclick="showPage('home')">Home</a>
+      <a href="#" onclick="showPage('events')">Events</a>
+      <a href="#" onclick="showPage('photography')">Photography & Reviews</a>
+      <a href="#" onclick="showPage('venues')">Venues</a>
+      <a href="#" onclick="showPage('about')">About</a>
+      <a href="#" onclick="showPage('contact')">Contact</a>
+      <a href="#" onclick="showPage('submit')">Submit Event</a>
     </nav>
-    <div id="mobileMenu" class="md:hidden hidden border-t border-slate-200">
-      <div class="container py-3 grid gap-3 text-sm">
-        <a href="#events" class="hover:text-sky-600">Events</a>
-        <a href="#categories" class="hover:text-sky-600">Categories</a>
-        <a href="#submit" class="hover:text-sky-600">Submit</a>
-        <a href="#newsletter" class="hover:text-sky-600">Newsletter</a>
-        <a href="#about" class="hover:text-sky-600">About</a>
-      </div>
+    <div class="hamburger" onclick="toggleMobileMenu()">
+      <span></span><span></span><span></span>
     </div>
-  </header>  <!-- HERO (full-bleed image) -->  <section class="relative hero-bg noise">
-    <div id="hero" class="relative h-[70vh] min-h-[520px] w-full overflow-hidden">
-      <img id="heroImg" class="absolute inset-0 w-full h-full object-cover" alt="Crowd at outdoor summer concert" src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?q=80&w=1800&auto=format&fit=crop"/>
-      <div class="absolute inset-0 bg-gradient-to-b from-slate-900/60 via-slate-900/40 to-transparent"></div>
-      <div class="relative container h-full flex items-end pb-14">
-        <div class="max-w-2xl text-white animate-fadeUp">
-          <p class="uppercase tracking-[0.2em] text-xs text-sky-200">Western & Central Massachusetts</p>
-          <h1 class="mt-2 text-4xl md:text-6xl font-extrabold leading-[1.05]">Find your weekend.<br/>Events, food, music & family fun.</h1>
-          <p class="mt-4 text-slate-200 text-lg">Curated listings across Worcester, the 413, and the Berkshires — submitted by locals, approved fast.</p>
-          <div class="mt-6 flex flex-wrap gap-3">
-            <a href="#events" class="inline-flex items-center gap-2 px-5 py-3 rounded-2xl bg-white text-slate-900 hover:bg-slate-100 font-semibold shadow-glow">Browse events</a>
-            <a href="#submit" class="inline-flex items-center gap-2 px-5 py-3 rounded-2xl border border-white/30 text-white hover:bg-white/10">Submit your event</a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>  <!-- CATEGORIES + SEARCH -->  <section id="categories" class="container py-12 md:py-16">
-    <div class="flex items-end justify-between gap-4 flex-wrap">
-      <div>
-        <h2 class="text-2xl md:text-3xl font-bold">Popular categories</h2>
-        <p class="text-slate-600 mt-1">Tap to filter — instant search below.</p>
-      </div>
-      <div class="relative">
-        <input id="q" placeholder="Search by name, town, tag…" class="rounded-2xl border-slate-200 pl-10 pr-4 py-2 text-sm w-72" />
-        <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" viewBox="0 0 24 24"><path fill="currentColor" d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5A6.5 6.5 0 1 0 9.5 16a6.471 6.471 0 0 0 4.23-1.57l.27.28v.79L20 21.49L21.49 20zM9.5 14A4.5 4.5 0 1 1 14 9.5A4.5 4.5 0 0 1 9.5 14"/></svg>
-      </div>
-    </div>
-    <div class="mt-6 grid sm:grid-cols-2 lg:grid-cols-4 gap-4" id="catButtons"></div>
-  </section>  <!-- EVENTS GRID -->  <section id="events" class="bg-white border-y border-slate-200">
-    <div class="container py-12 md:py-16">
-      <div class="flex items-end justify-between gap-4 flex-wrap">
-        <div>
-          <h2 class="text-2xl md:text-3xl font-bold">Upcoming events</h2>
-          <p class="text-slate-600 mt-1">Hand‑picked highlights across the region.</p>
-        </div>
-        <div class="flex items-center gap-2 text-sm">
-          <label for="when" class="text-slate-600">When</label>
-          <select id="when" class="rounded-xl border-slate-200">
-            <option value="any">Anytime</option>
-            <option value="today">Today</option>
-            <option value="weekend">This weekend</option>
-            <option value="7d">Next 7 days</option>
-          </select>
-          <label for="where" class="text-slate-600 ml-3">Where</label>
-          <select id="where" class="rounded-xl border-slate-200">
-            <option value="all">All areas</option>
-            <option value="Worcester">Worcester</option>
-            <option value="Pioneer Valley">Pioneer Valley</option>
-            <option value="Berkshires">Berkshires</option>
-          </select>
-        </div>
-      </div>
-      <div id="eventsGrid" class="mt-6 grid sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
-      <div id="noResults" class="hidden mt-10 text-center text-slate-500">No events match your filters… try clearing them.</div>
-      <div class="mt-8 text-center">
-        <button id="clearFilters" class="inline-flex items-center gap-2 px-4 py-2 rounded-xl border border-slate-200 hover:bg-slate-100">Clear filters</button>
-      </div>
-    </div>
-  </section>  <!-- SUBMIT CTA + FORM -->  <section id="submit" class="container py-12 md:py-16">
-    <div class="grid lg:grid-cols-2 gap-8 items-center">
-      <div>
-        <h2 class="text-2xl md:text-3xl font-bold">Submit your event — get discovered</h2>
-        <p class="mt-3 text-slate-600">Free basic listing. We manually approve to keep quality high. Optionally upgrade for featured placement and newsletter shoutout.</p>
-        <ul class="mt-4 space-y-2 text-slate-700">
-          <li class="flex items-start gap-3"><span class="mt-1 inline-block w-2 h-2 rounded-full bg-emerald-500"></span> Fast manual approval</li>
-          <li class="flex items-start gap-3"><span class="mt-1 inline-block w-2 h-2 rounded-full bg-sky-500"></span> Bring your own images or we’ll style it</li>
-          <li class="flex items-start gap-3"><span class="mt-1 inline-block w-2 h-2 rounded-full bg-fuchsia-500"></span> Family‑friendly first, no spam</li>
-        </ul>
-        <div class="mt-6 flex flex-wrap gap-3">
-          <a href="mailto:hello@quabbinvibes.com?subject=Event%20Submission" class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-sky-500 text-white hover:bg-sky-600 shadow-glow">Email Submission</a>
-          <a href="#form" class="inline-flex items-center gap-2 px-4 py-2 rounded-xl border border-slate-200 hover:bg-slate-100">Open Form</a>
-        </div>
-      </div>
-      <div id="form" class="rounded-2xl border border-slate-200 p-6 bg-white shadow-sm">
-        <h3 class="font-semibold text-lg">Quick submission form</h3>
-        <p class="text-sm text-slate-600">Static email form for now — swap to Airtable/Jotform later.</p>
-        <form class="mt-4 grid gap-3" action="https://formsubmit.co/hello@quabbinvibes.com" method="POST">
-          <input type="hidden" name="_subject" value="New Quabbin Vibes Event" />
-          <label class="grid gap-1 text-sm">
-            <span>Event name</span>
-            <input required name="Event" class="rounded-xl border-slate-200" placeholder="Sunset Picnic Concert" />
-          </label>
-          <label class="grid gap-1 text-sm">
-            <span>Date & time</span>
-            <input required name="When" class="rounded-xl border-slate-200" placeholder="Aug 24, 6:30–9:00 PM" />
-          </label>
-          <label class="grid gap-1 text-sm">
-            <span>Location</span>
-            <input required name="Where" class="rounded-xl border-slate-200" placeholder="Greenfield Town Common" />
-          </label>
-          <label class="grid gap-1 text-sm">
-            <span>Short description</span>
-            <textarea name="Description" rows="3" class="rounded-xl border-slate-200" placeholder="A relaxed evening with folk duos and food vendors."></textarea>
-          </label>
-          <label class="grid gap-1 text-sm">
-            <span>Link (tickets/details)</span>
-            <input name="Link" class="rounded-xl border-slate-200" placeholder="https://example.com/event" />
-          </label>
-          <button class="mt-2 inline-flex justify-center items-center gap-2 px-4 py-2 rounded-xl bg-slate-900 text-white hover:bg-slate-800">Submit</button>
-        </form>
-      </div>
-    </div>
-  </section>  <!-- NEWSLETTER -->  <section id="newsletter" class="bg-slate-900 text-white">
-    <div class="container py-12 md:py-16">
-      <div class="grid lg:grid-cols-2 gap-8 items-center">
-        <div>
-          <h2 class="text-2xl md:text-3xl font-bold">The weekend, sorted — in your inbox</h2>
-          <p class="mt-3 text-slate-300">Hand‑picked events every Thursday morning.</p>
-          <ul class="mt-4 space-y-2 text-slate-300 text-sm">
-            <li>Worcester • Pioneer Valley • Berkshires</li>
-            <li>No spam. Unsubscribe anytime.</li>
-          </ul>
-        </div>
-        <div class="rounded-2xl bg-white/5 p-6 ring-1 ring-white/10">
-          <!-- Replace with Beehiiv embed; we style it automatically -->
-          <form class="grid sm:grid-cols-[1fr_auto] gap-3">
-            <input type="email" required placeholder="you@email.com" class="rounded-xl border-0 px-4 py-3 text-slate-900" />
-            <button class="rounded-xl px-4 py-3 bg-sky-500 hover:bg-sky-400 text-white font-medium">Subscribe</button>
-          </form>
-          <p class="text-xs text-slate-300 mt-2">Paste your Beehiiv embed code here later.</p>
-        </div>
-      </div>
-    </div>
-  </section>  <!-- ABOUT / FOOTER -->  <section id="about" class="container py-12 md:py-16">
-    <div class="grid lg:grid-cols-2 gap-8 items-start">
-      <div>
-        <h2 class="text-2xl md:text-3xl font-bold">About Quabbin Vibes</h2>
-        <p class="mt-3 text-slate-600">Built by locals, for locals. We’re curating what’s good across Worcester County, the Pioneer Valley, and the Berkshires — with fast approvals and a clean, no-junk experience.</p>
-        <div class="mt-6 grid sm:grid-cols-2 gap-4">
-          <div class="rounded-2xl border border-slate-200 p-5">
-            <p class="text-sm text-slate-500">Coverage</p>
-            <p class="mt-1 font-semibold">Worcester • 413 • Berkshires</p>
-          </div>
-          <div class="rounded-2xl border border-slate-200 p-5">
-            <p class="text-sm text-slate-500">Listing policy</p>
-            <p class="mt-1 font-semibold">Manual review, fast approvals</p>
-          </div>
-        </div>
-      </div>
-      <div class="rounded-2xl border border-slate-200 p-6 bg-white shadow-sm">
-        <h3 class="font-semibold text-lg">Blog highlights</h3>
-        <div class="mt-4 space-y-4" id="blogList">
-          <a href="#" class="block p-4 rounded-xl border border-slate-200 hover:bg-slate-50"><p class="text-sm text-slate-500">Guide</p><p class="font-medium">Best family-friendly hikes within 45 minutes of Amherst</p></a>
-          <a href="#" class="block p-4 rounded-xl border border-slate-200 hover:bg-slate-50"><p class="text-sm text-slate-500">Spotlight</p><p class="font-medium">Brewery patios with live music every week</p></a>
-          <a href="#" class="block p-4 rounded-xl border border-slate-200 hover:bg-slate-50"><p class="text-sm text-slate-500">Roundup</p><p class="font-medium">Farmers markets by day and town</p></a>
-        </div>
-      </div>
-    </div>
-  </section>  <footer class="border-t border-slate-200 bg-white relative">
-    <div class="container py-8 flex flex-col md:flex-row items-center justify-between gap-4">
-      <p class="text-sm text-slate-500">© <span id="y"></span> Quabbin Vibes. All rights reserved.</p>
-      <div class="flex items-center gap-3 text-sm">
-        <a href="#" class="hover:text-sky-600">Privacy</a>
-        <span class="text-slate-300">•</span>
-        <a href="#" class="hover:text-sky-600">Terms</a>
-        <span class="text-slate-300">•</span>
-        <a href="mailto:hello@quabbinvibes.com" class="hover:text-sky-600">Contact</a>
-      </div>
-    </div>
-    <!-- HIDDEN ADMIN DOT: bottom-right, subtle. Click → admin passcode prompt. -->
-    <a href="#admin" aria-label="admin" title="." class="block w-2 h-2 rounded-full bg-slate-300 opacity-60 hover:opacity-100 absolute right-3 bottom-3"></a>
-  </footer>  <!-- ADMIN (hidden). Includes Sources & Media Library. Entire app is single-file. -->  <template id="adminTpl">
-    <section class="container py-10">
-      <div class="flex items-center justify-between gap-4">
-        <h1 class="text-2xl md:text-3xl font-bold">Admin — Events, Sources, Media & Settings</h1>
-        <div class="flex items-center gap-2">
-          <button id="exportBtn" class="px-3 py-1.5 rounded-xl border border-slate-200">Export JSON</button>
-          <label class="px-3 py-1.5 rounded-xl border border-slate-200 cursor-pointer">Import JSON<input id="importInput" type="file" accept="application/json" class="hidden"></label>
-          <button id="newEventBtn" class="px-3 py-1.5 rounded-xl bg-sky-500 text-white hover:bg-sky-600">New Event</button>
-        </div>
-      </div><div class="mt-6 grid xl:grid-cols-[2fr_1fr] gap-6">
-    <!-- Events table -->
-    <div class="rounded-2xl border border-slate-200 bg-white overflow-hidden">
-      <div class="p-4 border-b border-slate-200 flex items-center justify-between">
-        <div class="text-sm text-slate-600">Total <span id="evCount">0</span></div>
-        <div class="flex items-center gap-2">
-          <input id="evSearch" placeholder="Search events…" class="rounded-xl border-slate-200 text-sm" />
-          <button id="clearAdminFilters" class="text-sm px-3 py-1.5 rounded-xl border border-slate-200">Clear</button>
-        </div>
-      </div>
-      <div class="overflow-x-auto">
-        <table class="min-w-full text-sm">
-          <thead class="bg-slate-50 text-slate-600">
-            <tr>
-              <th class="text-left px-4 py-3">Name</th>
-              <th class="text-left px-4 py-3">When</th>
-              <th class="text-left px-4 py-3">Where</th>
-              <th class="text-left px-4 py-3">Tags</th>
-              <th class="text-left px-4 py-3">Published</th>
-              <th class="text-right px-4 py-3">Actions</th>
-            </tr>
-          </thead>
-          <tbody id="evTable"></tbody>
-        </table>
-      </div>
-    </div>
-
-    <!-- Right column: Media + Settings + Sources -->
-    <div class="grid gap-6">
-      <!-- Media Library -->
-      <div class="rounded-2xl border border-slate-200 bg-white p-5">
-        <h3 class="font-semibold">Media library</h3>
-        <p class="text-sm text-slate-500">Add image URLs. Pick a hero. Logo/hero update live.</p>
-        <div class="mt-3 flex gap-2">
-          <input id="mediaUrl" placeholder="https://…" class="flex-1 rounded-xl border-slate-200 text-sm" />
-          <button id="addMedia" class="px-3 py-1.5 rounded-xl border border-slate-200">Add</button>
-        </div>
-        <div id="mediaGrid" class="mt-3 grid grid-cols-3 gap-2"></div>
-      </div>
-
-      <!-- Settings -->
-      <div class="rounded-2xl border border-slate-200 bg-white p-5">
-        <h3 class="font-semibold">Settings</h3>
-        <div class="mt-4 grid gap-3 text-sm">
-          <label class="grid gap-1"><span>Admin passcode</span><input id="passInput" class="rounded-xl border-slate-200" placeholder="Change passcode" /><p class="text-xs text-slate-500">Default: <code>quabbin</code> (client‑side only; use Supabase/Vercel KV for real auth).</p></label>
-          <label class="grid gap-1"><span>Logo URL</span><input id="logoInput" class="rounded-xl border-slate-200" placeholder="https://…/logo.png" /></label>
-          <label class="grid gap-1"><span>Hero image URL</span><input id="heroInput" class="rounded-xl border-slate-200" placeholder="https://…/hero.jpg" /></label>
-          <label class="grid gap-1"><span>Analytics provider</span><select id="analyticsProvider" class="rounded-xl border-slate-200"><option value="none">None</option><option value="plausible">Plausible</option><option value="umami">Umami</option><option value="ga4">Google Analytics 4</option></select></label>
-          <label class="grid gap-1"><span>Analytics ID / Domain</span><input id="analyticsId" class="rounded-xl border-slate-200" placeholder="ex: yourdomain.com or GA-ID" /></label>
-          <button id="saveSettings" class="mt-2 px-3 py-1.5 rounded-xl bg-slate-900 text-white">Save settings</button>
-        </div>
-      </div>
-
-      <!-- Sources (RSS/ICS/JSON/Page) -->
-      <div class="rounded-2xl border border-slate-200 bg-white p-5">
-        <h3 class="font-semibold">Sources</h3>
-        <p class="text-sm text-slate-500">Add RSS / iCal / JSON / Page. We’ll import what we can. For heavy scraping, use a Worker later.</p>
-        <div class="mt-3 grid gap-2 text-sm">
-          <div class="grid grid-cols-[1fr_auto_auto] gap-2">
-            <input id="srcUrl" placeholder="https://… (RSS/ICS/JSON/Page)" class="rounded-xl border-slate-200" />
-            <select id="srcType" class="rounded-xl border-slate-200"><option value="auto">Auto</option><option value="rss">RSS</option><option value="ics">ICS</option><option value="json">JSON</option><option value="page">Page</option></select>
-            <button id="addSource" class="px-3 py-1.5 rounded-xl border border-slate-200">Add</button>
-          </div>
-          <div class="text-xs text-slate-500">Tip: many venues publish **RSS** or **ICS** calendars that import cleanly.</div>
-          <div id="srcList" class="mt-2 space-y-2"></div>
-          <div class="mt-2 flex items-center gap-2"><button id="runImport" class="px-3 py-1.5 rounded-xl bg-sky-500 text-white hover:bg-sky-600">Run import</button><span id="importStatus" class="text-xs text-slate-500"></span></div>
-        </div>
-      </div>
+    <div class="nav-mobile" id="mobileNav">
+      <ul>
+        <li><a href="#" onclick="navTo('home')">Home</a></li>
+        <li><a href="#" onclick="navTo('events')">Events</a></li>
+        <li><a href="#" onclick="navTo('photography')">Photography & Reviews</a></li>
+        <li><a href="#" onclick="navTo('venues')">Venues</a></li>
+        <li><a href="#" onclick="navTo('about')">About</a></li>
+        <li><a href="#" onclick="navTo('contact')">Contact</a></li>
+        <li><a href="#" onclick="navTo('submit')">Submit Event</a></li>
+      </ul>
     </div>
   </div>
-</section>
+</header>
 
-<!-- Modal -->
-<dialog id="modal" class="rounded-2xl p-0 w-full max-w-2xl backdrop:bg-black/40">
-  <form method="dialog" class="bg-white rounded-2xl overflow-hidden">
-    <div class="p-4 border-b border-slate-200 flex items-center justify-between">
-      <h3 class="font-semibold" id="modalTitle">New Event</h3>
-      <button id="closeModal" class="px-3 py-1.5 rounded-xl border border-slate-200">Close</button>
+<!-- ===== HOME ===== -->
+<div id="homePage" class="page-content active" style="padding-top:0">
+  <section class="hero" id="heroSection"
+    style="background-image:linear-gradient(rgba(0,0,0,.35),rgba(0,0,0,.6)),url('https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?auto=format&fit=crop&w=1600&q=80')">
+    <div class="hero-content">
+      <h1 id="heroTitle">Quabbin Vibes</h1>
+      <p class="hero-subtitle" id="heroSubtitle">Discover authentic events and hidden gems across Western & Central New England</p>
+      <div class="coverage-area">Worcester → Pittsfield • Brattleboro → Hartford</div>
     </div>
-    <div class="p-5 grid sm:grid-cols-2 gap-4 text-sm">
-      <label class="grid gap-1"><span>Name</span><input id="f_name" class="rounded-xl border-slate-200" required /></label>
-      <label class="grid gap-1"><span>Date (YYYY-MM-DD)</span><input id="f_date" class="rounded-xl border-slate-200" required /></label>
-      <label class="grid gap-1"><span>Time (e.g., 18:30–21:00)</span><input id="f_time" class="rounded-xl border-slate-200" /></label>
-      <label class="grid gap-1"><span>Area</span><input id="f_area" class="rounded-xl border-slate-200" placeholder="Worcester / Pioneer Valley / Berkshires" /></label>
-      <label class="grid gap-1 sm:col-span-2"><span>Location</span><input id="f_where" class="rounded-xl border-slate-200" /></label>
-      <label class="grid gap-1 sm:col-span-2"><span>Description</span><textarea id="f_desc" rows="3" class="rounded-xl border-slate-200"></textarea></label>
-      <label class="grid gap-1 sm:col-span-2"><span>Image URL</span><input id="f_img" class="rounded-xl border-slate-200" placeholder="https://…" /></label>
-      <label class="grid gap-1 sm:col-span-2"><span>Tags (comma‑sep)</span><input id="f_tags" class="rounded-xl border-slate-200" placeholder="music, family, free" /></label>
-      <label class="inline-flex items-center gap-2 mt-2"><input type="checkbox" id="f_pub"/> <span>Published</span></label>
+    <div class="photo-credit" id="heroCredit">📸 Your Event Photography</div>
+  </section>
+
+  <section class="search-section">
+    <div class="search-container">
+      <input id="q" type="text" class="search-input" placeholder="Search events, venues, keywords…">
+      <select id="areaSel" class="search-select">
+        <option value="all">All Areas</option>
+        <option>Worcester</option><option>Pioneer Valley</option><option>Berkshires</option>
+        <option>Vermont</option><option>New Hampshire</option><option>Connecticut</option>
+      </select>
+      <select id="whenSel" class="search-select">
+        <option value="any">Anytime</option><option value="today">Today</option>
+        <option value="weekend">Weekend</option><option value="7d">Next 7 days</option>
+      </select>
+      <button class="search-btn" onclick="renderEvents()">Search</button>
     </div>
-    <div class="p-4 border-t border-slate-200 flex items-center justify-end gap-2">
-      <button id="delBtn" class="hidden px-3 py-1.5 rounded-xl border border-red-200 text-red-700">Delete</button>
-      <button id="saveBtn" class="px-3 py-1.5 rounded-xl bg-sky-500 text-white hover:bg-sky-600">Save</button>
+  </section>
+
+  <section class="main-content">
+    <h2 class="section-title">Upcoming Events</h2>
+    <div id="eventsGrid" class="events-grid"></div>
+    <p id="noEvents" class="hidden" style="text-align:center;color:#666;margin-top:10px">No events match your filters.</p>
+  </section>
+</div>
+
+<!-- ===== OTHER PAGES (placeholders kept from your structure) ===== -->
+<div id="eventsPage" class="page-content"><h1 class="section-title">Events</h1><div id="eventsGrid2" class="events-grid"></div></div>
+<div id="photographyPage" class="page-content"><h1 class="section-title">Photography & Reviews</h1><p style="text-align:center;color:#666">Add gallery/posts via Admin → Blog (coming soon).</p></div>
+<div id="venuesPage" class="page-content"><h1 class="section-title">Venues</h1><p style="text-align:center;color:#666">Feature partner venues here.</p></div>
+<div id="aboutPage" class="page-content"><h1 class="section-title">About</h1><p style="max-width:800px;margin:8px auto;color:#555;text-align:center">Professional regional media & events discovery across Western & Central New England.</p></div>
+<div id="contactPage" class="page-content">
+  <h1 class="section-title">Contact</h1>
+  <form onsubmit="submitContact(event)" class="card" style="max-width:660px;margin:0 auto;padding:22px">
+    <label>Name<br/><input class="search-input" required></label><br/>
+    <label>Email<br/><input type="email" class="search-input" required></label><br/>
+    <label>Message<br/><textarea class="search-input" required rows="5"></textarea></label><br/>
+    <button class="search-btn" style="width:100%">Send</button>
+  </form>
+</div>
+<div id="submitPage" class="page-content">
+  <h1 class="section-title">Submit Event</h1>
+  <form onsubmit="submitEvent(event)" class="card" style="max-width:760px;margin:0 auto;padding:22px">
+    <label>Event Name<br/><input class="search-input" required></label><br/>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+      <label>Date<br/><input type="date" class="search-input" required></label>
+      <label>Time<br/><input type="time" class="search-input"></label>
+    </div><br/>
+    <label>Area<br/><input class="search-input" placeholder="Worcester / Pioneer Valley …"></label><br/>
+    <label>Location<br/><input class="search-input" placeholder="Venue, City, State"></label><br/>
+    <label>Image URL<br/><input class="search-input" placeholder="https://…"></label><br/>
+    <label>Description<br/><textarea class="search-input" rows="5"></textarea></label><br/>
+    <button class="search-btn" style="width:100%">Submit</button>
+  </form>
+</div>
+
+<!-- ===== Footer ===== -->
+<footer>
+  <div class="footer-content">
+    <div class="footer-section"><h3>Quabbin Vibes</h3><p>Regional events platform for Western & Central New England.</p></div>
+    <div class="footer-section"><h3>Quick Links</h3>
+      <p><a href="#" onclick="showPage('events')">Events</a></p>
+      <p><a href="#" onclick="showPage('submit')">Submit Event</a></p>
+      <p><a href="#" onclick="showPage('contact')">Contact</a></p>
+    </div>
+    <div class="footer-section"><h3>Coverage</h3><p>Worcester • Pioneer Valley • Berkshires • VT • NH • CT</p></div>
+    <div class="footer-section"><h3>Media</h3><p>📸 Professional event photography & reviews.</p></div>
+  </div>
+  <div class="footer-bottom">
+    <p>© <span id="year"></span> Quabbin Vibes</p>
+    <!-- Hidden admin access dot -->
+    <span class="admin-dot" title="." onclick="adminLogin()"></span>
+  </div>
+</footer>
+
+<!-- ===== Admin Overlay ===== -->
+<div id="admin" class="admin">
+  <div class="panel">
+    <div class="head">
+      <strong>Quabbin Vibes — Admin</strong>
+      <div>
+        <button class="btn" onclick="exportJSON()">Export JSON</button>
+        <label class="btn"><input id="importFile" type="file" accept="application/json" style="display:none" onchange="importJSON(this.files[0])">Import JSON</label>
+        <button class="btn danger" onclick="closeAdmin()">Close</button>
+      </div>
+    </div>
+    <div class="tabs">
+      <button class="tab active" data-tab="events">Events</button>
+      <button class="tab" data-tab="media">Media</button>
+      <button class="tab" data-tab="sources">Sources</button>
+      <button class="tab" data-tab="settings">Settings</button>
+    </div>
+    <div class="body">
+      <!-- EVENTS -->
+      <section id="tab-events">
+        <div style="display:flex;gap:8px;align-items:center;margin-bottom:10px">
+          <input id="evSearch" class="search-input" placeholder="Search events…">
+          <button class="btn primary" onclick="openEventModal()">New Event</button>
+        </div>
+        <table class="table">
+          <thead><tr><th>Name</th><th>Date</th><th>Area</th><th>Where</th><th>Pub</th><th style="text-align:right">Actions</th></tr></thead>
+          <tbody id="evTable"></tbody>
+        </table>
+      </section>
+
+      <!-- MEDIA -->
+      <section id="tab-media" class="hidden">
+        <div class="card" style="padding:14px">
+          <h3>Media Library</h3>
+          <div style="display:flex;gap:8px;margin:8px 0">
+            <input id="mediaUrl" class="search-input" placeholder="Image URL https://…">
+            <button class="btn" onclick="addMedia()">Add</button>
+          </div>
+          <div id="mediaGrid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-top:8px"></div>
+        </div>
+        <div class="card" style="padding:14px;margin-top:12px">
+          <h3>Branding</h3>
+          <label>Logo Text/URL</label>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:8px 0">
+            <input id="logoText" class="search-input" placeholder="Logo text…">
+            <input id="logoImgUrl" class="search-input" placeholder="(Optional) Logo image URL">
+          </div>
+          <label>Hero Image URL</label>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:8px 0">
+            <input id="heroUrl" class="search-input" placeholder="https://…">
+            <input id="heroCred" class="search-input" placeholder="Photo credit">
+          </div>
+          <button class="btn primary" onclick="saveBranding()">Save Branding</button>
+        </div>
+      </section>
+
+      <!-- SOURCES -->
+      <section id="tab-sources" class="hidden">
+        <div class="card" style="padding:14px">
+          <h3>Sources (RSS / ICS / JSON / Page)</h3>
+          <div style="display:grid;grid-template-columns:1fr 140px 120px;gap:8px;margin:8px 0">
+            <input id="srcUrl" class="search-input" placeholder="https://…">
+            <select id="srcType" class="search-select">
+              <option value="auto">Auto</option><option value="rss">RSS</option><option value="ics">ICS</option><option value="json">JSON</option><option value="page">Page</option>
+            </select>
+            <button class="btn" onclick="addSource()">Add</button>
+          </div>
+          <div id="srcList"></div>
+          <div style="display:flex;gap:8px;margin-top:8px">
+            <button class="btn primary" onclick="runImport()">Run Import</button>
+            <span id="importStatus" style="color:#666"></span>
+          </div>
+        </div>
+      </section>
+
+      <!-- SETTINGS -->
+      <section id="tab-settings" class="hidden">
+        <div class="card" style="padding:14px">
+          <h3>Settings</h3>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:8px">
+            <div>
+              <label>Admin Passcode</label>
+              <input id="passInput" class="search-input" placeholder="Change passcode">
+              <p style="color:#888;font-size:.9rem;margin-top:6px">Default: <code>QuabbinVibes2025!</code> (client-side only)</p>
+            </div>
+            <div>
+              <label>Analytics</label>
+              <select id="analyticsProvider" class="search-select">
+                <option value="none">None</option>
+                <option value="plausible">Plausible</option>
+                <option value="umami">Umami</option>
+                <option value="ga4">Google Analytics 4</option>
+              </select>
+              <input id="analyticsId" class="search-input" placeholder="domain.com or G-XXXX…">
+            </div>
+          </div>
+          <button class="btn primary" style="margin-top:10px" onclick="saveSettings()">Save Settings</button>
+        </div>
+      </section>
+    </div>
+  </div>
+</div>
+
+<!-- ===== Modal (Events) ===== -->
+<dialog id="evModal" style="border:0;border-radius:16px;max-width:640px;width:92%;padding:0">
+  <form method="dialog" class="card" style="border:0;margin:0">
+    <div style="display:flex;justify-content:space-between;align-items:center;padding:14px 16px;border-bottom:1px solid #eef1f4">
+      <strong id="evModalTitle">New Event</strong>
+      <button class="btn" onclick="closeEventModal()">Close</button>
+    </div>
+    <div style="padding:16px;display:grid;gap:10px">
+      <label>Name<input id="f_name" class="search-input" required></label>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+        <label>Date<input id="f_date" type="date" class="search-input" required></label>
+        <label>Time<input id="f_time" class="search-input" placeholder="18:30–21:00"></label>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+        <label>Area<input id="f_area" class="search-input" placeholder="Worcester / Pioneer Valley / Berkshires"></label>
+        <label>Where<input id="f_where" class="search-input" placeholder="Venue, City, State"></label>
+      </div>
+      <label>Image URL<input id="f_img" class="search-input" placeholder="https://…"></label>
+      <label>Tags (comma)<input id="f_tags" class="search-input" placeholder="music, family, free"></label>
+      <label>Description<textarea id="f_desc" rows="4" class="search-input"></textarea></label>
+      <label><input id="f_pub" type="checkbox"> Published</label>
+    </div>
+    <div style="display:flex;justify-content:flex-end;gap:8px;padding:14px 16px;border-top:1px solid #eef1f4">
+      <button id="delBtn" type="button" class="btn danger hidden" onclick="deleteEvent()">Delete</button>
+      <button id="saveBtn" type="button" class="btn primary" onclick="saveEvent()">Save</button>
     </div>
   </form>
 </dialog>
 
-  </template>  <script>
-  (function(){
-    const $ = (q, el=document) => el.querySelector(q);
-    const $$ = (q, el=document) => Array.from(el.querySelectorAll(q));
+<script>
+/* ===================== STATE ===================== */
+const STORE = 'qv_site_v2';
+const DEFAULT = {
+  passcode: 'QuabbinVibes2025!',
+  analytics: { provider:'none', id:'' },
+  logoText: 'Quabbin Vibes',
+  logoImg: '',
+  heroUrl: 'https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?auto=format&fit=crop&w=1600&q=80',
+  heroCredit: 'Your Event Photography',
+  media: [],
+  sources: [],
+  events: [
+    mkEvent('Tanglewood Summer Concert', +2, '19:00', 'Berkshires', 'Tanglewood, Lenox, MA',
+      'Boston Symphony Orchestra performs classic summer repertoire under the stars.',
+      'https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1400&q=80', ['music','featured'], true),
+    mkEvent('Downtown Farmers Market', +3, '09:00–13:00', 'Pioneer Valley', 'Northampton Main St',
+      'Fresh produce, live music, and local makers.', 'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&w=1400&q=80', ['family','markets'], true)
+  ]
+};
+function mkEvent(name, plusDays, time, area, where, desc, img, tags, pub){
+  const d=new Date(); d.setDate(d.getDate()+plusDays);
+  return { id:crypto.randomUUID(), name, date:d.toISOString().slice(0,10), time, area, where, desc, img, tags, published:pub, link:'' }
+}
+let DB = load();
 
-    // ===== State (localStorage) =====
-    const STORE_KEY = 'qv_db_final_v1';
-    const DEFAULT = {
-      passcode: 'quabbin',
-      analytics: { provider: 'none', id: '' },
-      logo: 'https://dummyimage.com/40x40/0ea5e9/ffffff.png&text=QV',
-      hero: 'https://images.unsplash.com/photo-1492684223066-81342ee5ff30?q=80&w=1800&auto=format&fit=crop',
-      media: [],
-      categories: ['Music & Nightlife','Family & Kids','Outdoors','Markets & Food','Arts & Culture','Workshops'],
-      sources: [],
-      events: [
-        { id: crypto.randomUUID(), name: 'Downtown Farmers Market', date: addDays(2), time: '9:00–13:00', area: 'Pioneer Valley', where: 'Northampton Main St', desc: 'Fresh produce, live music, and local makers. Family‑friendly.', img: 'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?q=80&w=1400&auto=format&fit=crop', tags:['markets','family','music'], published: true },
-        { id: crypto.randomUUID(), name: 'Summer Nights on the Common', date: addDays(1), time: '18:30–21:30', area: 'Worcester', where: 'Worcester Common', desc: 'Regional bands, food trucks, local vendors. Free.', img:'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=1400&auto=format&fit=crop', tags:['music','free','food'], published: true },
-        { id: crypto.randomUUID(), name: 'Berkshire Arts & Makers Fair', date: addDays(4), time: '10:00–16:00', area: 'Berkshires', where: 'Pittsfield Park', desc: 'Juried artists, craft demos, and kids’ activities.', img:'https://images.unsplash.com/photo-1519681393784-d120267933ba?q=80&w=1400&auto=format&fit=crop', tags:['arts','family','outdoors'], published: true }
-      ]
+function load(){ try { return JSON.parse(localStorage.getItem(STORE)) || DEFAULT } catch { return DEFAULT } }
+function persist(){ localStorage.setItem(STORE, JSON.stringify(DB)) }
+
+/* ===================== NAV / UI ===================== */
+document.getElementById('year').textContent = new Date().getFullYear();
+function toggleMobileMenu(){ const m=document.getElementById('mobileNav'); m.style.display = m.style.display==='block'?'none':'block' }
+function navTo(id){ showPage(id); toggleMobileMenu() }
+function showPage(id){
+  document.querySelectorAll('.page-content').forEach(p=>p.classList.remove('active'));
+  document.getElementById(id+'Page')?.classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+document.addEventListener('click',e=>{
+  const m=document.getElementById('mobileNav');
+  const ham=document.querySelector('.hamburger');
+  if(m && ham && m.style.display==='block' && !m.contains(e.target) && !ham.contains(e.target)) m.style.display='none';
+});
+
+/* ===================== HERO / BRAND ===================== */
+applyBrand();
+function applyBrand(){
+  document.getElementById('logoLink').textContent = DB.logoText || 'Quabbin Vibes';
+  if(DB.logoImg){ document.getElementById('logoLink').innerHTML = `<img src="${DB.logoImg}" alt="logo" style="height:28px;vertical-align:middle">`; }
+  document.getElementById('heroSection').style.backgroundImage =
+    `linear-gradient(rgba(0,0,0,.35),rgba(0,0,0,.6)),url('${DB.heroUrl}')`;
+  document.getElementById('heroCredit').textContent = '📸 ' + (DB.heroCredit||'');
+}
+
+/* ===================== EVENTS LIST ===================== */
+const grid = document.getElementById('eventsGrid');
+const grid2 = document.getElementById('eventsGrid2');
+function withinWhen(dateStr, when){
+  const d=new Date(dateStr), now=new Date();
+  if(when==='any') return true;
+  if(when==='today') return d.toDateString()===now.toDateString();
+  if(when==='weekend') return [0,6].includes(d.getDay());
+  if(when==='7d') return d>=startOfDay(now) && (d-now)<=7*24*3600*1000;
+  return true;
+}
+function startOfDay(d){const x=new Date(d); x.setHours(0,0,0,0); return x}
+function renderEvents(){
+  const q = document.getElementById('q').value.trim().toLowerCase();
+  const area = document.getElementById('areaSel').value;
+  const when = document.getElementById('whenSel').value;
+  const list = DB.events
+    .filter(e=>e.published)
+    .filter(e=> area==='all' ? true : (e.area||'').toLowerCase().includes(area.toLowerCase()))
+    .filter(e=> withinWhen(e.date, when))
+    .filter(e=> !q ? true : [e.name,e.where,e.area,(e.tags||[]).join(',')].join(' ').toLowerCase().includes(q))
+    .sort((a,b)=> a.date.localeCompare(b.date));
+  grid.innerHTML=''; grid2.innerHTML='';
+  if(!list.length){ document.getElementById('noEvents').classList.remove('hidden'); return }
+  document.getElementById('noEvents').classList.add('hidden');
+  list.forEach(e=> grid.appendChild(eventCard(e)));
+  DB.events.forEach(e=> grid2.appendChild(eventCard(e))); // full list on /events
+}
+function eventCard(e){
+  const el = document.createElement('article'); el.className='card';
+  el.innerHTML = `
+    <div class="event-image" style="background-image:url('${e.img||""}');background-size:cover;background-position:center">
+      ${ (e.tags||[]).includes('featured') ? `<span class="badge">Featured</span>`:''}
+      <div class="datechip">${new Date(e.date).toLocaleDateString(undefined,{month:'short',day:'2-digit'})}</div>
+    </div>
+    <div class="event-info">
+      <div class="event-title">${escapeHtml(e.name)}</div>
+      <div class="event-meta">📍 ${escapeHtml(e.where||'')}</div>
+      <div class="event-meta">🗓 ${escapeHtml(e.date)} ${e.time?('• '+escapeHtml(e.time)) : ''}</div>
+      <p class="event-desc">${escapeHtml(e.desc||'')}</p>
+    </div>`;
+  return el;
+}
+function escapeHtml(s){ return (s||'').replace(/[&<>"]/g, m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m])) }
+renderEvents();
+
+/* ===================== SIMPLE FORMS ===================== */
+function submitContact(ev){ ev.preventDefault(); alert('Thanks! We’ll reply within 24 hours.'); ev.target.reset() }
+function submitEvent(ev){ ev.preventDefault(); alert('Thanks! We’ll review and publish soon.'); ev.target.reset() }
+
+/* ===================== ADMIN ACCESS ===================== */
+function adminLogin(){
+  const input = prompt('Enter admin password:');
+  if(!input) return;
+  if(input === (DB.passcode||'QuabbinVibes2025!')) openAdmin();
+  else alert('Incorrect password.');
+}
+function openAdmin(){
+  document.getElementById('admin').style.display='block';
+  // tabs
+  document.querySelectorAll('.tab').forEach(btn=>{
+    btn.onclick = () => {
+      document.querySelectorAll('.tab').forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+      document.querySelectorAll('[id^="tab-"]').forEach(s=>s.classList.add('hidden'));
+      document.getElementById('tab-'+btn.dataset.tab).classList.remove('hidden');
     };
+  });
+  // fill tables/fields
+  drawTable();
+  drawMedia(); drawSources();
+  document.getElementById('logoText').value = DB.logoText||'';
+  document.getElementById('logoImgUrl').value = DB.logoImg||'';
+  document.getElementById('heroUrl').value = DB.heroUrl||'';
+  document.getElementById('heroCred').value = DB.heroCredit||'';
+  document.getElementById('passInput').value = DB.passcode||'';
+  document.getElementById('analyticsProvider').value = DB.analytics?.provider||'none';
+  document.getElementById('analyticsId').value = DB.analytics?.id||'';
+}
+function closeAdmin(){ document.getElementById('admin').style.display='none' }
 
-    function addDays(n){ const d=new Date(); d.setDate(d.getDate()+n); return d.toISOString().slice(0,10); }
-    function load(){ try{ return JSON.parse(localStorage.getItem(STORE_KEY)) || DEFAULT }catch(e){ return DEFAULT } }
-    function save(db){ localStorage.setItem(STORE_KEY, JSON.stringify(db)); }
+/* ----- Events CRUD (Admin) ----- */
+let editingId = null;
+function drawTable(){
+  const q = (document.getElementById('evSearch').value||'').toLowerCase();
+  const tbody = document.getElementById('evTable'); tbody.innerHTML='';
+  DB.events.filter(e=> !q || [e.name,e.where,e.area,(e.tags||[]).join(',')].join(' ').toLowerCase().includes(q))
+    .sort((a,b)=>a.date.localeCompare(b.date))
+    .forEach(e=>{
+      const tr=document.createElement('tr');
+      tr.innerHTML = `<td>${escapeHtml(e.name)}</td><td>${e.date}</td><td>${escapeHtml(e.area||'')}</td><td>${escapeHtml(e.where||'')}</td><td>${e.published?'Yes':'No'}</td>
+      <td style="text-align:right"><button class="btn" onclick="editEvent('${e.id}')">Edit</button></td>`;
+      tbody.appendChild(tr);
+    });
+}
+document.getElementById('evSearch').addEventListener('input', drawTable);
+function openEventModal(){ editingId=null; fillEventForm(); document.getElementById('evModalTitle').textContent='New Event'; document.getElementById('delBtn').classList.add('hidden'); document.getElementById('evModal').showModal() }
+function editEvent(id){
+  editingId=id; const e = DB.events.find(x=>x.id===id); fillEventForm(e);
+  document.getElementById('evModalTitle').textContent='Edit Event';
+  document.getElementById('delBtn').classList.remove('hidden');
+  document.getElementById('evModal').showModal();
+}
+function closeEventModal(){ document.getElementById('evModal').close() }
+function fillEventForm(e={}){
+  f_name.value = e.name||''; f_date.value = e.date||''; f_time.value = e.time||''; f_area.value=e.area||'';
+  f_where.value=e.where||''; f_img.value=e.img||''; f_tags.value=(e.tags||[]).join(', '); f_desc.value=e.desc||''; f_pub.checked=!!e.published;
+}
+function saveEvent(){
+  const obj = {
+    id: editingId || crypto.randomUUID(),
+    name: f_name.value.trim(),
+    date: f_date.value.trim(),
+    time: f_time.value.trim(),
+    area: f_area.value.trim(),
+    where: f_where.value.trim(),
+    img: f_img.value.trim(),
+    tags: f_tags.value.split(',').map(s=>s.trim()).filter(Boolean),
+    desc: f_desc.value.trim(),
+    published: f_pub.checked,
+    link: ''
+  };
+  if(!obj.name || !obj.date){ alert('Name and date required'); return }
+  if(editingId){ const i=DB.events.findIndex(x=>x.id===editingId); DB.events[i]=obj } else { DB.events.push(obj) }
+  persist(); renderEvents(); drawTable(); closeEventModal();
+}
+function deleteEvent(){
+  if(!editingId) return; if(!confirm('Delete this event?')) return;
+  DB.events = DB.events.filter(x=>x.id!==editingId); persist(); renderEvents(); drawTable(); closeEventModal();
+}
 
-    let DB = load();
+/* ----- Media / Branding (Admin) ----- */
+function addMedia(){ const u=mediaUrl.value.trim(); if(!u) return; DB.media.unshift(u); persist(); mediaUrl.value=''; drawMedia() }
+function drawMedia(){
+  const g=document.getElementById('mediaGrid'); g.innerHTML='';
+  (DB.media||[]).forEach((url,i)=>{
+    const card=document.createElement('div'); card.className='card'; card.style.padding='6px';
+    card.innerHTML=`<img src="${url}" style="width:100%;height:100px;object-fit:cover;border-radius:10px"/>
+    <div style="display:flex;gap:6px;margin-top:6px">
+      <button class="btn" onclick="setHero(${i})">Hero</button>
+      <button class="btn" onclick="setLogoImg(${i})">Logo</button>
+      <button class="btn danger" onclick="delMedia(${i})">Remove</button>
+    </div>`;
+    g.appendChild(card);
+  });
+}
+function setHero(i){ DB.heroUrl=DB.media[i]; persist(); applyBrand(); alert('Hero updated.') }
+function setLogoImg(i){ DB.logoImg=DB.media[i]; DB.logoText=''; persist(); applyBrand(); alert('Logo updated.') }
+function delMedia(i){ DB.media.splice(i,1); persist(); drawMedia() }
+function saveBranding(){
+  DB.logoText = document.getElementById('logoText').value.trim();
+  DB.logoImg  = document.getElementById('logoImgUrl').value.trim();
+  DB.heroUrl  = document.getElementById('heroUrl').value.trim() || DB.heroUrl;
+  DB.heroCredit = document.getElementById('heroCred').value.trim() || DB.heroCredit;
+  persist(); applyBrand(); alert('Branding saved.');
+}
 
-    // ===== Nav / theme =====
-    $('#y').textContent = new Date().getFullYear();
-    $('#menuBtn')?.addEventListener('click', () => $('#mobileMenu').classList.toggle('hidden'));
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
-    const root = document.documentElement;
-    function setDark(on){ root.classList.toggle('dark', on); document.body.className = on ? 'bg-slate-900 text-slate-100' : 'bg-slate-50 text-slate-900'; }
-    setDark(prefersDark.matches);
-    prefersDark.addEventListener('change', e => setDark(e.matches));
-    $('#themeToggle')?.addEventListener('click', () => setDark(!root.classList.contains('dark')));
-
-    // Apply logo/hero from settings
-    $('#logoImg').src = DB.logo || $('#logoImg').src;
-    $('#heroImg').src = DB.hero || $('#heroImg').src;
-
-    // ===== Categories UI =====
-    const catWrap = $('#catButtons');
-    function renderCats(){
-      catWrap.innerHTML = '';
-      DB.categories.forEach(c => {
-        const b = document.createElement('button');
-        b.className = 'group w-full rounded-2xl border border-slate-200 p-5 text-left hover:border-sky-300 hover:shadow-glow';
-        b.innerHTML = `<div class="flex items-center justify-between"><span class="font-semibold">${c}</span><span class="text-xs px-2 py-1 rounded-full bg-sky-100 text-sky-700 group-hover:bg-sky-200">Filter</span></div><p class="mt-2 text-sm text-slate-600">`+(c.includes('Music')?'Concerts, open mics, brewery sets.':c.includes('Family')?'Festivals, libraries, farms.':c.includes('Outdoors')?'Hikes, paddles, stargazing.':'Curated picks.')+`</p>`;
-        b.addEventListener('click', ()=>{ $('#q').value = c.split(' & ')[0].toLowerCase(); renderEvents(); });
-        catWrap.appendChild(b);
+/* ----- Sources / Import (Admin) ----- */
+function addSource(){
+  const url = document.getElementById('srcUrl').value.trim();
+  const type = document.getElementById('srcType').value;
+  if(!url) return;
+  DB.sources.push({url, type}); persist(); document.getElementById('srcUrl').value=''; drawSources();
+}
+function drawSources(){
+  const list=document.getElementById('srcList'); list.innerHTML='';
+  (DB.sources||[]).forEach((s,i)=>{
+    const row=document.createElement('div'); row.className='card'; row.style.padding='10px'; row.style.margin='6px 0';
+    row.innerHTML=`<div style="display:flex;justify-content:space-between;gap:10px;align-items:center">
+      <div><strong>${s.type||'auto'}</strong> — ${s.url}</div>
+      <div>
+        <button class="btn" onclick="testImport(${i})">Test</button>
+        <button class="btn danger" onclick="removeSource(${i})">Remove</button>
+      </div></div>`;
+    list.appendChild(row);
+  });
+}
+function removeSource(i){ DB.sources.splice(i,1); persist(); drawSources() }
+async function runImport(){
+  document.getElementById('importStatus').textContent='Importing…';
+  let added=0;
+  for(const s of (DB.sources||[])){
+    try{
+      const items = await importFromSource(s);
+      items.forEach(it=>{
+        const key = it.name + it.date;
+        if(!DB.events.some(e=>e.name+e.date===key)) { DB.events.push(it); added++ }
       });
-    }
-
-    // ===== Events grid + filters =====
-    const grid = $('#eventsGrid');
-    function withinWhen(dateStr, when){
-      const d = new Date(dateStr);
-      const now = new Date();
-      if(when==='any') return true;
-      if(when==='today') return d.toDateString()===now.toDateString();
-      if(when==='weekend') return [0,6].includes(d.getDay());
-      if(when==='7d') return (d-now) <= 7*24*3600*1000 && d>=startOfDay(now);
-      return true;
-    }
-    function startOfDay(d){ const x=new Date(d); x.setHours(0,0,0,0); return x; }
-
-    function renderEvents(){
-      const q = $('#q').value.trim().toLowerCase();
-      const when = $('#when').value;
-      const where = $('#where').value;
-      const ev = DB.events
-        .filter(e=>e.published)
-        .filter(e=> withinWhen(e.date, when))
-        .filter(e=> where==='all' ? true : (e.area===where))
-        .filter(e=> !q ? true : [e.name,e.where,e.area,(e.tags||[]).join(',')].join(' ').toLowerCase().includes(q));
-
-      grid.innerHTML = '';
-      if(!ev.length){ $('#noResults').classList.remove('hidden'); return; } else { $('#noResults').classList.add('hidden'); }
-
-      ev.sort((a,b)=> (a.date>b.date?1:-1));
-
-      ev.forEach(e=>{
-        const el = document.createElement('article');
-        el.className = 'group rounded-2xl overflow-hidden border border-slate-200 hover:shadow-xl hover:border-sky-200 transition';
-        el.innerHTML = `
-          <div class="relative">
-            <img src="${e.img||'https://images.unsplash.com/photo-1483412033650-1015ddeb83d1?q=80&w=1400&auto=format&fit=crop'}" alt="${escapeHtml(e.name)}" class="h-44 w-full object-cover" />
-            <div class="absolute top-3 left-3 text-xs px-2 py-1 rounded-lg bg-white/90 border border-slate-200">${fmtBadge(e.date)} • ${escapeHtml(e.area||'')}</div>
-          </div>
-          <div class="p-4">
-            <h3 class="font-semibold leading-tight">${escapeHtml(e.name)}</h3>
-            <p class="mt-1 text-sm text-slate-600 line-clamp-2">${escapeHtml(e.desc||'')}</p>
-            <div class="mt-4 flex items-center justify-between">
-              <span class="text-sm text-slate-500">${escapeHtml(e.time||'')}</span>
-              <a href="${e.link||'#'}" target="_blank" rel="noopener" class="text-sm font-medium text-sky-700 hover:underline">Details</a>
-            </div>
-          </div>`;
-        grid.appendChild(el);
-      })
-    }
-
-    function fmtBadge(dateStr){ const d = new Date(dateStr+'T00:00:00'); return d.toLocaleDateString(undefined,{weekday:'short'}); }
-    function escapeHtml(s){ return (s||'').replace(/[&<>\"]/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;'}[m])); }
-
-    $('#q').addEventListener('input', renderEvents);
-    $('#when').addEventListener('change', renderEvents);
-    $('#where').addEventListener('change', renderEvents);
-    $('#clearFilters').addEventListener('click', ()=>{ $('#q').value=''; $('#when').value='any'; $('#where').value='all'; renderEvents(); });
-
-    renderCats();
-    renderEvents();
-
-    // ===== Admin routing (hidden via footer dot) =====
-    window.addEventListener('hashchange', route);
-    route();
-
-    function route(){ if(location.hash==='#admin'){ showAdmin(); } }
-    function requirePasscode(){ const input = prompt('Enter admin passcode (demo: "quabbin")'); return input && input === (DB.passcode||'quabbin'); }
-
-    function showAdmin(){
-      if(!requirePasscode()) { alert('Incorrect passcode'); location.hash=''; return; }
-      document.body.scrollTo({top:0});
-      $$('header, section, footer').forEach(el=> el.style.display='none');
-      const tpl = $('#adminTpl').content.cloneNode(true);
-      document.body.appendChild(tpl);
-
-      const evTable = $('#evTable');
-      const evCount = $('#evCount');
-      const evSearch = $('#evSearch');
-      const modal = $('#modal');
-      const delBtn = $('#delBtn');
-      const saveBtn = $('#saveBtn');
-      const closeBtn = $('#closeModal');
-      const passInput = $('#passInput');
-      const providerSel = $('#analyticsProvider');
-      const analyticsId = $('#analyticsId');
-      const logoInput = $('#logoInput');
-      const heroInput = $('#heroInput');
-      const srcUrl = $('#srcUrl');
-      const srcType = $('#srcType');
-      const addSourceBtn = $('#addSource');
-      const srcList = $('#srcList');
-      const runImportBtn = $('#runImport');
-      const importStatus = $('#importStatus');
-      const mediaUrl = $('#mediaUrl');
-      const addMediaBtn = $('#addMedia');
-      const mediaGrid = $('#mediaGrid');
-
-      passInput.value = DB.passcode||'';
-      providerSel.value = DB.analytics?.provider||'none';
-      analyticsId.value = DB.analytics?.id||'';
-      logoInput.value = DB.logo||'';
-      heroInput.value = DB.hero||'';
-
-      function drawTable(list){
-        evTable.innerHTML='';
-        list.forEach(e=>{
-          const tr = document.createElement('tr');
-          tr.className='border-t border-slate-100';
-          tr.innerHTML = `
-            <td class="px-4 py-3">${escapeHtml(e.name)}</td>
-            <td class="px-4 py-3">${escapeHtml(e.date)} ${e.time?('• '+escapeHtml(e.time)) : ''}</td>
-            <td class="px-4 py-3">${escapeHtml(e.where||'')}<div class="text-xs text-slate-500">${escapeHtml(e.area||'')}</div></td>
-            <td class="px-4 py-3">${(e.tags||[]).map(t=>`<span class='px-2 py-0.5 rounded bg-slate-100 mr-1'>${escapeHtml(t)}</span>`).join('')}</td>
-            <td class="px-4 py-3">${e.published?'<span class="text-emerald-600">Yes</span>':'<span class="text-slate-400">No</span>'}</td>
-            <td class="px-4 py-3 text-right"><button class="text-sky-700 hover:underline" data-id="${e.id}">Edit</button></td>`;
-          tr.querySelector('button').addEventListener('click', () => openModal(e));
-          evTable.appendChild(tr);
-        });
-        evCount.textContent = list.length;
-      }
-
-      function listFiltered(){ const q = evSearch.value.trim().toLowerCase(); return DB.events.filter(e=> !q ? true : [e.name,e.where,e.area,(e.tags||[]).join(',')].join(' ').toLowerCase().includes(q)); }
-
-      drawTable(listFiltered());
-      evSearch.addEventListener('input', ()=> drawTable(listFiltered()));
-      $('#clearAdminFilters').addEventListener('click', ()=>{ evSearch.value=''; drawTable(listFiltered()); });
-
-      $('#newEventBtn').addEventListener('click', ()=> openModal());
-
-      function openModal(e){
-        $('#modalTitle').textContent = e? 'Edit Event' : 'New Event';
-        $('#f_name').value = e?.name || '';
-        $('#f_date').value = e?.date || '';
-        $('#f_time').value = e?.time || '';
-        $('#f_area').value = e?.area || '';
-        $('#f_where').value = e?.where || '';
-        $('#f_desc').value = e?.desc || '';
-        $('#f_img').value = e?.img || '';
-        $('#f_tags').value = (e?.tags||[]).join(', ');
-        $('#f_pub').checked = !!e?.published;
-        delBtn.classList.toggle('hidden', !e);
-        delBtn.onclick = () => { if(confirm('Delete this event?')) { DB.events = DB.events.filter(x=>x.id!==e.id); save(DB); drawTable(listFiltered()); renderEvents(); modal.close(); } }; 
-        saveBtn.onclick = () => {
-          const obj = {
-            id: e?.id || crypto.randomUUID(),
-            name: $('#f_name').value.trim(),
-            date: $('#f_date').value.trim(),
-            time: $('#f_time').value.trim(),
-            area: $('#f_area').value.trim(),
-            where: $('#f_where').value.trim(),
-            desc: $('#f_desc').value.trim(),
-            img: $('#f_img').value.trim(),
-            tags: $('#f_tags').value.split(',').map(s=>s.trim()).filter(Boolean),
-            link: e?.link || '',
-            published: $('#f_pub').checked
-          };
-          if(!obj.name || !obj.date){ alert('Name and date are required'); return; }
-          if(e){ const idx = DB.events.findIndex(x=>x.id===e.id); DB.events[idx]=obj; } else { DB.events.push(obj); }
-          save(DB); drawTable(listFiltered()); renderEvents(); modal.close();
-        };
-        closeBtn.onclick = () => modal.close();
-        modal.showModal();
-      }
-
-      // Media
-      function drawMedia(){
-        mediaGrid.innerHTML='';
-        (DB.media||[]).forEach((url, i)=>{
-          const wrap = document.createElement('div');
-          wrap.className='relative';
-          wrap.innerHTML = `<img src="${url}" class="w-full h-20 object-cover rounded-lg ring-1 ring-slate-200"/><div class="absolute top-1 right-1 flex gap-1">`+
-            `<button title="Set as hero" class="px-2 py-0.5 rounded bg-white/90 text-xs ring-1 ring-slate-200" data-act="hero" data-i="${i}">Hero</button>`+
-            `<button title="Set as logo" class="px-2 py-0.5 rounded bg-white/90 text-xs ring-1 ring-slate-200" data-act="logo" data-i="${i}">Logo</button>`+
-            `<button title="Remove" class="px-2 py-0.5 rounded bg-red-50 text-red-700 text-xs ring-1 ring-red-200" data-act="del" data-i="${i}">✕</button>`+
-            `</div>`;
-          mediaGrid.appendChild(wrap);
-        });
-        $$('[data-act]','mediaGrid').forEach(btn => btn.addEventListener('click', (e)=>{
-          const i = +e.target.getAttribute('data-i');
-          const act = e.target.getAttribute('data-act');
-          if(act==='del'){ DB.media.splice(i,1); save(DB); drawMedia(); }
-          if(act==='hero'){ DB.hero = DB.media[i]; save(DB); $('#heroImg').src = DB.hero; }
-          if(act==='logo'){ DB.logo = DB.media[i]; save(DB); $('#logoImg').src = DB.logo; }
-        }));
-      }
-      addMediaBtn.addEventListener('click', ()=>{ const url=mediaUrl.value.trim(); if(!url) return; DB.media = DB.media||[]; DB.media.unshift(url); mediaUrl.value=''; save(DB); drawMedia(); });
-      drawMedia();
-
-      // Sources list
-      function drawSources(){
-        srcList.innerHTML='';
-        (DB.sources||[]).forEach((s, i)=>{
-          const row = document.createElement('div');
-          row.className='flex items-center justify-between gap-2 p-2 rounded-xl border border-slate-200';
-          row.innerHTML = `<div class="text-sm"><span class="px-2 py-0.5 rounded bg-slate-100 mr-2">${s.type||'auto'}</span>${escapeHtml(s.url)}</div>`+
-                          `<div class="flex items-center gap-2"><button class="px-2 py-1 text-xs rounded-xl border border-slate-200" data-i="${i}" data-act="test">Test</button><button class="px-2 py-1 text-xs rounded-xl border border-red-200 text-red-700" data-i="${i}" data-act="del">Remove</button></div>`;
-          srcList.appendChild(row);
-        });
-        $$('[data-act]') .forEach(btn=> btn.addEventListener('click', async (e)=>{
-          const i = +e.target.getAttribute('data-i');
-          const act = e.target.getAttribute('data-act');
-          if(act==='del'){ DB.sources.splice(i,1); save(DB); drawSources(); return; }
-          if(act==='test'){ importStatus.textContent='Testing…'; try{ const res = await importFromSource(DB.sources[i], true); importStatus.textContent = `Parsed ${res.length} item(s)`; } catch(err){ importStatus.textContent = 'Error: '+err.message; }
-          }
-        }));
-      }
-      addSourceBtn.addEventListener('click', ()=>{ const url=srcUrl.value.trim(); if(!url) return; const type=srcType.value; DB.sources=DB.sources||[]; DB.sources.push({url, type}); save(DB); srcUrl.value=''; drawSources(); });
-      runImportBtn.addEventListener('click', async ()=>{ importStatus.textContent='Importing…'; try{ const total = await importAllSources(); importStatus.textContent = `Imported ${total} event(s)`; drawTable(listFiltered()); renderEvents(); } catch(err){ importStatus.textContent = 'Error: '+err.message; } });
-      drawSources();
-
-      // Export / Import
-      $('#exportBtn').addEventListener('click', ()=>{
-        const blob = new Blob([JSON.stringify(DB,null,2)], {type:'application/json'});
-        const a = document.createElement('a');
-        a.href = URL.createObjectURL(blob); a.download = 'quabbin-vibes.json'; a.click();
-      });
-      $('#importInput').addEventListener('change', async (e)=>{
-        const file = e.target.files[0]; if(!file) return;
-        const json = JSON.parse(await file.text());
-        if(!json.events) return alert('Invalid file');
-        DB = json; save(DB); drawTable(listFiltered()); renderEvents(); alert('Imported');
-      });
-
-      // Settings
-      $('#saveSettings').addEventListener('click', ()=>{
-        DB.passcode = passInput.value || DB.passcode;
-        DB.analytics = { provider: providerSel.value, id: analyticsId.value.trim() };
-        DB.logo = logoInput.value || DB.logo;
-        DB.hero = heroInput.value || DB.hero;
-        save(DB);
-        injectAnalytics();
-        if(DB.logo) $('#logoImg').src = DB.logo;
-        if(DB.hero) $('#heroImg').src = DB.hero;
-        alert('Settings saved');
-      });
-    }
-
-    // ===== Analytics (opt‑in) =====
-    function injectAnalytics(){
-      $$('script[data-analytics]').forEach(s=> s.remove());
-      const {provider,id} = DB.analytics||{};
-      if(provider==='plausible' && id){
-        const s=document.createElement('script'); s.defer=true; s.setAttribute('data-domain', id); s.src='https://plausible.io/js/script.js'; s.setAttribute('data-analytics','plausible'); document.head.appendChild(s);
-      } else if(provider==='umami' && id){
-        const s=document.createElement('script'); s.defer=true; s.src='https://cloud.umami.is/script.js'; s.setAttribute('data-website-id', id); s.setAttribute('data-analytics','umami'); document.head.appendChild(s);
-      } else if(provider==='ga4' && id){
-        const g=document.createElement('script'); g.async=true; g.src=`https://www.googletagmanager.com/gtag/js?id=${id}`; g.setAttribute('data-analytics','ga4'); document.head.appendChild(g);
-        const s=document.createElement('script'); s.setAttribute('data-analytics','ga4'); s.innerHTML = `window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)};gtag('js', new Date());gtag('config','${id}');`; document.head.appendChild(s);
-      }
-    }
-    injectAnalytics();
-
-    // ===== Error capture =====
-    window.addEventListener('error', (e)=> showError(e.message||'Script error'));
-    window.addEventListener('unhandledrejection', (e)=> showError(e.reason?.message||'Promise error'));
-    function showError(msg){ $('#errmsg').textContent = msg; $('#err').classList.remove('hidden'); setTimeout(()=>$('#err').classList.add('hidden'), 6000); }
-
-    // ===== Feed / Page Import =====
-    async function importAllSources(){
-      let total = 0;
-      for(const src of (DB.sources||[])){
-        const items = await importFromSource(src);
-        items.forEach(it=>{ const k = it.name+it.date; if(!DB.events.some(e=> (e.name+e.date)===k)) DB.events.push(it); });
-        total += items.length; save(DB);
-      }
-      return total;
-    }
-
-    async function importFromSource(src, dry=false){
-      const type = src.type==='auto' ? guessType(src.url) : src.type;
-      const url = src.url;
-      let items = [];
-      if(type==='rss') items = await importRSS(url);
-      else if(type==='ics') items = await importICS(url);
-      else if(type==='json') items = await importJSON(url);
-      else if(type==='page') items = await importPage(url);
-      else items = await (importRSS(url).catch(()=>importICS(url).catch(()=>importPage(url))));
-      return dry ? items : items;
-    }
-
-    function guessType(url){ if(/\.(rss|xml)(\?|$)/i.test(url)) return 'rss'; if(/\.(ics)(\?|$)/i.test(url)) return 'ics'; if(/\.(json)(\?|$)/i.test(url)) return 'json'; return 'page'; }
-
-    async function fetchText(url){
-      try{ const r = await fetch(url); if(!r.ok) throw new Error('HTTP '+r.status); return await r.text(); }
-      catch(e){ const prox = 'https://r.jina.ai/http/'+url.replace(/^https?:\/\//,''); const r = await fetch(prox); if(!r.ok) throw new Error('Proxy HTTP '+r.status); return await r.text(); }
-    }
-
-    async function importRSS(url){
-      const xml = await fetchText(url);
-      const doc = new DOMParser().parseFromString(xml, 'text/xml');
-      const items = Array.from(doc.querySelectorAll('item, entry')).slice(0, 50).map(x=>{
-        const title = (x.querySelector('title')?.textContent||'').trim();
-        const desc = (x.querySelector('description, summary')?.textContent||'').trim();
-        const when = (x.querySelector('pubDate, updated, dc\\:date')?.textContent||'').trim();
-        const link = (x.querySelector('link')?.getAttribute('href') || x.querySelector('link')?.textContent || '').trim();
-        const date = guessDate(desc) || guessDate(title) || isoDate(when) || addDays(14);
-        return normalizeItem({title, desc, when:date, link});
-      });
-      return items;
-    }
-
-    async function importICS(url){
-      const txt = await fetchText(url);
-      const lines = txt.split(/\r?\n/);
-      const evs = [];
-      let cur = {};
-      for(const ln of lines){
-        if(ln.startsWith('BEGIN:VEVENT')) cur = {};
-        else if(ln.startsWith('SUMMARY:')) cur.title = ln.slice(8).trim();
-        else if(ln.startsWith('DTSTART')) cur.date = icsDate(ln.split(':')[1]);
-        else if(ln.startsWith('DTEND')) cur.end = icsDate(ln.split(':')[1]);
-        else if(ln.startsWith('LOCATION:')) cur.where = ln.slice(9).trim();
-        else if(ln.startsWith('DESCRIPTION:')) cur.desc = ln.slice(12).trim();
-        else if(ln.startsWith('END:VEVENT')){ if(cur.title && cur.date){ evs.push(normalizeItem({title:cur.title, desc:cur.desc, when:cur.date, where:cur.where})); } cur={}; }
-      }
-      return evs;
-    }
-
-    async function importJSON(url){
-      const txt = await fetchText(url);
-      const data = JSON.parse(txt);
-      const arr = Array.isArray(data)? data : (data.items||data.events||[]);
-      return arr.slice(0,100).map(it=> normalizeItem({ title: it.title||it.name, desc: it.description||it.desc||'', when: it.date||it.when||it.start||it.startDate, where: it.location||it.where||it.venue||'', img: it.image||it.img||'', link: it.url||it.link||'' }));
-    }
-
-    async function importPage(url){
-      const text = await fetchText(url);
-      const lines = text.split('\n').map(x=>x.trim()).filter(Boolean).slice(0, 800);
-      const out = [];
-      for(let i=0;i<lines.length;i++){
-        const L = lines[i];
-        const d = guessDate(L);
-        if(d){
-          const title = (lines[i+1] && lines[i+1].length>8)? lines[i+1] : L.replace(/\s*[-–|].*/,'');
-          out.push(normalizeItem({title, desc: L, when: d, link:url}));
-        }
-      }
-      return out.slice(0, 40);
-    }
-
-    function normalizeItem({title, desc, when, where='', img='', link=''}){
-      const name = (title||'').replace(/\s+/g,' ').trim();
-      const date = isoDate(when) || addDays(14);
-      return { id: crypto.randomUUID(), name, date, time: '', area: guessArea(where)||'Pioneer Valley', where: where||'', desc: (desc||'').slice(0,300), img: img||'', tags: ['imported'], link: link, published: true };
-    }
-
-    function isoDate(s){ try{ const d = new Date(s); if(!isNaN(d)) return d.toISOString().slice(0,10); }catch(e){} return null; }
-    function icsDate(s){ if(!s) return addDays(14); const y=s.slice(0,4), m=s.slice(4,6), d=s.slice(6,8); return `${y}-${m}-${d}`; }
-    function guessDate(s){ if(!s) return null; const m=s.match(/(\b\d{1,2}[\/.-]\d{1,2}(?:[\/.-]\d{2,4})?\b)|(\b(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\s+\d{1,2}(?:,\s*\d{2,4})?\b)/i); return m? isoDate(m[0]): null; }
-    function guessArea(where){ if(/worcester/i.test(where)) return 'Worcester'; if(/northampton|amherst|greenfield|hadley|holyoke|springfield|pioneer/i.test(where)) return 'Pioneer Valley'; if(/pittsfield|lenox|stockbridge|north adams|berkshir/i.test(where)) return 'Berkshires'; return 'Pioneer Valley' }
-
-  })();
-  </script>  <!-- JSON-LD (SEO) -->  <script type="application/ld+json">
-  {
-    "@context":"https://schema.org",
-    "@type":"Organization",
-    "name":"Quabbin Vibes",
-    "url":"https://quabbinvibes.com",
-    "logo":"https://quabbinvibes.com/logo.png",
-    "areaServed":["Worcester County","Hampshire County","Hampden County","Berkshire County"],
-    "description":"Regional events discovery for Western & Central Massachusetts."
+    }catch(err){ console.warn('Import error', err) }
   }
-  </script></body>
+  persist(); renderEvents(); drawTable();
+  document.getElementById('importStatus').textContent=`Imported ${added} item(s).`;
+}
+async function testImport(i){
+  document.getElementById('importStatus').textContent='Testing…';
+  try{ const items = await importFromSource(DB.sources[i]); document.getElementById('importStatus').textContent=`Parsed ${items.length} item(s).`; }
+  catch(err){ document.getElementById('importStatus').textContent='Error: '+err.message }
+}
+function guessType(url){
+  if(/\.(rss|xml)(\?|$)/i.test(url)) return 'rss';
+  if(/\.(ics)(\?|$)/i.test(url)) return 'ics';
+  if(/\.(json)(\?|$)/i.test(url)) return 'json';
+  return 'page';
+}
+async function importFromSource(s){
+  const type = s.type==='auto' ? guessType(s.url) : s.type;
+  if(type==='rss') return importRSS(s.url);
+  if(type==='ics') return importICS(s.url);
+  if(type==='json') return importJSON(s.url);
+  if(type==='page') return importPage(s.url);
+  // auto fallback chain
+  try{ return await importRSS(s.url) }catch{} try{ return await importICS(s.url) }catch{}
+  return importPage(s.url);
+}
+async function fetchText(url){
+  // Try direct; if blocked, use read-only proxy (no secrets needed)
+  try{ const r=await fetch(url); if(!r.ok) throw new Error('HTTP '+r.status); return await r.text() }
+  catch(e){ const prox='https://r.jina.ai/http/'+url.replace(/^https?:\/\//,''); const r=await fetch(prox); if(!r.ok) throw new Error('Proxy HTTP '+r.status); return await r.text() }
+}
+async function importRSS(url){
+  const xml = await fetchText(url);
+  const doc = new DOMParser().parseFromString(xml, 'text/xml');
+  const items = Array.from(doc.querySelectorAll('item, entry')).slice(0,60).map(x=>{
+    const title = (x.querySelector('title')?.textContent||'').trim();
+    const link = (x.querySelector('link')?.getAttribute?.('href') || x.querySelector('link')?.textContent || '').trim();
+    const desc  = (x.querySelector('description, summary')?.textContent||'').trim();
+    const when  = (x.querySelector('pubDate, updated, dc\\:date')?.textContent||'').trim();
+    const date  = guessDate(desc) || guessDate(title) || safeISO(when);
+    return normItem({title, desc, when:date, link});
+  });
+  return items;
+}
+async function importICS(url){
+  const txt = await fetchText(url);
+  const lines = txt.split(/\r?\n/);
+  const out=[]; let cur={};
+  for(const ln of lines){
+    if(ln.startsWith('BEGIN:VEVENT')) cur={};
+    else if(ln.startsWith('SUMMARY:')) cur.title=ln.slice(8).trim();
+    else if(ln.startsWith('DTSTART')) cur.date=icsDate(ln.split(':')[1]);
+    else if(ln.startsWith('DTEND')) cur.end=icsDate(ln.split(':')[1]);
+    else if(ln.startsWith('LOCATION:')) cur.where=ln.slice(9).trim();
+    else if(ln.startsWith('DESCRIPTION:')) cur.desc=ln.slice(12).trim();
+    else if(ln.startsWith('END:VEVENT')){ if(cur.title && cur.date){ out.push(normItem({title:cur.title,desc:cur.desc,when:cur.date,where:cur.where})) } }
+  }
+  return out;
+}
+async function importJSON(url){
+  const txt = await fetchText(url); const data = JSON.parse(txt);
+  const arr = Array.isArray(data) ? data : (data.items||data.events||[]);
+  return arr.slice(0,100).map(it=> normItem({
+    title: it.title||it.name, desc: it.description||it.desc||'',
+    when: it.date||it.when||it.start||it.startDate, where: it.location||it.where||it.venue||'',
+    img: it.image||it.img||'', link: it.url||it.link||''
+  }));
+}
+async function importPage(url){
+  const text = await fetchText(url);
+  const lines = text.split('\n').map(s=>s.trim()).filter(Boolean).slice(0,800);
+  const out=[];
+  for(let i=0;i<lines.length;i++){
+    const L=lines[i], d=guessDate(L);
+    if(d){ const title=(lines[i+1]&&lines[i+1].length>8)?lines[i+1]:L.replace(/\s*[-–|].*/,''); out.push(normItem({title,desc:L,when:d,link:url})) }
+  }
+  return out.slice(0,40);
+}
+function normItem({title, desc, when, where='', img='', link=''}) {
+  const name=(title||'').replace(/\s+/g,' ').trim();
+  const date=safeISO(when) || safeISO(new Date());
+  return { id:crypto.randomUUID(), name, date, time:'', area:guessArea(where)||'Pioneer Valley', where:where||'', desc:(desc||'').slice(0,300), img, tags:['imported'], published:true, link };
+}
+function safeISO(s){ try{ const d=new Date(s); if(!isNaN(d)) return d.toISOString().slice(0,10) }catch(_){} return null }
+function icsDate(s){ if(!s) return null; const y=s.slice(0,4), m=s.slice(4,6), d=s.slice(6,8); return `${y}-${m}-${d}` }
+function guessDate(s){ if(!s) return null; const m=s.match(/(\b\d{1,2}[\/.-]\d{1,2}(?:[\/.-]\d{2,4})?\b)|(\b(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\s+\d{1,2}(?:,\s*\d{2,4})?\b)/i); return m? safeISO(m[0]): null }
+function guessArea(where){ if(/worcester/i.test(where)) return 'Worcester'; if(/northampton|amherst|greenfield|springfield|pioneer/i.test(where)) return 'Pioneer Valley'; if(/pittsfield|lenox|stockbridge|north adams|berkshir/i.test(where)) return 'Berkshires'; if(/vermont/i.test(where)) return 'Vermont'; if(/connecticut|hartford/i.test(where)) return 'Connecticut'; return 'Pioneer Valley' }
+
+/* ----- Settings (Admin) ----- */
+function saveSettings(){
+  DB.passcode = document.getElementById('passInput').value || DB.passcode;
+  DB.analytics = { provider: analyticsProvider.value, id: analyticsId.value.trim() };
+  persist(); injectAnalytics(); alert('Settings saved.');
+}
+function injectAnalytics(){
+  document.querySelectorAll('script[data-analytics]').forEach(s=>s.remove());
+  const {provider,id}=DB.analytics||{};
+  if(provider==='plausible' && id){
+    const s=document.createElement('script'); s.defer=true; s.src='https://plausible.io/js/script.js'; s.setAttribute('data-domain', id); s.setAttribute('data-analytics','plausible'); document.head.appendChild(s);
+  }else if(provider==='umami' && id){
+    const s=document.createElement('script'); s.defer=true; s.src='https://cloud.umami.is/script.js'; s.setAttribute('data-website-id', id); s.setAttribute('data-analytics','umami'); document.head.appendChild(s);
+  }else if(provider==='ga4' && id){
+    const g=document.createElement('script'); g.async=true; g.src=`https://www.googletagmanager.com/gtag/js?id=${id}`; g.setAttribute('data-analytics','ga4'); document.head.appendChild(g);
+    const s=document.createElement('script'); s.setAttribute('data-analytics','ga4'); s.innerHTML=`window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)};gtag('js', new Date());gtag('config','${id}');`; document.head.appendChild(s);
+  }
+}
+injectAnalytics();
+
+/* ----- Import/Export ----- */
+function exportJSON(){
+  const blob = new Blob([JSON.stringify(DB,null,2)], {type:'application/json'});
+  const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='quabbin-vibes.json'; a.click();
+}
+async function importJSON(file){
+  if(!file) return; const text = await file.text(); const obj = JSON.parse(text);
+  if(!obj.events){ alert('Invalid file'); return }
+  DB = obj; persist(); applyBrand(); renderEvents(); drawTable(); drawSources(); drawMedia(); alert('Imported.')
+}
+
+/* ===================== BOOT ===================== */
+document.addEventListener('DOMContentLoaded', ()=>{
+  renderEvents();
+});
+</script>
+</body>
 </html>
